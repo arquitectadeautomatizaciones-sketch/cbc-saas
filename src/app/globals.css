@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+:root {
+  --cbc-verde: #1A4A44;
+  --cbc-teal: #4ECDC4;
+  --cbc-beige: #F5F0E8;
+}
+
+@theme inline {
+  --color-background: var(--cbc-beige);
+  --color-foreground: #1a1a1a;
+  --font-jakarta: var(--font-jakarta);
+}
+
+body {
+  background: var(--cbc-beige);
+  color: #1a1a1a;
+  font-family: var(--font-jakarta), system-ui, sans-serif;
+}
