@@ -45,11 +45,15 @@ export async function POST(req: NextRequest) {
   const errores: string[] = []
 
   for (const seg of seguimientos) {
-    const prospecto = seg.prospectos as {
-      nombre: string; empresa: string; email: string | null
-      sector: string | null; notas: string | null
+    const prospecto = (Array.isArray(seg.prospectos)
+      ? seg.prospectos[0]
+      : seg.prospectos) as {
+        nombre: string; empresa: string; email: string | null
+        sector: string | null; notas: string | null
     } | null
-    const vendedor = seg.users as { nombre: string; email: string } | null
+    const vendedor = (Array.isArray(seg.users)
+      ? seg.users[0]
+      : seg.users) as { nombre: string; email: string } | null
 
     if (!prospecto?.email) {
       errores.push(`${seg.id}: prospecto sin email`)
