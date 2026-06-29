@@ -19,8 +19,7 @@ function SubscribeContent() {
   }
 
   const features = [
-    'Pipeline ilimitado de prospectos',
-    'Semáforo automático de seguimiento',
+    'Prospectos ilimitados con semáforo automático',
     'Sofía — tu asistente de ventas con IA',
     'Historial de conversaciones persistente',
     'Seguimientos día 1, 3 y 7 automáticos',
@@ -36,10 +35,12 @@ function SubscribeContent() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4" style={{ backgroundColor: '#1A4A44' }}>
             <Zap size={28} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold" style={{ color: '#1A4A44' }}>
-            Activa CBC
+          <h1 className="text-2xl font-bold leading-snug" style={{ color: '#1A4A44' }}>
+            CBC te dice exactamente a quién llamar hoy y qué decirle.
           </h1>
-          <p className="text-gray-500 mt-1">Tu asistente de ventas, disponible 24/7</p>
+          <p className="text-gray-500 mt-3 text-sm leading-relaxed">
+            El sistema de seguimiento con IA para vendedores B2B que quieren cerrar más sin improvisar.
+          </p>
         </div>
 
         {cancelled && (
@@ -70,7 +71,7 @@ function SubscribeContent() {
             className="w-full py-3.5 rounded-xl text-white font-bold text-base transition-opacity disabled:opacity-60"
             style={{ backgroundColor: '#1A4A44' }}
           >
-            {loading ? 'Redirigiendo a Stripe...' : 'Activar por $9.90/mes →'}
+            {loading ? 'Redirigiendo a Stripe...' : 'Empieza gratis 7 días →'}
           </button>
 
           <p className="text-center text-xs text-gray-400 mt-4">

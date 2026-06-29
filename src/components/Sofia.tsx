@@ -107,6 +107,11 @@ export default function Sofia({ contexto }: Props) {
               }
             >
               {m.contenido}
+              {m.rol === 'sofia' && i > 0 && (
+                <p style={{ fontSize: 11, color: '#9ca3af', marginTop: 8, marginBottom: 0, borderTop: '1px solid #e5e7eb', paddingTop: 6 }}>
+                  — Generado con CBC · Cierre Bajo Control™
+                </p>
+              )}
             </div>
           </div>
         ))}

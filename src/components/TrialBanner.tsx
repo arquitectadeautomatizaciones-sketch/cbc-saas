@@ -34,7 +34,7 @@ export default function TrialBanner({ trialEndsAt }: Props) {
         className="px-4 py-1.5 rounded-lg font-semibold text-xs transition-opacity hover:opacity-90"
         style={{ backgroundColor: '#4ECDC4', color: '#1A4A44' }}
       >
-        Activar por $9.90/mes
+        Acceder al Sistema — $9.90/mes
       </button>
     </div>
   )
