@@ -1,5 +1,4 @@
-import Sidebar from '@/components/Sidebar'
-import TrialBanner from '@/components/TrialBanner'
+import AppShell from '@/components/AppShell'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 
@@ -20,14 +19,11 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
-      <main className="flex-1 flex flex-col min-w-0">
-        {profile?.estado_suscripcion === 'trial' && (
-          <TrialBanner trialEndsAt={profile.trial_ends_at} />
-        )}
-        <div className="flex-1 p-8">{children}</div>
-      </main>
-    </div>
+    <AppShell
+      showBanner={profile?.estado_suscripcion === 'trial'}
+      trialEndsAt={profile?.trial_ends_at}
+    >
+      {children}
+    </AppShell>
   )
 }
