@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import ProspectoCard from '@/components/ProspectoCard'
 import type { Prospecto, EstadoProspecto, CanalContacto } from '@/lib/types'
-import { Plus, X, Search } from 'lucide-react'
+import { Plus, X, Search, Download } from 'lucide-react'
 
 const ESTADO_OPTIONS: EstadoProspecto[] = [
   'prospecto', 'contactado', 'propuesta_enviada', 'en_negociacion',
@@ -114,6 +114,51 @@ export default function ProspectosPage() {
     setGuardando(false)
   }
 
+  function exportarCSV() {
+    const fechaHoy = new Date().toISOString().split('T')[0]
+    const headers = [
+      'Nombre', 'Empresa', 'Cargo', 'Sector', 'Email', 'Teléfono',
+      'Estado', 'Semáforo', 'Días sin contacto', 'Valor estimado',
+      'Último contacto', 'Próximo paso', 'Notas',
+    ]
+
+    const escapar = (v: string | number | null | undefined) => {
+      if (v === null || v === undefined) return ''
+      const s = String(v)
+      if (s.includes(',') || s.includes('"') || s.includes('\n')) {
+        return '"' + s.replace(/"/g, '""') + '"'
+      }
+      return s
+    }
+
+    const filas = filtrados.map((p) => [
+      escapar(p.nombre),
+      escapar(p.empresa),
+      escapar(p.cargo),
+      escapar(p.sector),
+      escapar(p.email),
+      escapar(p.telefono),
+      escapar(ESTADO_LABELS[p.estado] ?? p.estado),
+      escapar(p.semaforo),
+      escapar(p.dias_sin_contacto),
+      escapar(p.valor_estimado),
+      escapar(p.ultimo_contacto),
+      escapar(p.proximo_paso),
+      escapar(p.notas),
+    ].join(','))
+
+    const csv = [headers.join(','), ...filas].join('\n')
+    // BOM UTF-8 para que Excel abra tildes y ñ correctamente
+    const bom = '﻿'
+    const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `prospectos-CBC-${fechaHoy}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   async function eliminar(id: string) {
     if (!confirm('¿Eliminar este prospecto y su historial?')) return
     await fetch(`/api/prospectos/${id}`, { method: 'DELETE' })
@@ -135,14 +180,25 @@ export default function ProspectosPage() {
           <h1 className="text-2xl font-bold" style={{ color: '#1A4A44' }}>Prospectos</h1>
           <p className="text-gray-500 text-sm mt-1">{prospectos.length} en total</p>
         </div>
-        <button
-          onClick={abrirNuevo}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-semibold transition-opacity hover:opacity-90"
-          style={{ backgroundColor: '#1A4A44' }}
-        >
-          <Plus size={16} />
-          Nuevo prospecto
-        </button>
+        <div className="flex items-center gap-2">
+          {filtrados.length > 0 && (
+            <button
+              onClick={exportarCSV}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <Download size={16} />
+              <span className="hidden sm:inline">Exportar CSV</span>
+            </button>
+          )}
+          <button
+            onClick={abrirNuevo}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-semibold transition-opacity hover:opacity-90"
+            style={{ backgroundColor: '#1A4A44' }}
+          >
+            <Plus size={16} />
+            <span className="hidden sm:inline">Nuevo prospecto</span>
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
