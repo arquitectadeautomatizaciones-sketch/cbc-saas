@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Menu } from 'lucide-react'
 import Sidebar from '@/components/Sidebar'
 import TrialBanner from '@/components/TrialBanner'
+import Notificaciones from '@/components/Notificaciones'
 
 interface AppShellProps {
   children: React.ReactNode
@@ -27,18 +28,22 @@ export default function AppShell({ children, trialEndsAt, showBanner }: AppShell
       </div>
 
       <main className="flex-1 flex flex-col min-w-0">
-        {/* Header móvil con hamburguesa */}
-        <div
-          className="md:hidden flex items-center px-4 py-4 border-b border-gray-100 sticky top-0 z-20 bg-white"
-        >
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="p-2 rounded-xl text-gray-600 hover:bg-gray-100 transition-colors"
-            aria-label="Abrir menú"
-          >
-            <Menu size={22} />
-          </button>
-          <span className="ml-3 font-bold text-base" style={{ color: '#1A4A44' }}>CBC™</span>
+        {/* Header — móvil y desktop */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 sticky top-0 z-20 bg-white">
+          {/* Izquierda: hamburguesa en móvil */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="md:hidden p-2 rounded-xl text-gray-600 hover:bg-gray-100 transition-colors"
+              aria-label="Abrir menú"
+            >
+              <Menu size={22} />
+            </button>
+            <span className="md:hidden font-bold text-base" style={{ color: '#1A4A44' }}>CBC™</span>
+          </div>
+
+          {/* Derecha: campana de notificaciones — siempre visible */}
+          <Notificaciones />
         </div>
 
         {showBanner && <TrialBanner trialEndsAt={trialEndsAt ?? null} />}
