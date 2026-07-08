@@ -139,10 +139,8 @@ export default async function DashboardPage() {
         />
       </div>
 
-      {/* Sofia chat */}
-      <div id="sofia-chat">
-        <Sofia userId={profile.id} contexto={contextoCompleto} />
-      </div>
+      {/* Sofia — widget flotante */}
+      <Sofia userId={profile.id} contexto={contextoCompleto} />
     </div>
   )
 }
