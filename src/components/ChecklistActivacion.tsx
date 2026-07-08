@@ -62,8 +62,7 @@ export default function ChecklistActivacion({ tieneProspectos, tieneConversacion
   }
 
   function scrollSofia() {
-    const el = document.getElementById('sofia-chat')
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    window.dispatchEvent(new CustomEvent('abrir-sofia'))
   }
 
   async function marcarCompleto() {

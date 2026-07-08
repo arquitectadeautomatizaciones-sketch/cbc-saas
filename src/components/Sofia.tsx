@@ -33,6 +33,12 @@ export default function Sofia({ contexto }: Props) {
     if (abierto) bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [mensajes, abierto])
 
+  useEffect(() => {
+    const handler = () => setAbierto(true)
+    window.addEventListener('abrir-sofia', handler)
+    return () => window.removeEventListener('abrir-sofia', handler)
+  }, [])
+
   async function enviar() {
     const texto = input.trim()
     if (!texto || loading) return
