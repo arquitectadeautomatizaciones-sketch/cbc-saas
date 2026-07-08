@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import type { ContextoSofia } from '@/lib/types'
 import { TrendingUp, Users, AlertCircle, Trophy, DollarSign, CheckCircle } from 'lucide-react'
 import Sofia from '@/components/Sofia'
+import DashboardChecklist from '@/components/DashboardChecklist'
 
 async function getMetrics(userId: string): Promise<ContextoSofia> {
   const supabase = await createClient()
@@ -51,13 +52,25 @@ export default async function DashboardPage() {
 
   const { data: profile } = await supabase
     .from('users')
-    .select('id, nombre, moneda')
+    .select('id, nombre, moneda, sofia_proactive_sent')
     .eq('auth_user_id', user.id)
     .single()
 
   if (!profile) redirect('/login')
 
   const metrics = await getMetrics(profile.id)
+
+  // Datos para el checklist de activación
+  const proactiveSent = (profile.sofia_proactive_sent as Record<string, boolean>) ?? {}
+  const checklistCompletado = proactiveSent.checklist_completado === true
+
+  const [{ count: prospectoCount }, { count: conversacionCount }] = await Promise.all([
+    supabase.from('prospectos').select('id', { count: 'exact', head: true }).eq('user_id', profile.id),
+    supabase.from('conversaciones').select('id', { count: 'exact', head: true }).eq('user_id', profile.id),
+  ])
+
+  const tieneProspectos = (prospectoCount ?? 0) > 0
+  const tieneConversaciones = (conversacionCount ?? 0) > 0
   const moneda = profile.moneda ?? 'USD'
   const pipelineFormateado = new Intl.NumberFormat('es-MX', {
     style: 'currency',
@@ -76,6 +89,13 @@ export default async function DashboardPage() {
         </h1>
         <p className="text-gray-500 mt-1">¿A quién llamas hoy?</p>
       </div>
+
+      {/* Checklist de activación */}
+      <DashboardChecklist
+        tieneProspectos={tieneProspectos}
+        tieneConversaciones={tieneConversaciones}
+        checklistCompletado={checklistCompletado}
+      />
 
       {/* Metrics grid */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
@@ -120,7 +140,9 @@ export default async function DashboardPage() {
       </div>
 
       {/* Sofia chat */}
-      <Sofia userId={profile.id} contexto={contextoCompleto} />
+      <div id="sofia-chat">
+        <Sofia userId={profile.id} contexto={contextoCompleto} />
+      </div>
     </div>
   )
 }

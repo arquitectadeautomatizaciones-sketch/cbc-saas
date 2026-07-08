@@ -37,7 +37,10 @@ export async function POST(req: NextRequest) {
         .eq('auth_user_id', user.id)
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL!
+    // En producción usar la URL real; NEXT_PUBLIC_APP_URL puede ser localhost en dev
+    const appUrl = process.env.NEXT_PUBLIC_SITE_URL
+      ?? process.env.NEXT_PUBLIC_APP_URL
+      ?? 'https://app.arquitectadeautomatizaciones.com'
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,

@@ -7,15 +7,26 @@ import { Suspense } from 'react'
 
 function SubscribeContent() {
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const params = useSearchParams()
   const cancelled = params.get('cancelled')
 
   async function handleCheckout() {
     setLoading(true)
-    const res = await fetch('/api/stripe/checkout', { method: 'POST' })
-    const { url } = await res.json()
-    if (url) window.location.href = url
-    else setLoading(false)
+    setError(null)
+    try {
+      const res = await fetch('/api/stripe/checkout', { method: 'POST' })
+      const data = await res.json()
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        setError(data.error ?? 'No se pudo iniciar el pago. Intenta de nuevo.')
+        setLoading(false)
+      }
+    } catch {
+      setError('Error de conexión. Verifica tu internet e intenta de nuevo.')
+      setLoading(false)
+    }
   }
 
   const features = [
@@ -73,6 +84,12 @@ function SubscribeContent() {
           >
             {loading ? 'Redirigiendo a Stripe...' : 'Empieza gratis 7 días →'}
           </button>
+
+          {error && (
+            <div className="mt-4 bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl text-center">
+              {error}
+            </div>
+          )}
 
           <p className="text-center text-xs text-gray-400 mt-4">
             Pago seguro con Stripe. No almacenamos tu tarjeta.
