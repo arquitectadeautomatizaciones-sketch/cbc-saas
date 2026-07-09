@@ -8,11 +8,11 @@ interface Props {
   append?: boolean
 }
 
-export default function MicButton({ onResult, append }: Props) {
+// Imported with { ssr: false } everywhere — window is always defined here
+export default function MicButton({ onResult }: Props) {
   const [escuchando, setEscuchando] = useState(false)
   const recognitionRef = useRef<any>(null)
 
-  // Safe: this component is always imported with { ssr: false }, so window is always defined here
   const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
   if (!SR) return null
 
@@ -22,55 +22,49 @@ export default function MicButton({ onResult, append }: Props) {
       setEscuchando(false)
       return
     }
-
     const rec = new SR()
     rec.lang = navigator.language || 'es-CO'
     rec.interimResults = false
     rec.maxAlternatives = 1
-
     rec.onstart = () => setEscuchando(true)
     rec.onend = () => setEscuchando(false)
     rec.onerror = () => setEscuchando(false)
     rec.onresult = (e: any) => {
-      const texto = e.results[0][0].transcript
-      onResult(texto)
+      onResult(e.results[0][0].transcript)
     }
-
     recognitionRef.current = rec
     rec.start()
   }
 
   return (
-    <button
-      type="button"
-      onClick={toggle}
-      title={escuchando ? 'Toca para detener' : 'Dictar con voz'}
-      style={{
-        position: 'absolute',
-        right: 10,
-        top: '50%',
-        transform: 'translateY(-50%)',
-        width: 28,
-        height: 28,
-        borderRadius: '50%',
-        border: 'none',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: escuchando ? '#ef4444' : '#f3f4f6',
-        color: escuchando ? 'white' : '#6b7280',
-        flexShrink: 0,
-        animation: escuchando ? 'mic-pulse 1s ease-in-out infinite' : 'none',
-      }}
-    >
+    <>
       <style>{`
         @keyframes mic-pulse {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+          0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
           50% { box-shadow: 0 0 0 6px rgba(239,68,68,0); }
         }
       `}</style>
-      {escuchando ? <MicOff size={13} /> : <Mic size={13} />}
-    </button>
+      <button
+        type="button"
+        onClick={toggle}
+        title={escuchando ? 'Toca para detener' : 'Dictar con voz'}
+        style={{
+          flexShrink: 0,
+          width: 34,
+          height: 34,
+          borderRadius: '50%',
+          border: 'none',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: escuchando ? '#ef4444' : '#f3f4f6',
+          color: escuchando ? 'white' : '#6b7280',
+          animation: escuchando ? 'mic-pulse 1s ease-in-out infinite' : 'none',
+        }}
+      >
+        {escuchando ? <MicOff size={14} /> : <Mic size={14} />}
+      </button>
+    </>
   )
 }
