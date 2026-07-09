@@ -348,7 +348,10 @@ export default function NetworkerPage() {
                 },
                 {
                   num: 4, titulo: 'Cierre elegante (sin fit)',
-                  scripts: ['"No creo que seamos el match perfecto ahora — pero me quedo con tu contacto. ¿Conectamos?"'],
+                  scripts: [
+                    '"Mira, creo que por ahora no es el momento ideal para trabajar juntos — pero me parece interesante lo que haces. ¿Te parece si quedamos conectados? Nunca se sabe."',
+                    '"Qué bueno conocerte. Por ahora no creo que te pueda ayudar directamente, pero si en algún momento cambia algo, aquí estoy. ¿Conectamos en LinkedIn?"',
+                  ],
                 },
               ].map((f) => (
                 <div key={f.num} style={{ marginBottom: 16 }}>
