@@ -244,12 +244,13 @@ export default function NetworkerPage() {
                   { key: 'cargo', label: 'Cargo/Rol que toma decisiones' },
                   { key: 'sector', label: 'Sector/industria' },
                   { key: 'dolor', label: 'Dolor que resuelvo' },
-                  { key: 'urgencia', label: 'Señal de urgencia' },
-                ].map(({ key, label }) => (
+                  { key: 'urgencia', label: '¿Cómo sé que está listo para comprar?', placeholder: 'Ej: está buscando solución activamente, tiene deadline este trimestre...' },
+                ].map(({ key, label, placeholder }) => (
                   <div key={key}>
                     <label style={labelStyle}>{label}</label>
                     <input
                       style={inputStyle}
+                      placeholder={placeholder}
                       value={perfil[key as keyof typeof perfil]}
                       onChange={(e) => setPerfil({ ...perfil, [key]: e.target.value })}
                     />
