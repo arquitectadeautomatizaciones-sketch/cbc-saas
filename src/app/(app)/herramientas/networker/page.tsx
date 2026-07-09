@@ -304,6 +304,7 @@ export default function NetworkerPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div style={{ backgroundColor: 'white', borderRadius: 14, padding: 20 }}>
               {sectionTitle('Score de calificación')}
+              <p style={{ ...INTER, fontSize: 13, color: '#9ca3af', margin: '0 0 14px' }}>Mientras conversas, marca lo que aplica. El score te dice si vale la pena invertir más tiempo con esta persona.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
                 {[
                   { key: 'decisor', label: 'Es decisor o influenciador directo', pts: '+30 pts' },
