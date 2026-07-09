@@ -1,29 +1,22 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { Mic, MicOff } from 'lucide-react'
 
 interface Props {
   onResult: (text: string) => void
-  /** Appends to existing value instead of replacing */
   append?: boolean
 }
 
 export default function MicButton({ onResult, append }: Props) {
-  const [supported, setSupported] = useState(false)
   const [escuchando, setEscuchando] = useState(false)
-  const recognitionRef = useRef<InstanceType<typeof window.SpeechRecognition> | null>(null)
+  const recognitionRef = useRef<any>(null)
 
-  useEffect(() => {
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-    setSupported(!!SR)
-  }, [])
-
-  if (!supported) return null
+  // Safe: this component is always imported with { ssr: false }, so window is always defined here
+  const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+  if (!SR) return null
 
   function toggle() {
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-
     if (escuchando) {
       recognitionRef.current?.stop()
       setEscuchando(false)
