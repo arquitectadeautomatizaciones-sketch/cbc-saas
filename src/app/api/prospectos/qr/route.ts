@@ -18,7 +18,7 @@ export async function GET() {
     .from('prospectos')
     .select('id, nombre, empresa, cargo, telefono, semaforo, created_at')
     .eq('user_id', profile.id)
-    .like('notas', '%Canal: QR%')
+    .eq('canal_origen', 'qr')
     .order('created_at', { ascending: false })
     .limit(20)
 
