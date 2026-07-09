@@ -28,7 +28,9 @@ export async function POST(req: NextRequest) {
 
   const semaforo = URGENCIA_SEMAFORO[urgencia] ?? 'verde'
 
-  const notas = como_encontro ? `Cómo me encontró: ${como_encontro}` : null
+  const notasPartes = ['Canal: QR']
+  if (como_encontro) notasPartes.push(`Cómo me encontró: ${como_encontro}`)
+  const notas = notasPartes.join(' | ')
 
   const { data, error } = await supabaseAdmin
     .from('prospectos')
@@ -40,10 +42,10 @@ export async function POST(req: NextRequest) {
       telefono: whatsapp,
       email: email || null,
       estado: 'prospecto',
-      canal_origen: 'qr',
+      canal_origen: 'otro',
+      notas,
       semaforo,
       dias_sin_contacto: 0,
-      notas,
     })
     .select('id')
     .single()
