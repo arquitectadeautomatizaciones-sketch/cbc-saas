@@ -304,7 +304,7 @@ export default function NetworkerPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div style={{ backgroundColor: 'white', borderRadius: 14, padding: 20 }}>
               {sectionTitle('Score de calificación')}
-              <p style={{ ...INTER, fontSize: 13, color: '#9ca3af', margin: '0 0 14px' }}>Mientras conversas, marca lo que aplica. El score te dice si vale la pena invertir más tiempo con esta persona.</p>
+              <p style={{ ...INTER, fontSize: 13, color: '#9ca3af', margin: '0 0 14px' }}>Mientras conversas con alguien en el evento, marca lo que aplica. El score te dice si vale la pena invertir más tiempo.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
                 {[
                   { key: 'decisor', label: 'Es decisor o influenciador directo', pts: '+30 pts' },
@@ -334,6 +334,7 @@ export default function NetworkerPage() {
 
             <div style={{ backgroundColor: 'white', borderRadius: 14, padding: 20 }}>
               {sectionTitle('Las 4 fases del evento')}
+              <p style={{ ...INTER, fontSize: 13, color: '#9ca3af', margin: '0 0 16px' }}>Sigue este orden en cada conversación. Cada fase tiene scripts listos — úsalos tal cual o adáptalos.</p>
               {[
                 {
                   num: 1, titulo: 'Apertura (30 seg)',
@@ -348,7 +349,7 @@ export default function NetworkerPage() {
                   scripts: ['"¿Te queda mejor el martes o el jueves para hablar 20 minutos?"', '"Te mando algo concreto hoy — ¿por WhatsApp o LinkedIn?"'],
                 },
                 {
-                  num: 4, titulo: 'Cierre elegante (sin fit)',
+                  num: 4, titulo: 'Cierre elegante (cuando NO hay fit)',
                   scripts: [
                     '"Mira, creo que por ahora no es el momento ideal para trabajar juntos — pero me parece interesante lo que haces. ¿Te parece si quedamos conectados? Nunca se sabe."',
                     '"Qué bueno conocerte. Por ahora no creo que te pueda ayudar directamente, pero si en algún momento cambia algo, aquí estoy. ¿Conectamos en LinkedIn?"',
@@ -357,6 +358,9 @@ export default function NetworkerPage() {
               ].map((f) => (
                 <div key={f.num} style={{ marginBottom: 16 }}>
                   <p style={{ ...INTER, fontSize: 14, fontWeight: 700, color: VERDE, margin: '0 0 8px' }}>Fase {f.num} — {f.titulo}</p>
+                  {f.num === 4 && (
+                    <p style={{ ...INTER, fontSize: 13, color: '#9ca3af', margin: '0 0 8px' }}>Si la persona no califica, sal con elegancia. No pierdas más de 2 minutos.</p>
+                  )}
                   {f.scripts.map((s, i) => (
                     <div key={i} style={{ backgroundColor: BEIGE, borderLeft: `3px solid ${TEAL}`, borderRadius: 8, padding: 12, marginBottom: 8 }}>
                       <p style={{ ...INTER, fontSize: 14, color: '#374151', margin: 0, fontStyle: 'italic' }}>{s}</p>
