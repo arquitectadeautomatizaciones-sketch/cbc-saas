@@ -19,6 +19,7 @@ export type CanalContacto =
   | 'llamada'
   | 'linkedin'
   | 'reunion'
+  | 'qr'
   | 'otro'
 
 export type TipoVictoria =

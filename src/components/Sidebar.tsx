@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import {
@@ -11,14 +12,16 @@ import {
   Settings,
   LogOut,
   X,
+  QrCode,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
-const navItems = [
+const navItems: { href: string; label: string; icon: React.ElementType; sub?: boolean }[] = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/prospectos', label: 'Prospectos', icon: Users },
   { href: '/pipeline', label: 'Pipeline', icon: Kanban },
   { href: '/herramientas', label: 'Herramientas', icon: Wrench },
+  { href: '/herramientas/qr', label: 'QR Captura', icon: QrCode, sub: true },
   { href: '/victorias', label: 'Victorias', icon: Trophy },
   { href: '/configuracion', label: 'Configuración', icon: Settings },
 ]
@@ -86,21 +89,23 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
         {/* Nav */}
         <nav className="flex-1 px-3 py-4 space-y-1">
-          {navItems.map(({ href, label, icon: Icon }) => {
-            const active = href === '/dashboard' ? pathname === href : pathname.startsWith(href)
+          {navItems.map(({ href, label, icon: Icon, sub }) => {
+            const active = href === '/dashboard' ? pathname === href : pathname === href || pathname.startsWith(href + '/')
             return (
               <Link
                 key={href}
                 href={href}
                 onClick={handleNavClick}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 rounded-xl text-sm font-medium transition-colors ${
+                  sub ? 'py-2 ml-6 px-2' : 'px-3 py-2.5'
+                } ${
                   active
                     ? 'text-white'
                     : 'text-white/60 hover:text-white hover:bg-white/10'
                 }`}
-                style={active ? { backgroundColor: '#4ECDC4', color: '#1A4A44' } : {}}
+                style={active ? { backgroundColor: sub ? 'rgba(78,205,196,0.25)' : '#4ECDC4', color: active && sub ? '#4ECDC4' : active ? '#1A4A44' : undefined } : {}}
               >
-                <Icon size={18} />
+                <Icon size={sub ? 15 : 18} />
                 {label}
               </Link>
             )

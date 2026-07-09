@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "n8n": {
+      "type": "http",
+      "url": "http://195.201.40.76:5678/mcp",
+      "headers": {
+        "X-N8N-API-KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MzI0YjU1YS1kMWRlLTRhMzctYjdmZC0yNzBlNzBkMjM0MDciLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwianRpIjoiMzljYmJkNWEtOTQ4Zi00YTMyLTgyZGMtNzczM2RkNzdkZDJhIiwiaWF0IjoxNzgyNzI1MDM5fQ.L4px7MsrE_LdNECnR-QdJZTJ2IZSMdh3bGN6CWCR5YQ"
+      }
+    }
+  }
+}

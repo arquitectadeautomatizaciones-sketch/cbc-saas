@@ -7,8 +7,10 @@ const PUBLIC_PATHS = [
   '/onboarding',
   '/subscribe',
   '/suspended',
+  '/captura',
   '/api/auth/register',
   '/api/stripe/webhook',
+  '/api/captura',
 ]
 
 // Paths where we skip the onboarding check (APIs, special pages)

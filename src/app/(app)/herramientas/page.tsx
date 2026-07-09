@@ -2,6 +2,14 @@ import Link from 'next/link'
 
 const herramientas = [
   {
+    icon: '📱',
+    titulo: 'QR de Captura Inteligente™',
+    descripcion: 'Tu prospecto escanea, llena sus datos y entran solos a tu pipeline. Tú no escribes nada.',
+    href: '/herramientas/qr',
+    cta: 'Ver mi QR',
+    destacado: true,
+  },
+  {
     icon: '🤝',
     titulo: 'Copiloto de Reunión™',
     descripcion: 'Tu GPS de negociación fase a fase. Actívalo 30 segundos antes de entrar.',
@@ -34,12 +42,19 @@ export default function HerramientasPage() {
         <p className="text-gray-500 text-sm mt-1">Recursos para cerrar más ventas — sin improvisar.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {herramientas.map((h) => (
           <div
             key={h.href}
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col"
+            className="bg-white rounded-2xl border shadow-sm p-6 flex flex-col"
+            style={{ borderColor: h.destacado ? '#1A4A44' : '#f3f4f6' }}
           >
+            {h.destacado && (
+              <span className="self-start text-xs font-bold px-2 py-0.5 rounded-full mb-3"
+                style={{ background: '#4ECDC4', color: '#1A4A44' }}>
+                NUEVO
+              </span>
+            )}
             <div className="text-4xl mb-4">{h.icon}</div>
             <h2
               className="text-lg font-bold mb-2"
@@ -51,7 +66,7 @@ export default function HerramientasPage() {
             <Link
               href={h.href}
               className="mt-5 block text-center py-3 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-90"
-              style={{ backgroundColor: '#1A4A44' }}
+              style={{ backgroundColor: h.destacado ? '#4ECDC4' : '#1A4A44', color: h.destacado ? '#1A4A44' : 'white' }}
             >
               {h.cta}
             </Link>
