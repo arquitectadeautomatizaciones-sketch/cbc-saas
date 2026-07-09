@@ -65,6 +65,9 @@ export default function NetworkerPage() {
     nombre: '', empresa: '', canal: 'WhatsApp', dolorPalabras: '', promesa: '', score: '', disc: 'D' as keyof typeof DISC_MENSAJES,
   })
   const [copiado, setCopiado] = useState(false)
+  const [guardando, setGuardando] = useState(false)
+  const [guardado, setGuardado] = useState(false)
+  const [errorGuardar, setErrorGuardar] = useState<string | null>(null)
 
   // Persist to localStorage
   useEffect(() => {
@@ -91,6 +94,53 @@ export default function NetworkerPage() {
   const semaforoScore = score >= 70 ? { color: '#22c55e', label: 'CALIENTE', sub: 'Contactar en 2 horas' } :
     score >= 40 ? { color: '#f59e0b', label: 'TIBIO', sub: 'Contactar en 24 horas' } :
     { color: '#ef4444', label: 'FRÍO', sub: 'Contactar en 3 días' }
+
+  async function guardarEnPipeline() {
+    if (!prospecto.nombre || !prospecto.empresa) {
+      setErrorGuardar('Completa al menos nombre y empresa antes de guardar.')
+      return
+    }
+    setGuardando(true)
+    setErrorGuardar(null)
+    try {
+      const semaforo = score >= 70 ? 'rojo' : score >= 40 ? 'amarillo' : 'verde'
+      const notas = [
+        prospecto.dolorPalabras ? `Dolor: ${prospecto.dolorPalabras}` : null,
+        prospecto.promesa ? `Prometido: ${prospecto.promesa}` : null,
+        `Score evento: ${score} pts — ${semaforoScore.label}`,
+        `Perfil DISC: ${prospecto.disc}`,
+        `Canal preferido: ${prospecto.canal}`,
+        evento.tipo ? `Evento: ${evento.tipo}` : null,
+      ].filter(Boolean).join('\n')
+
+      const res = await fetch('/api/prospectos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre: prospecto.nombre,
+          empresa: prospecto.empresa,
+          estado: 'prospecto',
+          canal_origen: 'otro',
+          semaforo,
+          dias_sin_contacto: 0,
+          perfil_disc: prospecto.disc,
+          dolor_principal: prospecto.dolorPalabras || null,
+          notas,
+        }),
+      })
+      if (!res.ok) {
+        const d = await res.json()
+        setErrorGuardar(d.error ?? 'Error al guardar.')
+        return
+      }
+      setGuardado(true)
+      setTimeout(() => setGuardado(false), 3000)
+    } catch {
+      setErrorGuardar('Sin conexión. Intenta de nuevo.')
+    } finally {
+      setGuardando(false)
+    }
+  }
 
   async function copiarMensaje() {
     const template = DISC_MENSAJES[prospecto.disc].template
@@ -367,9 +417,21 @@ export default function NetworkerPage() {
                 <p style={{ ...INTER, fontSize: 13, color: '#6b7280', margin: '0 0 12px' }}>{DISC_MENSAJES[prospecto.disc].descripcion}</p>
                 <p style={{ ...INTER, fontSize: 14, color: '#1f2937', margin: 0, lineHeight: 1.6, fontStyle: 'italic' }}>{DISC_MENSAJES[prospecto.disc].template}</p>
               </div>
-              <button onClick={copiarMensaje} style={{ ...INTER, width: '100%', height: 44, backgroundColor: copiado ? TEAL : VERDE, color: 'white', fontSize: 14, fontWeight: 700, border: 'none', borderRadius: 10, cursor: 'pointer' }}>
-                {copiado ? '✓ Copiado' : 'Copiar mensaje'}
-              </button>
+              <div style={{ display: 'flex', gap: 8, marginBottom: errorGuardar ? 8 : 0 }}>
+                <button onClick={copiarMensaje} style={{ ...INTER, flex: 1, height: 44, backgroundColor: copiado ? TEAL : '#f3f4f6', color: copiado ? 'white' : VERDE, fontSize: 14, fontWeight: 700, border: 'none', borderRadius: 10, cursor: 'pointer' }}>
+                  {copiado ? '✓ Copiado' : 'Copiar mensaje'}
+                </button>
+                <button
+                  onClick={guardarEnPipeline}
+                  disabled={guardando || guardado}
+                  style={{ ...INTER, flex: 1, height: 44, backgroundColor: guardado ? '#10b981' : VERDE, color: 'white', fontSize: 14, fontWeight: 700, border: 'none', borderRadius: 10, cursor: guardando ? 'not-allowed' : 'pointer', opacity: guardando ? 0.7 : 1 }}
+                >
+                  {guardado ? '✓ Guardado' : guardando ? 'Guardando...' : 'Guardar en pipeline →'}
+                </button>
+              </div>
+              {errorGuardar && (
+                <p style={{ ...INTER, fontSize: 13, color: '#ef4444', margin: '4px 0 0', textAlign: 'center' }}>{errorGuardar}</p>
+              )}
             </div>
           </div>
         )}
@@ -386,7 +448,7 @@ export default function NetworkerPage() {
 
             {[
               { num: 1, titulo: 'Capturaste en el evento', desc: 'Ya tienes los datos. El dolor en sus palabras exactas es tu arma.' },
-              { num: 2, titulo: 'Primeras 2 horas: carga los calientes primero', desc: 'Entra a CBC y carga primero los 70+ pts. El semáforo empieza a correr desde ya.' },
+              { num: 2, titulo: 'Primeras 2 horas: guarda los calientes primero', desc: 'En el tab Captura, usa "Guardar en pipeline →" para cada prospecto 70+ pts. El semáforo empieza a correr desde ya — sin salir de aquí.' },
               { num: 3, titulo: 'Dispara el mensaje DISC personalizado', desc: 'Usa el template del tab Captura. Personaliza con el dolor exacto que mencionó.' },
               { num: 4, titulo: 'El sistema toma el control', desc: 'El semáforo está activo. CBC te dice cuándo hacer el siguiente toque.' },
             ].map((paso) => (
