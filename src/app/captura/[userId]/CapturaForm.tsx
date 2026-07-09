@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { CheckCircle, AlertCircle } from 'lucide-react'
-import MicButton from '@/components/MicButton'
+import dynamic from 'next/dynamic'
+const MicButton = dynamic(() => import('@/components/MicButton'), { ssr: false })
 
 interface Props {
   userId: string

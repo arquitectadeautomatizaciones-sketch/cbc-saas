@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import MicButton from '@/components/MicButton'
+import dynamic from 'next/dynamic'
+const MicButton = dynamic(() => import('@/components/MicButton'), { ssr: false })
 
 const VERDE = '#1A4A44'
 const TEAL = '#4ECDC4'
