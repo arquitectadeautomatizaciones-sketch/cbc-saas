@@ -2,12 +2,19 @@ import Link from 'next/link'
 
 const herramientas = [
   {
+    icon: '📞',
+    titulo: 'Mi Llamada Perfecta™',
+    descripcion: 'Guión personalizado con IA antes de marcar. Apertura, diagnóstico, propuesta y cierre — listo en segundos.',
+    href: '/herramientas/llamada',
+    cta: 'Preparar mi llamada',
+    destacado: true,
+  },
+  {
     icon: '📱',
     titulo: 'QR de Captura Inteligente™',
     descripcion: 'Tu prospecto escanea, llena sus datos y entran solos a tu pipeline. Tú no escribes nada.',
     href: '/herramientas/qr',
     cta: 'Ver mi QR',
-    destacado: true,
   },
   {
     icon: '🤝',

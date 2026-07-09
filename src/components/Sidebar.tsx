@@ -13,6 +13,7 @@ import {
   LogOut,
   X,
   QrCode,
+  Phone,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
@@ -21,6 +22,7 @@ const navItems: { href: string; label: string; icon: React.ElementType; sub?: bo
   { href: '/prospectos', label: 'Prospectos', icon: Users },
   { href: '/pipeline', label: 'Pipeline', icon: Kanban },
   { href: '/herramientas', label: 'Herramientas', icon: Wrench },
+  { href: '/herramientas/llamada', label: 'Llamada Perfecta', icon: Phone, sub: true },
   { href: '/herramientas/qr', label: 'QR Captura', icon: QrCode, sub: true },
   { href: '/victorias', label: 'Victorias', icon: Trophy },
   { href: '/configuracion', label: 'Configuración', icon: Settings },
