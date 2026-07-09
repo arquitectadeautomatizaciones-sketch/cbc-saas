@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import MicButton from '@/components/MicButton'
 
 const VERDE = '#1A4A44'
 const TEAL = '#4ECDC4'
@@ -380,11 +381,17 @@ export default function NetworkerPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <div>
                   <label style={labelStyle}>Nombre completo</label>
-                  <input style={inputStyle} value={prospecto.nombre} onChange={(e) => setProspecto({ ...prospecto, nombre: e.target.value })} />
+                  <div style={{ position: 'relative' }}>
+                    <input style={{ ...inputStyle, paddingRight: 44 }} value={prospecto.nombre} onChange={(e) => setProspecto({ ...prospecto, nombre: e.target.value })} />
+                    <MicButton onResult={(t) => setProspecto(p => ({ ...p, nombre: t }))} />
+                  </div>
                 </div>
                 <div>
                   <label style={labelStyle}>Empresa / Cargo</label>
-                  <input style={inputStyle} value={prospecto.empresa} onChange={(e) => setProspecto({ ...prospecto, empresa: e.target.value })} />
+                  <div style={{ position: 'relative' }}>
+                    <input style={{ ...inputStyle, paddingRight: 44 }} value={prospecto.empresa} onChange={(e) => setProspecto({ ...prospecto, empresa: e.target.value })} />
+                    <MicButton onResult={(t) => setProspecto(p => ({ ...p, empresa: t }))} />
+                  </div>
                 </div>
                 <div>
                   <label style={labelStyle}>Canal preferido</label>
@@ -398,12 +405,24 @@ export default function NetworkerPage() {
                 </div>
                 <div>
                   <label style={labelStyle}>Dolor que mencionó — EN SUS PALABRAS</label>
-                  <textarea style={{ ...inputStyle, height: 80, resize: 'none', padding: '10px 14px' } as React.CSSProperties} value={prospecto.dolorPalabras} onChange={(e) => setProspecto({ ...prospecto, dolorPalabras: e.target.value })} />
+                  <div style={{ position: 'relative' }}>
+                    <textarea
+                      style={{ ...inputStyle, height: 80, resize: 'none', padding: '10px 44px 10px 14px' } as React.CSSProperties}
+                      value={prospecto.dolorPalabras}
+                      onChange={(e) => setProspecto({ ...prospecto, dolorPalabras: e.target.value })}
+                    />
+                    <div style={{ position: 'absolute', right: 10, top: 10 }}>
+                      <MicButton onResult={(t) => setProspecto(p => ({ ...p, dolorPalabras: p.dolorPalabras ? p.dolorPalabras + ' ' + t : t }))} append />
+                    </div>
+                  </div>
                   <p style={{ ...INTER, fontSize: 12, color: '#9ca3af', margin: '4px 0 0' }}>Este campo es el más importante. Sin esto el mensaje post-evento suena genérico.</p>
                 </div>
                 <div>
                   <label style={labelStyle}>¿Qué prometiste enviarle?</label>
-                  <input style={inputStyle} value={prospecto.promesa} onChange={(e) => setProspecto({ ...prospecto, promesa: e.target.value })} />
+                  <div style={{ position: 'relative' }}>
+                    <input style={{ ...inputStyle, paddingRight: 44 }} value={prospecto.promesa} onChange={(e) => setProspecto({ ...prospecto, promesa: e.target.value })} />
+                    <MicButton onResult={(t) => setProspecto(p => ({ ...p, promesa: t }))} />
+                  </div>
                 </div>
                 <div>
                   <label style={labelStyle}>Nivel de interés (score del tab Evento)</label>

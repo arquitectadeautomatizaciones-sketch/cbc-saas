@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { CheckCircle, AlertCircle } from 'lucide-react'
+import MicButton from '@/components/MicButton'
 
 interface Props {
   userId: string
@@ -124,20 +125,29 @@ export default function CapturaForm({ userId }: Props) {
 
           <div style={fieldStyle}>
             <label style={labelStyle}>Nombre completo <span style={{ color: '#ef4444' }}>*</span></label>
-            <input style={inputStyle} type="text" placeholder="Ana García"
-              value={form.nombre} onChange={e => set('nombre', e.target.value)} required autoComplete="name" />
+            <div style={{ position: 'relative' }}>
+              <input style={{ ...inputStyle, paddingRight: 44 }} type="text" placeholder="Ana García"
+                value={form.nombre} onChange={e => set('nombre', e.target.value)} required autoComplete="name" />
+              <MicButton onResult={t => set('nombre', t)} />
+            </div>
           </div>
 
           <div style={fieldStyle}>
             <label style={labelStyle}>Empresa <span style={{ color: '#ef4444' }}>*</span></label>
-            <input style={inputStyle} type="text" placeholder="Distribuidora López S.A."
-              value={form.empresa} onChange={e => set('empresa', e.target.value)} required autoComplete="organization" />
+            <div style={{ position: 'relative' }}>
+              <input style={{ ...inputStyle, paddingRight: 44 }} type="text" placeholder="Distribuidora López S.A."
+                value={form.empresa} onChange={e => set('empresa', e.target.value)} required autoComplete="organization" />
+              <MicButton onResult={t => set('empresa', t)} />
+            </div>
           </div>
 
           <div style={fieldStyle}>
             <label style={labelStyle}>Cargo <span style={{ color: '#9ca3af', fontWeight: 400 }}>(opcional)</span></label>
-            <input style={inputStyle} type="text" placeholder="Gerente Comercial"
-              value={form.cargo} onChange={e => set('cargo', e.target.value)} autoComplete="organization-title" />
+            <div style={{ position: 'relative' }}>
+              <input style={{ ...inputStyle, paddingRight: 44 }} type="text" placeholder="Gerente Comercial"
+                value={form.cargo} onChange={e => set('cargo', e.target.value)} autoComplete="organization-title" />
+              <MicButton onResult={t => set('cargo', t)} />
+            </div>
           </div>
 
           <div style={fieldStyle}>
@@ -181,8 +191,11 @@ export default function CapturaForm({ userId }: Props) {
 
           <div style={{ ...fieldStyle, marginBottom: 24 }}>
             <label style={labelStyle}>¿Cómo me encontraste? <span style={{ color: '#9ca3af', fontWeight: 400 }}>(opcional)</span></label>
-            <input style={inputStyle} type="text" placeholder="En el evento, por Instagram, me recomendaron..."
-              value={form.como_encontro} onChange={e => set('como_encontro', e.target.value)} />
+            <div style={{ position: 'relative' }}>
+              <input style={{ ...inputStyle, paddingRight: 44 }} type="text" placeholder="En el evento, por Instagram, me recomendaron..."
+                value={form.como_encontro} onChange={e => set('como_encontro', e.target.value)} />
+              <MicButton onResult={t => set('como_encontro', t)} />
+            </div>
           </div>
 
           <button type="submit" disabled={loading} style={{
