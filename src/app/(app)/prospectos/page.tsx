@@ -3,7 +3,10 @@
 import { useEffect, useState } from 'react'
 import ProspectoCard from '@/components/ProspectoCard'
 import type { Prospecto, EstadoProspecto, CanalContacto } from '@/lib/types'
-import { Plus, X, Search, Download } from 'lucide-react'
+import { Plus, X, Search, Download, Copy, Check, Loader2, RefreshCw, MessageSquare, Send } from 'lucide-react'
+
+const VERDE = '#1A4A44'
+const TEAL = '#4ECDC4'
 
 const ESTADO_OPTIONS: EstadoProspecto[] = [
   'prospecto', 'contactado', 'propuesta_enviada', 'en_negociacion',
@@ -54,6 +57,80 @@ export default function ProspectosPage() {
   const [guardando, setGuardando] = useState(false)
   const [filtroEstado, setFiltroEstado] = useState<EstadoProspecto | 'todos'>('todos')
 
+  // Mensaje del Momento
+  const [mensajeGenerando, setMensajeGenerando] = useState(false)
+  const [mensajeTexto, setMensajeTexto] = useState<string | null>(null)
+  const [mensajeTipoLabel, setMensajeTipoLabel] = useState<string | null>(null)
+  const [mensajeCopiado, setMensajeCopiado] = useState(false)
+  const [mensajeRegistrando, setMensajeRegistrando] = useState(false)
+  const [mensajeRegistrado, setMensajeRegistrado] = useState(false)
+  const [mensajeError, setMensajeError] = useState<string | null>(null)
+
+  // Detector del tipo de botón sin llamar a Claude
+  function detectarBotonLabel(p: Prospecto): string {
+    if (p.estado === 'cerrado_ganado') return '🎉 Email de bienvenida'
+    if (p.estado === 'cerrado_perdido') return '🤝 Dejar la puerta abierta'
+    if (!p.ultimo_contacto) return '✍️ Escribir primer mensaje'
+    const dias = p.dias_sin_contacto ?? 0
+    if (dias >= 1 && dias <= 3) return '🔄 Seguimiento 1'
+    if (dias >= 4 && dias <= 7) return '🔄 Seguimiento 2'
+    if (dias >= 8) return '🚪 Último intento o liberación'
+    return '✍️ Escribir primer mensaje'
+  }
+
+  async function generarMensaje(p: Prospecto | null) {
+    if (!p) return
+    setMensajeGenerando(true)
+    setMensajeTexto(null)
+    setMensajeError(null)
+    setMensajeRegistrado(false)
+    try {
+      const res = await fetch('/api/herramientas/mensaje-momento', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prospecto_id: p.id }),
+      })
+      const data = await res.json()
+      if (!res.ok) { setMensajeError(data.error ?? 'Error generando el mensaje.'); return }
+      setMensajeTexto(data.mensaje)
+      setMensajeTipoLabel(data.tipo_label)
+    } catch {
+      setMensajeError('Sin conexión. Intenta de nuevo.')
+    } finally {
+      setMensajeGenerando(false)
+    }
+  }
+
+  async function copiarMensaje() {
+    if (!mensajeTexto) return
+    await navigator.clipboard.writeText(mensajeTexto)
+    setMensajeCopiado(true)
+    setTimeout(() => setMensajeCopiado(false), 2500)
+  }
+
+  async function registrarEnviado(p: Prospecto | null) {
+    if (!p || !mensajeTexto) return
+    setMensajeRegistrando(true)
+    try {
+      await fetch('/api/interacciones', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prospecto_id: p.id,
+          fecha: new Date().toISOString(),
+          canal: 'otro',
+          resultado: mensajeTipoLabel ?? 'Mensaje enviado',
+          mensaje_enviado: mensajeTexto,
+        }),
+      })
+      setMensajeRegistrado(true)
+    } catch {
+      // silent
+    } finally {
+      setMensajeRegistrando(false)
+    }
+  }
+
   useEffect(() => {
     cargar()
   }, [])
@@ -64,14 +141,24 @@ export default function ProspectosPage() {
     setLoading(false)
   }
 
+  function resetMensaje() {
+    setMensajeTexto(null)
+    setMensajeTipoLabel(null)
+    setMensajeError(null)
+    setMensajeRegistrado(false)
+    setMensajeCopiado(false)
+  }
+
   function abrirNuevo() {
     setEditando(null)
     setForm(EMPTY_FORM)
+    resetMensaje()
     setShowModal(true)
   }
 
   function abrirEditar(p: Prospecto) {
     setEditando(p)
+    resetMensaje()
     setForm({
       nombre: p.nombre,
       empresa: p.empresa ?? '',
@@ -393,12 +480,107 @@ export default function ProspectosPage() {
                   type="submit"
                   disabled={guardando}
                   className="flex-1 py-2.5 rounded-xl text-white text-sm font-semibold disabled:opacity-60"
-                  style={{ backgroundColor: '#1A4A44' }}
+                  style={{ backgroundColor: VERDE }}
                 >
                   {guardando ? 'Guardando...' : editando ? 'Guardar cambios' : 'Crear prospecto'}
                 </button>
               </div>
             </form>
+
+            {/* ── Mensaje del Momento ── */}
+            {editando && (
+              <div className="mx-6 mb-6">
+                <div
+                  className="rounded-2xl overflow-hidden"
+                  style={{ border: '1.5px solid #e5e7eb', background: '#fafafa' }}
+                >
+                  <div
+                    className="px-4 py-3 flex items-center gap-2"
+                    style={{ background: '#F0F7F6', borderBottom: '1px solid #e5e7eb' }}
+                  >
+                    <MessageSquare size={15} style={{ color: VERDE }} />
+                    <p className="text-sm font-bold" style={{ color: VERDE }}>
+                      ✉️ Mensaje sugerido para ahora
+                    </p>
+                  </div>
+
+                  <div className="p-4">
+                    {!mensajeTexto && !mensajeGenerando && (
+                      <button
+                        onClick={() => generarMensaje(editando)}
+                        className="w-full py-3 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
+                        style={{ backgroundColor: VERDE }}
+                      >
+                        <Send size={15} />
+                        {detectarBotonLabel(editando)}
+                      </button>
+                    )}
+
+                    {mensajeGenerando && (
+                      <div className="flex items-center justify-center gap-2 py-4 text-sm text-gray-500">
+                        <Loader2 size={16} className="animate-spin" style={{ color: TEAL }} />
+                        Generando mensaje...
+                      </div>
+                    )}
+
+                    {mensajeError && (
+                      <p className="text-sm text-red-500 text-center py-2">{mensajeError}</p>
+                    )}
+
+                    {mensajeTexto && (
+                      <div className="flex flex-col gap-3">
+                        {mensajeTipoLabel && (
+                          <p className="text-xs font-bold" style={{ color: TEAL }}>
+                            {mensajeTipoLabel}
+                          </p>
+                        )}
+                        <div
+                          className="rounded-xl p-3 text-sm text-gray-700 leading-relaxed whitespace-pre-wrap"
+                          style={{ background: 'white', border: '1px solid #e5e7eb' }}
+                        >
+                          {mensajeTexto}
+                        </div>
+
+                        <div className="flex gap-2">
+                          <button
+                            onClick={copiarMensaje}
+                            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold text-white transition-colors"
+                            style={{ backgroundColor: mensajeCopiado ? '#10b981' : VERDE }}
+                          >
+                            {mensajeCopiado ? <Check size={13} /> : <Copy size={13} />}
+                            {mensajeCopiado ? 'Copiado' : 'Copiar'}
+                          </button>
+                          <button
+                            onClick={() => generarMensaje(editando)}
+                            className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold border border-gray-200 text-gray-600 hover:bg-gray-100 transition-colors"
+                          >
+                            <RefreshCw size={13} />
+                            Otra versión
+                          </button>
+                          <button
+                            onClick={() => registrarEnviado(editando)}
+                            disabled={mensajeRegistrando || mensajeRegistrado}
+                            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold transition-colors disabled:opacity-60"
+                            style={{
+                              backgroundColor: mensajeRegistrado ? '#10b981' : TEAL,
+                              color: mensajeRegistrado ? 'white' : VERDE,
+                            }}
+                          >
+                            {mensajeRegistrando
+                              ? <Loader2 size={13} className="animate-spin" />
+                              : mensajeRegistrado
+                              ? <Check size={13} />
+                              : <Send size={13} />
+                            }
+                            {mensajeRegistrado ? 'Registrado' : mensajeRegistrando ? 'Registrando...' : 'Registrar enviado'}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
