@@ -7,7 +7,6 @@ const herramientas = [
     descripcion: '5 campos después de la reunión. Una propuesta irrechazable con neuroventas B2B — y su versión para WhatsApp. Todo en 2 minutos.',
     href: '/herramientas/propuesta',
     cta: 'Generar mi propuesta',
-    destacado: true,
   },
   {
     icon: '📊',
@@ -29,6 +28,14 @@ const herramientas = [
     descripcion: 'Tu prospecto escanea, llena sus datos y entran solos a tu pipeline. Tú no escribes nada.',
     href: '/herramientas/qr',
     cta: 'Ver mi QR',
+  },
+  {
+    icon: '🧠',
+    titulo: 'Perfil DISC del Cliente™',
+    descripcion: 'Identifica el perfil de tu prospecto en 2 minutos y obtén la estrategia exacta: cómo hablarle, cómo presentar el precio y cómo cerrar.',
+    href: '/herramientas/disc',
+    cta: 'Analizar mi prospecto',
+    nuevo: true,
   },
   {
     icon: '🤝',
@@ -68,9 +75,9 @@ export default function HerramientasPage() {
           <div
             key={h.href}
             className="bg-white rounded-2xl border shadow-sm p-6 flex flex-col"
-            style={{ borderColor: h.destacado ? '#1A4A44' : '#f3f4f6' }}
+            style={{ borderColor: (h as any).nuevo ? '#1A4A44' : '#f3f4f6' }}
           >
-            {h.destacado && (
+            {(h as any).nuevo && (
               <span className="self-start text-xs font-bold px-2 py-0.5 rounded-full mb-3"
                 style={{ background: '#4ECDC4', color: '#1A4A44' }}>
                 NUEVO
@@ -87,7 +94,7 @@ export default function HerramientasPage() {
             <Link
               href={h.href}
               className="mt-5 block text-center py-3 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-90"
-              style={{ backgroundColor: h.destacado ? '#4ECDC4' : '#1A4A44', color: h.destacado ? '#1A4A44' : 'white' }}
+              style={{ backgroundColor: (h as any).nuevo ? '#4ECDC4' : '#1A4A44', color: (h as any).nuevo ? '#1A4A44' : 'white' }}
             >
               {h.cta}
             </Link>

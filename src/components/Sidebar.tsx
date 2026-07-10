@@ -17,6 +17,7 @@ import {
   CalendarCheck,
   BarChart2,
   FileText,
+  Users2,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
@@ -28,6 +29,7 @@ const navItems: { href: string; label: string; icon: React.ElementType; sub?: bo
   { href: '/herramientas/llamada', label: 'Llamada Perfecta', icon: Phone, sub: true },
   { href: '/herramientas/propuesta', label: 'Propuesta Express', icon: FileText, sub: true },
   { href: '/herramientas/reporte', label: 'Reporte al Jefe', icon: BarChart2, sub: true },
+  { href: '/herramientas/disc', label: 'Perfil DISC', icon: Users2, sub: true },
   { href: '/herramientas/qr', label: 'QR Captura', icon: QrCode, sub: true },
   { href: '/seguimientos', label: 'Seguimientos', icon: CalendarCheck },
   { href: '/victorias', label: 'Victorias', icon: Trophy },
