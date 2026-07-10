@@ -2,12 +2,19 @@ import Link from 'next/link'
 
 const herramientas = [
   {
+    icon: '📝',
+    titulo: 'Propuesta Express™',
+    descripcion: '5 campos después de la reunión. Una propuesta irrechazable con neuroventas B2B — y su versión para WhatsApp. Todo en 2 minutos.',
+    href: '/herramientas/propuesta',
+    cta: 'Generar mi propuesta',
+    destacado: true,
+  },
+  {
     icon: '📊',
     titulo: 'Reporte al Jefe™',
     descripcion: 'Genera en un toque un reporte de tu desempeño para compartir con tu director. Con tus datos reales y tono adaptado al semáforo de tu pipeline.',
     href: '/herramientas/reporte',
     cta: 'Generar mi reporte',
-    destacado: true,
   },
   {
     icon: '📞',
