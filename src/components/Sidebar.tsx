@@ -20,10 +20,12 @@ import {
   Users2,
   Zap,
   Flame,
+  Rocket,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
-const navItems: { href: string; label: string; icon: React.ElementType; sub?: boolean }[] = [
+const navItems: { href: string; label: string; icon: React.ElementType; sub?: boolean; destacado?: boolean }[] = [
+  { href: '/empezar', label: 'Empieza Aquí', icon: Rocket, destacado: true },
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/prospectos', label: 'Prospectos', icon: Users },
   { href: '/pipeline', label: 'Pipeline', icon: Kanban },
@@ -103,8 +105,25 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
         {/* Nav */}
         <nav className="flex-1 px-3 py-4 space-y-1">
-          {navItems.map(({ href, label, icon: Icon, sub }) => {
+          {navItems.map(({ href, label, icon: Icon, sub, destacado }) => {
             const active = href === '/dashboard' ? pathname === href : pathname === href || pathname.startsWith(href + '/')
+            if (destacado) {
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={handleNavClick}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-colors mb-1"
+                  style={{
+                    backgroundColor: active ? '#4ECDC4' : 'rgba(78,205,196,0.15)',
+                    color: active ? '#1A4A44' : '#4ECDC4',
+                  }}
+                >
+                  <Icon size={18} />
+                  {label}
+                </Link>
+              )
+            }
             return (
               <Link
                 key={href}
