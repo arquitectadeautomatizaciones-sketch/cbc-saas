@@ -47,9 +47,18 @@ export async function POST(req: NextRequest) {
       ).join('\n')
     : 'Sin interacciones previas registradas.'
 
-  const prompt = `Eres un experto en ventas B2B para LATAM. Genera un guión de llamada telefónica personalizado en español LATAM neutro.
+  // Detectar tipo de llamada por estado del prospecto
+  const esSegumiento = ['propuesta_enviada', 'en_negociacion', 'en_pausa'].includes(p.estado)
 
-VENDEDOR: ${profile.nombre}${profile.sector ? ` — sector: ${profile.sector}` : ''}${profile.tipo_venta ? `, tipo de venta: ${profile.tipo_venta}` : ''}
+  const REGLAS_ORO = `REGLAS DE ORO — aplícalas siempre sin excepción:
+1. NUNCA empieces con "hola ¿cómo estás?" — es tiempo muerto
+2. NUNCA digas "te llamo para hacer seguimiento" — mata la llamada al instante
+3. NUNCA bajes el precio sin pedir algo a cambio
+4. SIEMPRE activa el dolor ANTES de mencionar el producto
+5. SIEMPRE cierra con DOS opciones concretas — nunca pregunta abierta ("¿qué te parece?", "¿cuándo podemos hablar?")
+6. Después del cierre — SILENCIO ABSOLUTO. El que habla primero, pierde`
+
+  const CONTEXTO = `VENDEDOR: ${profile.nombre}${profile.sector ? ` — sector: ${profile.sector}` : ''}${profile.tipo_venta ? `, tipo de venta: ${profile.tipo_venta}` : ''}
 
 PROSPECTO:
 - Nombre: ${p.nombre}
@@ -61,25 +70,62 @@ PROSPECTO:
 - Último contacto: ${p.ultimo_contacto ?? 'nunca'}
 - Notas: ${p.notas ?? 'sin notas'}
 
-HISTORIAL DE INTERACCIONES ANTERIORES:
-${historial}
+HISTORIAL DE INTERACCIONES:
+${historial}`
 
-Genera un guión con exactamente 4 secciones. El texto debe ser lo que el vendedor dice literalmente — listo para leer en voz alta.
+  const prompt = !esSegumiento
+    // ── GUIÓN 1: Primera vez / en frío ───────────────────────────────
+    ? `Eres un experto en ventas B2B para LATAM. Genera un guión de llamada en frío personalizado en español LATAM neutro. El texto debe ser lo que el vendedor dice literalmente — listo para leer en voz alta.
 
-Reglas:
-- Usa el nombre del prospecto naturalmente
-- Si hay dolor registrado, conecta todo desde ahí
-- Si hay historial, haz referencia a la conversación anterior
-- Sonar humano y conversacional, nunca robótico
-- Si no hay historial, trátalo como primer contacto
-- Español LATAM neutro, directo y cálido
+${CONTEXTO}
+
+TIPO DE LLAMADA: Primera vez / en frío
+Sigue esta estructura exacta de 5 fases, pero personalízala con los datos reales del prospecto:
+
+FASE 1 — GANCHO 3 SEGUNDOS: Abre con amenaza + curiosidad + especificidad. Objetivo: que NO cuelgue. Sin presentación larga. Sin "¿cómo estás?". Ejemplo de estructura: "[Nombre], ¿sabes cuánto está perdiendo [empresa] por [dolor específico]? Tengo algo que en 2 minutos te cambia la perspectiva."
+
+FASE 2 — DIAGNÓSTICO: Confirma el dolor con 2 preguntas específicas. No asumas — pregunta para que él lo diga. Ejemplo de estructura: "Antes de contarte — rápido: ¿cuántos [leads/clientes/etc.] pierdes al mes por [problema]? Y eso, ¿cuánto te cuesta en números reales?"
+
+FASE 3 — PRECIO AL DOLOR: Pon número al dolor que acaba de confirmar. Hazlo sentir el costo de la inacción. Ejemplo de estructura: "Eso que me dijiste — a final de trimestre son [X]. Eso es lo que cuesta no resolverlo."
+
+FASE 4 — PRESENTACIÓN 30 SEGUNDOS: Ahora sí, conecta el producto con el dolor que acaba de confirmar. Máximo 3 frases. Sin características — solo transformación.
+
+FASE 5 — OBJECIONES + CIERRE CON DOS OPCIONES: Incluye respuesta para las 3 objeciones más probables (mándame info / no tengo presupuesto / estoy ocupado). Termina con cierre de dos opciones + instrucción de silencio.
+
+${REGLAS_ORO}
 
 Responde SOLO con JSON válido, sin texto extra ni markdown:
 {
-  "apertura": "texto exacto de apertura (15 segundos, presentación sin sonar a vendedor, abrir con algo de ellos)",
-  "diagnostico": "texto exacto de diagnóstico con 2 o 3 preguntas específicas para este prospecto (60 segundos)",
-  "propuesta": "texto exacto conectando su dolor con la solución del vendedor (30 segundos)",
-  "cierre": "texto exacto para pedir el siguiente paso concreto con dos opciones de fecha (15 segundos)"
+  "apertura": "GANCHO 3 segundos — texto exacto listo para decir",
+  "diagnostico": "DIAGNÓSTICO + PRECIO AL DOLOR — texto exacto con las 2 preguntas y el reencuadre del costo",
+  "propuesta": "PRESENTACIÓN 30 SEGUNDOS — texto exacto conectando dolor confirmado con solución",
+  "cierre": "OBJECIONES + CIERRE — respuesta a las 3 objeciones probables + cierre con dos opciones + nota de silencio"
+}`
+
+    // ── GUIÓN 2: Seguimiento / propuesta enviada ─────────────────────
+    : `Eres un experto en ventas B2B para LATAM. Genera un guión de llamada de seguimiento personalizado en español LATAM neutro. El texto debe ser lo que el vendedor dice literalmente — listo para leer en voz alta.
+
+${CONTEXTO}
+
+TIPO DE LLAMADA: Seguimiento / propuesta enviada (${ESTADO_LABEL[p.estado] ?? p.estado} — ${p.dias_sin_contacto} días sin contacto)
+Sigue esta estructura exacta de 4 fases, pero personalízala con los datos reales del prospecto:
+
+FASE 1 — GANCHO 3 SEGUNDOS (URGENCIA + PÉRDIDA): No "solo para dar seguimiento". Abre con urgencia real o pérdida concreta. Ejemplo de estructura: "[Nombre], en los últimos [días sin contacto] días que no hablamos, [empresa] siguió perdiendo [dolor]. Necesito 3 minutos."
+
+FASE 2 — REACTIVA EL DOLOR CON NÚMEROS: Recuérdale lo que está perdiendo mientras no decide. Usa el dolor registrado y ponle número. Ejemplo de estructura: "Cuando hablamos, me dijiste que [dolor]. ¿Sabes cuánto cuesta eso al mes? Hicimos los números — son [X]. Cada semana que no actúas, ese número sube."
+
+FASE 3 — EL ELEMENTO NUEVO: Introduce algo que no existía la última vez — un caso de éxito de cliente similar, un cambio de condiciones, o un insight del sector. Ejemplo de estructura: "Esta semana cerré con [perfil similar a su empresa] — el mismo problema que tú. En 30 días ya ven resultados. Eso es exactamente lo que tú necesitas."
+
+FASE 4 — OBJECIONES DE SEGUIMIENTO + CIERRE O LIBERACIÓN CON DIGNIDAD: Maneja las objeciones típicas de seguimiento (sigo pensándolo / espero aprobación / no es momento). Termina con cierre de dos opciones — o si no hay avance, liberación con dignidad que deje la puerta abierta. Siempre con silencio después.
+
+${REGLAS_ORO}
+
+Responde SOLO con JSON válido, sin texto extra ni markdown:
+{
+  "apertura": "GANCHO 3 SEGUNDOS — urgencia real sin decir 'seguimiento', texto exacto listo para decir",
+  "diagnostico": "REACTIVA EL DOLOR + ELEMENTO NUEVO — texto exacto con el número del dolor y el caso o insight nuevo",
+  "propuesta": "OBJECIONES DE SEGUIMIENTO — respuestas exactas para las 3 objeciones más probables en esta etapa",
+  "cierre": "CIERRE CON DOS OPCIONES o LIBERACIÓN CON DIGNIDAD — texto exacto + nota de silencio absoluto"
 }`
 
   try {

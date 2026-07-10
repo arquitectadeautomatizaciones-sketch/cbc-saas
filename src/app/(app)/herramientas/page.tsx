@@ -2,6 +2,14 @@ import Link from 'next/link'
 
 const herramientas = [
   {
+    icon: '🔥',
+    titulo: 'Mi Modo Crack™',
+    descripcion: 'Ritual mental personalizado con tus datos reales + 8 audios de reprogramación para entrar al día como vendedor élite.',
+    href: '/herramientas/modo-crack',
+    cta: 'Activar modo crack',
+    nuevo: true,
+  },
+  {
     icon: '⚡',
     titulo: 'IA en Acción™',
     descripcion: 'El centro de comando del vendedor. 8 momentos reales — investiga prospectos, califica con BANT, neuroventas, calcula el costo de la inacción, maneja crisis y reactiva leads fríos.',
