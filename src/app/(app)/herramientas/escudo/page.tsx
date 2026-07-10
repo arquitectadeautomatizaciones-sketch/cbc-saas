@@ -14,74 +14,83 @@ interface Objecion {
   titulo: string
   tags: string[]
   clienteDice: string
+  loQueSiente: string
   respuesta: string
-  porQue: string
+  preguntaCierre: string
 }
 
 const OBJECIONES: Objecion[] = [
   {
     id: 'caro',
-    titulo: 'Está muy caro',
+    titulo: 'Es muy caro',
     tags: ['caro', 'precio', 'dinero', 'costoso', 'inversión'],
-    clienteDice: '"Está muy caro" / "Tengo mejores propuestas"',
-    respuesta: '¿Caro comparado con qué? — Pausa. Espera su respuesta.\n\n"Si el problema te cuesta X por mes, ¿cuánto vale resolverlo en 60 días?" No bajes el precio.',
-    porQue: 'La pausa es una herramienta de neuroventas. El silencio incomoda al cliente y lo lleva a justificar, revelando el ancla de precio real. Reencuadrar el costo en el costo del problema elimina la comparación directa de precios.',
+    clienteDice: '"Es muy caro"',
+    loQueSiente: 'Cerebro reptil: miedo a perder. Sin imagen del después, no decide.',
+    respuesta: '"Entiendo. Antes de hablar de precio — imagina que este mes recuperas [X] por resolver [DOLOR]. ¿Cuánto vale eso? Ahora compara ese número con la inversión. Cuando el costo de no actuar supera el precio — no es caro. Es el mejor negocio que puedes hacer este trimestre."',
+    preguntaCierre: '"Si vieras ese número ahora mismo, ¿el precio seguiría siendo la conversación?"',
   },
   {
-    id: 'momento',
-    titulo: 'No es el momento',
-    tags: ['momento', 'tiempo', 'después', 'pienso', 'luego', 'consulto'],
-    clienteDice: '"No es el momento" / "Lo pienso" / "Déjame consultarlo"',
-    respuesta: '"¿Y si esto sigue igual en 3 meses, qué pasa en tu operación?"',
-    porQue: 'Proyectar el dolor al futuro activa la aversión a la pérdida — el motor de decisión más poderoso. No estás empujando. Estás ayudando al cliente a visualizar las consecuencias de no actuar.',
+    id: 'pensarlo',
+    titulo: 'Déjame pensarlo',
+    tags: ['pensar', 'pienso', 'tiempo', 'después', 'luego', 'reflexionar'],
+    clienteDice: '"Déjame pensarlo"',
+    loQueSiente: 'Sin imagen del después el cerebro evita decidir. Hay una duda concreta no dicha.',
+    respuesta: '"Claro. Antes de que te vayas — imagina que resuelves [DOLOR] este mes. ¿Cómo se ve tu pipeline en 30 días? Ahora dime: ¿qué parte de eso necesitas pensar? Porque casi siempre hay una duda específica detrás. Dímela y la resolvemos ahora."',
+    preguntaCierre: '"¿Es el resultado, el precio, o algo que no te expliqué bien?"',
   },
   {
-    id: 'jefe',
-    titulo: 'Tengo que consultarlo',
-    tags: ['jefe', 'socio', 'consultar', 'directivo', 'aprobación', 'director'],
-    clienteDice: '"Tengo que consultarlo con mi socio/jefe"',
-    respuesta: '"¿Qué información necesita para decidir? Yo le preparo algo específico para él."',
-    porQue: 'Esta respuesta convierte al gatekeeper en un aliado. En lugar de esperar una respuesta vaga, tomas el control del siguiente paso y entras indirectamente en la reunión de decisión.',
+    id: 'consultar',
+    titulo: 'Necesito consultarlo con mi socio/jefe/comité',
+    tags: ['jefe', 'socio', 'consultar', 'comité', 'directivo', 'aprobación', 'director'],
+    clienteDice: '"Necesito consultarlo con mi socio/jefe/comité"',
+    loQueSiente: 'Cerebro límbico: miedo a equivocarse solo. Busca seguridad colectiva.',
+    respuesta: '"Por supuesto. Para que esa conversación sea fácil — imagina que llegas con un resumen de una página con los números exactos. Tu jefe ve el ROI, no una duda. ¿Qué necesita ver esa persona para decir sí?"',
+    preguntaCierre: '"¿Cuándo es esa conversación? Me coordino para estar disponible."',
   },
   {
-    id: 'vueltas',
-    titulo: 'La discusión da vueltas',
-    tags: ['vueltas', 'loop', 'circular', 'mismo', 'repetir', 'bloqueado'],
-    clienteDice: 'La conversación regresa siempre al mismo punto sin avanzar',
-    respuesta: '"¿Qué necesitaría pasar para que esto tuviera sentido para ti?"',
-    porQue: 'Cuando el cliente da vueltas es porque hay una objeción real no dicha. Esta pregunta lo invita a revelarla sin presión. Una vez que sabes el obstáculo real, puedes resolverlo.',
-  },
-  {
-    id: 'silencio',
-    titulo: 'No responde / evade',
-    tags: ['silencio', 'evade', 'evasivo', 'esquiva', 'no responde', 'distante'],
-    clienteDice: 'El cliente esquiva, cambia el tema o guarda silencio incómodo',
-    respuesta: 'Silencio 5 segundos. Luego: "¿Qué está pasando por tu cabeza ahora?"',
-    porQue: 'El silencio estratégico rompe el patrón. La pregunta abre un espacio seguro para que el cliente exprese lo que realmente piensa. La mayoría de vendedores hablan en este momento — ese es el error.',
-  },
-  {
-    id: 'competencia',
-    titulo: 'La competencia da lo mismo',
-    tags: ['competencia', 'competidor', 'mismo', 'igual', 'alternativa', 'otro proveedor'],
-    clienteDice: '"La competencia ofrece lo mismo por menos"',
-    respuesta: '"¿Qué te ofrece que yo no te esté dando?" Solo responde a ESE punto específico.',
-    porQue: 'No defiendes tu propuesta de forma genérica — atacas el punto exacto de comparación. Esto acota la conversación y evita que el cliente siga acumulando objeciones. La especificidad gana.',
+    id: 'proveedor',
+    titulo: 'Ya tenemos un proveedor',
+    tags: ['proveedor', 'ya tenemos', 'otro', 'solución', 'alternativa', 'contrato'],
+    clienteDice: '"Ya tenemos un proveedor"',
+    loQueSiente: 'Cerebro reptil: cambio es riesgo. No ve el GAP que su proveedor no cubre.',
+    respuesta: '"Me alegra saberlo. Imagina por un momento ese dolor que todavía sientes aunque ya tienes proveedor — ese [SITUACIÓN ESPECÍFICA]. Ese es el GAP que no está cubriendo. No vengo a reemplazar lo que funciona. Vengo a cerrar ese hueco."',
+    preguntaCierre: '"¿Qué es lo que tu solución actual todavía no resuelve?"',
   },
   {
     id: 'presupuesto',
-    titulo: 'No tenemos presupuesto',
-    tags: ['presupuesto', 'budget', 'plata', 'dinero', 'recursos', 'financiero'],
-    clienteDice: '"No tenemos presupuesto para esto"',
-    respuesta: '"Si el presupuesto no fuera un factor, ¿esto resolvería tu problema?"',
-    porQue: 'Esta pregunta separa el problema del presupuesto. Si el cliente dice que sí resolvería su problema, el presupuesto se convierte en un obstáculo a resolver juntos — no en un rechazo definitivo.',
+    titulo: 'No tenemos presupuesto este trimestre',
+    tags: ['presupuesto', 'budget', 'plata', 'dinero', 'recursos', 'trimestre', 'financiero'],
+    clienteDice: '"No tenemos presupuesto este trimestre"',
+    loQueSiente: 'No ve el costo de la inacción. El cerebro no siente urgencia sin imagen del precio de esperar.',
+    respuesta: '"Entiendo. Imagina que al final de este trimestre sumas todo lo que perdiste por no resolverlo — leads fríos, tiempo manual, reportes sin datos. ¿Cuánto es ese número? Cuando ese número aparece, el presupuesto también aparece."',
+    preguntaCierre: '"Si pudieras ver ese número ahora mismo, ¿cambiaría la conversación?"',
   },
   {
-    id: 'montón',
-    titulo: 'Me lanza 5 objeciones de golpe',
-    tags: ['montón', 'varias', 'muchas', 'lista', 'conjunto', 'bombardeo'],
-    clienteDice: 'El cliente dispara múltiples objeciones a la vez sin orden',
-    respuesta: '"De todo lo que dijiste, ¿cuál es la que más te preocupa ahora?"',
-    porQue: 'Múltiples objeciones de golpe suelen ser una cortina de humo. Al elegir la principal, el cliente revela la real. Además, resolver una bien vale más que responder cinco a medias.',
+    id: 'competencia',
+    titulo: '¿Por qué tú y no la competencia?',
+    tags: ['competencia', 'competidor', 'por qué tú', 'diferencia', 'versus', 'comparar'],
+    clienteDice: '"¿Por qué tú y no la competencia?"',
+    loQueSiente: 'El cerebro ya quiere comprar. Está comparando para justificar. Es una invitación a cerrar.',
+    respuesta: '"Buena pregunta. Imagina que ya elegiste — ¿qué resultado necesitas ver en 60 días para saber que tomaste la decisión correcta? Dímelo. Porque trabajo con quienes quieren exactamente eso — y sé si puedo dártelo o no."',
+    preguntaCierre: '"¿Qué tendría que ser verdad para que eligieras trabajar conmigo hoy?"',
+  },
+  {
+    id: 'descuento',
+    titulo: '¿Puedes hacerme un descuento?',
+    tags: ['descuento', 'rebaja', 'precio', 'negociar', 'bajar', 'menos'],
+    clienteDice: '"¿Puedes hacerme un descuento?"',
+    loQueSiente: 'Quiere sentir que gana. No necesariamente necesita menor precio.',
+    respuesta: '"El precio no lo muevo — porque bajarlo le dice a tu cerebro que el resultado tampoco vale tanto. Imagina en cambio que ajustamos el alcance exactamente a tu prioridad real ahora. Empiezas por lo que más duele, ves resultados rápido. Un descuento devalúa. Un ajuste resuelve."',
+    preguntaCierre: '"¿Qué parte es la más crítica para ti hoy? Empezamos por ahí."',
+  },
+  {
+    id: 'prioridad',
+    titulo: 'Interesante, pero no es prioridad ahora',
+    tags: ['prioridad', 'interesante', 'después', 'luego', 'más adelante', 'no es momento'],
+    clienteDice: '"Interesante, pero no es prioridad ahora"',
+    loQueSiente: 'El dolor no duele suficiente. El cerebro reptil no ve la amenaza — la urgencia no es visible.',
+    respuesta: '"Respeto eso. Imagina cómo se ve ese mismo problema en 3 meses sin resolverlo — más leads perdidos, más tiempo manual, más trimestres sin datos reales. Ese es el costo del silencio. No te presiono — pero quiero que decidas con esa imagen sobre la mesa."',
+    preguntaCierre: '"¿Cuándo sería el momento — y qué estaría pasando diferente en tu negocio para entonces?"',
   },
 ]
 
@@ -193,26 +202,32 @@ export default function EscudoPage() {
                 {abierta && (
                   <div style={{ padding: '0 20px 20px' }}>
                     {/* Lo que dice el cliente */}
-                    <div style={{ backgroundColor: '#fef9f0', border: '1px solid #f59e0b', borderRadius: 10, padding: 14, marginBottom: 14 }}>
-                      <p style={{ ...INTER, fontSize: 12, fontWeight: 700, color: '#92400e', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 6px' }}>El cliente dice</p>
+                    <div style={{ backgroundColor: '#fef9f0', border: '1px solid #f59e0b', borderRadius: 10, padding: 14, marginBottom: 12 }}>
+                      <p style={{ ...INTER, fontSize: 12, fontWeight: 700, color: '#92400e', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 6px' }}>Lo que dice el cliente</p>
                       <p style={{ ...INTER, fontSize: 14, color: '#78350f', margin: 0, lineHeight: 1.6, fontStyle: 'italic' }}>{o.clienteDice}</p>
                     </div>
 
-                    {/* Respuesta */}
-                    <div style={{ backgroundColor: VERDE, borderRadius: 10, padding: 16, marginBottom: 14 }}>
-                      <p style={{ ...INTER, fontSize: 12, fontWeight: 700, color: TEAL, textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 8px' }}>Tu respuesta exacta</p>
+                    {/* Lo que siente */}
+                    <div style={{ backgroundColor: '#f5f3ff', border: '1px solid #c4b5fd', borderRadius: 10, padding: 14, marginBottom: 12 }}>
+                      <p style={{ ...INTER, fontSize: 12, fontWeight: 700, color: '#5b21b6', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 6px' }}>🧠 Lo que siente</p>
+                      <p style={{ ...INTER, fontSize: 14, color: '#4c1d95', margin: 0, lineHeight: 1.6 }}>{o.loQueSiente}</p>
+                    </div>
+
+                    {/* Tu respuesta */}
+                    <div style={{ backgroundColor: VERDE, borderRadius: 10, padding: 16, marginBottom: 12 }}>
+                      <p style={{ ...INTER, fontSize: 12, fontWeight: 700, color: TEAL, textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 8px' }}>✅ Tu respuesta lista</p>
                       <p style={{ ...INTER, fontSize: 15, color: 'white', margin: 0, lineHeight: 1.7, whiteSpace: 'pre-line' }}>{o.respuesta}</p>
                     </div>
 
-                    {/* Por qué funciona */}
-                    <div style={{ backgroundColor: BEIGE, borderLeft: `3px solid ${TEAL}`, borderRadius: 8, padding: 14, marginBottom: 16 }}>
-                      <p style={{ ...INTER, fontSize: 12, fontWeight: 700, color: VERDE, textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 6px' }}>Por qué funciona</p>
-                      <p style={{ ...INTER, fontSize: 14, color: '#374151', margin: 0, lineHeight: 1.6 }}>{o.porQue}</p>
+                    {/* Pregunta de cierre */}
+                    <div style={{ backgroundColor: BEIGE, border: `1.5px solid ${TEAL}`, borderRadius: 10, padding: 14, marginBottom: 16 }}>
+                      <p style={{ ...INTER, fontSize: 12, fontWeight: 700, color: VERDE, textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 6px' }}>🎯 Pregunta de cierre</p>
+                      <p style={{ ...INTER, fontSize: 14, color: '#1f2937', margin: 0, lineHeight: 1.6, fontStyle: 'italic' }}>{o.preguntaCierre}</p>
                     </div>
 
                     {/* Copy button */}
                     <button
-                      onClick={() => copiar(o.respuesta, o.id)}
+                      onClick={() => copiar(`${o.respuesta}\n\n${o.preguntaCierre}`, o.id)}
                       style={{
                         ...INTER,
                         width: '100%',
@@ -227,7 +242,7 @@ export default function EscudoPage() {
                         transition: 'background-color 200ms',
                       }}
                     >
-                      {copiado === o.id ? '✓ Copiado' : 'Copiar respuesta'}
+                      {copiado === o.id ? '✓ Copiado' : 'Copiar respuesta + cierre'}
                     </button>
                   </div>
                 )}
