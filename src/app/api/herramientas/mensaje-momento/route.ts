@@ -10,6 +10,7 @@ type TipoMensaje =
   | 'ultimo_intento'
   | 'bienvenida'
   | 'dejar_puerta'
+  | 'cliente_respondio'
 
 function detectarTipo(prospecto: {
   ultimo_contacto: string | null
@@ -36,13 +37,38 @@ function detectarTipo(prospecto: {
 }
 
 const TIPO_LABEL: Record<TipoMensaje, string> = {
-  primer_mensaje:  '✍️ Primer mensaje',
-  post_reunion:    '📝 Email post-reunión',
-  seguimiento_1:   '🔄 Seguimiento 1',
-  seguimiento_2:   '🔄 Seguimiento 2',
-  ultimo_intento:  '🚪 Último intento',
-  bienvenida:      '🎉 Email de bienvenida',
-  dejar_puerta:    '🤝 Dejar la puerta abierta',
+  primer_mensaje:    '✍️ Primer mensaje',
+  post_reunion:      '📝 Email post-reunión',
+  seguimiento_1:     '🔄 Seguimiento 1',
+  seguimiento_2:     '🔄 Seguimiento 2',
+  ultimo_intento:    '🚪 Último intento',
+  bienvenida:        '🎉 Email de bienvenida',
+  dejar_puerta:      '🤝 Dejar la puerta abierta',
+  cliente_respondio: '💬 Respuesta al cliente',
+}
+
+function buildPromptClienteRespondio(lo_que_dijo: string, p: {
+  nombre: string
+  empresa: string | null
+  dolor_principal: string | null
+  perfil_disc: string | null
+  estado: string
+  dias_sin_contacto: number
+}): string {
+  return `Eres un vendedor consultivo B2B experto. Tu prospecto ${p.nombre}${p.empresa ? ` de ${p.empresa}` : ''} acaba de responderte: "${lo_que_dijo}".
+
+Contexto del prospecto:
+- Dolor principal: ${p.dolor_principal || 'No registrado'}
+- Etapa: ${p.estado}
+- Días sin contacto: ${p.dias_sin_contacto}${p.perfil_disc ? `\n- Perfil DISC: ${p.perfil_disc}` : ''}
+
+Escribe UNA respuesta de máximo 80 palabras que:
+1. Recoja exactamente lo que dijo sin repetirlo literalmente
+2. Mantenga la conversación viva sin presionar
+3. Cierre con UNA sola pregunta que abra la siguiente conversación
+
+Tono: directo, cálido, de igual a igual. Sin "espero que estés bien". Sin relleno.
+Solo el texto del mensaje — nada antes, nada después.`
 }
 
 function buildPrompt(tipo: TipoMensaje, p: {
@@ -79,6 +105,7 @@ ${historial}`
     ultimo_intento: `Más de 8 días sin respuesta. Escribe un mensaje de último intento tipo "break-up email". Directo, sin presión, deja la puerta abierta. La estructura clásica: entiendo que quizás cambió algo, si no es el momento lo respeto, aquí quedo si cambia. Máximo 60 palabras.`,
     bienvenida: `El prospecto acaba de cerrar — ya es cliente. Escribe un email de bienvenida cálido que: celebre la decisión, confirme el primer paso concreto, haga sentir que tomó la decisión correcta. Tono: entusiasta pero profesional. Máximo 100 palabras.`,
     dejar_puerta: `El prospecto no cerró. Escribe un mensaje para dejar la puerta abierta sin resentimiento. Que sepa que la relación sigue, que puede volver cuando esté listo, y que lo recuerdas por su dolor específico. Sin drama, sin insistencia. Máximo 70 palabras.`,
+    cliente_respondio: ``, // prompt built separately with lo_que_dijo
   }
 
   return `Eres un experto en comunicación B2B para Latinoamérica. Escribe exactamente el mensaje indicado — texto listo para enviar, sin corchetes, sin instrucciones, sin placeholder, sin introducción tuya.
@@ -103,7 +130,7 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-  const { prospecto_id, tipo_forzado } = await req.json()
+  const { prospecto_id, tipo_forzado, lo_que_dijo } = await req.json()
   if (!prospecto_id) return NextResponse.json({ error: 'Falta prospecto_id' }, { status: 400 })
 
   // Fetch prospect + interactions
@@ -121,7 +148,9 @@ export async function POST(req: NextRequest) {
 
   const tipo: TipoMensaje = tipo_forzado ?? detectarTipo(prospecto, interacciones)
 
-  const prompt = buildPrompt(tipo, prospecto, interacciones)
+  const prompt = tipo === 'cliente_respondio' && lo_que_dijo
+    ? buildPromptClienteRespondio(lo_que_dijo, prospecto)
+    : buildPrompt(tipo, prospecto, interacciones)
 
   try {
     const message = await anthropic.messages.create({

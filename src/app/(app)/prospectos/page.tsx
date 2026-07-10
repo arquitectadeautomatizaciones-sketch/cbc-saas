@@ -65,6 +65,9 @@ export default function ProspectosPage() {
   const [mensajeRegistrando, setMensajeRegistrando] = useState(false)
   const [mensajeRegistrado, setMensajeRegistrado] = useState(false)
   const [mensajeError, setMensajeError] = useState<string | null>(null)
+  // El cliente respondió
+  const [modoRespondio, setModoRespondio] = useState(false)
+  const [loQueDijo, setLoQueDijo] = useState('')
 
   // Detector del tipo de botón sin llamar a Claude
   function detectarBotonLabel(p: Prospecto): string {
@@ -78,7 +81,7 @@ export default function ProspectosPage() {
     return '✍️ Escribir primer mensaje'
   }
 
-  async function generarMensaje(p: Prospecto | null) {
+  async function generarMensaje(p: Prospecto | null, opts?: { tipo_forzado?: string; lo_que_dijo?: string }) {
     if (!p) return
     setMensajeGenerando(true)
     setMensajeTexto(null)
@@ -88,7 +91,7 @@ export default function ProspectosPage() {
       const res = await fetch('/api/herramientas/mensaje-momento', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prospecto_id: p.id }),
+        body: JSON.stringify({ prospecto_id: p.id, ...opts }),
       })
       const data = await res.json()
       if (!res.ok) { setMensajeError(data.error ?? 'Error generando el mensaje.'); return }
@@ -147,6 +150,8 @@ export default function ProspectosPage() {
     setMensajeError(null)
     setMensajeRegistrado(false)
     setMensajeCopiado(false)
+    setModoRespondio(false)
+    setLoQueDijo('')
   }
 
   function abrirNuevo() {
@@ -506,14 +511,63 @@ export default function ProspectosPage() {
 
                   <div className="p-4">
                     {!mensajeTexto && !mensajeGenerando && (
-                      <button
-                        onClick={() => generarMensaje(editando)}
-                        className="w-full py-3 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
-                        style={{ backgroundColor: VERDE }}
-                      >
-                        <Send size={15} />
-                        {detectarBotonLabel(editando)}
-                      </button>
+                      <div className="flex flex-col gap-2">
+                        {/* Botón contextual automático */}
+                        {!modoRespondio && (
+                          <button
+                            onClick={() => generarMensaje(editando)}
+                            className="w-full py-3 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
+                            style={{ backgroundColor: VERDE }}
+                          >
+                            <Send size={15} />
+                            {detectarBotonLabel(editando)}
+                          </button>
+                        )}
+
+                        {/* El cliente respondió */}
+                        {!modoRespondio ? (
+                          <button
+                            onClick={() => setModoRespondio(true)}
+                            className="w-full py-2.5 rounded-xl text-sm font-semibold border border-gray-200 text-gray-600 hover:bg-gray-50 flex items-center justify-center gap-2 transition-colors"
+                          >
+                            💬 El cliente respondió
+                          </button>
+                        ) : (
+                          <div className="flex flex-col gap-2">
+                            <p className="text-xs font-bold text-gray-500">¿Qué dijo exactamente?</p>
+                            <input
+                              autoFocus
+                              value={loQueDijo}
+                              onChange={(e) => setLoQueDijo(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' && loQueDijo.trim()) {
+                                  generarMensaje(editando, { tipo_forzado: 'cliente_respondio', lo_que_dijo: loQueDijo.trim() })
+                                }
+                              }}
+                              placeholder="Ej: dijo que lo revisará / preguntó por el precio / dijo que no es el momento..."
+                              className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none"
+                              style={{ borderColor: TEAL }}
+                            />
+                            <div className="flex gap-2">
+                              <button
+                                onClick={() => { setModoRespondio(false); setLoQueDijo('') }}
+                                className="px-3 py-2 rounded-xl text-xs font-medium border border-gray-200 text-gray-500 hover:bg-gray-50"
+                              >
+                                Cancelar
+                              </button>
+                              <button
+                                onClick={() => loQueDijo.trim() && generarMensaje(editando, { tipo_forzado: 'cliente_respondio', lo_que_dijo: loQueDijo.trim() })}
+                                disabled={!loQueDijo.trim()}
+                                className="flex-1 py-2 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-1.5 disabled:opacity-50"
+                                style={{ backgroundColor: VERDE }}
+                              >
+                                <Send size={13} />
+                                Generar respuesta
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     )}
 
                     {mensajeGenerando && (
@@ -551,7 +605,13 @@ export default function ProspectosPage() {
                             {mensajeCopiado ? 'Copiado' : 'Copiar'}
                           </button>
                           <button
-                            onClick={() => generarMensaje(editando)}
+                            onClick={() => {
+                              if (mensajeTipoLabel === '💬 Respuesta al cliente' && loQueDijo) {
+                                generarMensaje(editando, { tipo_forzado: 'cliente_respondio', lo_que_dijo: loQueDijo })
+                              } else {
+                                generarMensaje(editando)
+                              }
+                            }}
                             className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold border border-gray-200 text-gray-600 hover:bg-gray-100 transition-colors"
                           >
                             <RefreshCw size={13} />
