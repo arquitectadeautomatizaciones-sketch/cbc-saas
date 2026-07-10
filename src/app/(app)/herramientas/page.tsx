@@ -2,6 +2,15 @@ import Link from 'next/link'
 
 const herramientas = [
   {
+    icon: '⚡',
+    titulo: 'IA en Acción™',
+    descripcion: 'El centro de comando del vendedor. 8 momentos reales — investiga prospectos, califica con BANT, neuroventas, calcula el costo de la inacción, maneja crisis y reactiva leads fríos.',
+    href: '/herramientas/ia-en-accion',
+    cta: 'Abrir centro de comando',
+    nuevo: true,
+    destacado: true,
+  },
+  {
     icon: '📝',
     titulo: 'Propuesta Express™',
     descripcion: '5 campos después de la reunión. Una propuesta irrechazable con neuroventas B2B — y su versión para WhatsApp. Todo en 2 minutos.',

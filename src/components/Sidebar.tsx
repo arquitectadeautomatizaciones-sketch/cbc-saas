@@ -18,6 +18,7 @@ import {
   BarChart2,
   FileText,
   Users2,
+  Zap,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
@@ -25,6 +26,7 @@ const navItems: { href: string; label: string; icon: React.ElementType; sub?: bo
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/prospectos', label: 'Prospectos', icon: Users },
   { href: '/pipeline', label: 'Pipeline', icon: Kanban },
+  { href: '/herramientas/ia-en-accion', label: 'IA en Acción', icon: Zap },
   { href: '/herramientas', label: 'Herramientas', icon: Wrench },
   { href: '/herramientas/llamada', label: 'Llamada Perfecta', icon: Phone, sub: true },
   { href: '/herramientas/propuesta', label: 'Propuesta Express', icon: FileText, sub: true },
