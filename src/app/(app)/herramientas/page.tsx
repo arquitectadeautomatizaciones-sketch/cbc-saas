@@ -2,12 +2,19 @@ import Link from 'next/link'
 
 const herramientas = [
   {
+    icon: '📊',
+    titulo: 'Reporte al Jefe™',
+    descripcion: 'Genera en un toque un reporte de tu desempeño para compartir con tu director. Con tus datos reales y tono adaptado al semáforo de tu pipeline.',
+    href: '/herramientas/reporte',
+    cta: 'Generar mi reporte',
+    destacado: true,
+  },
+  {
     icon: '📞',
     titulo: 'Mi Llamada Perfecta™',
     descripcion: 'Guión personalizado con IA antes de marcar. Apertura, diagnóstico, propuesta y cierre — listo en segundos.',
     href: '/herramientas/llamada',
     cta: 'Preparar mi llamada',
-    destacado: true,
   },
   {
     icon: '📱',
