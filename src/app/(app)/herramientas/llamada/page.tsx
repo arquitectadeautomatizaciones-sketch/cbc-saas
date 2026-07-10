@@ -135,7 +135,7 @@ export default function LlamadaPage() {
           </h1>
         </div>
         <p className="text-gray-500 text-sm mt-1 ml-12">
-          Guión personalizado con IA antes de marcar. Sin improvisar.
+          Selecciona el prospecto, el tipo de llamada y CBC genera el guión completo con tu información real — apertura, preguntas, objeciones y cierre.
         </p>
       </div>
 

@@ -304,7 +304,7 @@ export default function CopilotoPage() {
           </Link>
 
           <h1 style={{ ...JAKARTA, fontSize: 26, fontWeight: 700, color: VERDE, margin: '0 0 6px' }}>🤝 Copiloto de Reunión™</h1>
-          <p style={{ ...INTER, fontSize: 15, color: '#6b7280', margin: '0 0 28px' }}>30 segundos antes de entrar. Tu reunión, sin improvisar.</p>
+          <p style={{ ...INTER, fontSize: 15, color: '#6b7280', margin: '0 0 28px' }}>Tu GPS de negociación. 8 fases para cualquier reunión comercial — con el contexto real de tu prospecto y botón SOS si algo sale mal.</p>
 
           <div style={{ backgroundColor: 'white', borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column', gap: 22 }}>
 

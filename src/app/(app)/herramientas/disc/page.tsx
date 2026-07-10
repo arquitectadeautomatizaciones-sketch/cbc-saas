@@ -233,7 +233,7 @@ export default function DiscPage() {
           </h1>
         </div>
         <p className="text-gray-500 text-sm mt-1 ml-12">
-          Identifica el perfil de tu prospecto y obtén la estrategia exacta para cerrar.
+          Llena 6 campos sobre tu prospecto y CBC te dice exactamente cómo hablarle, cómo presentar el precio y cómo cerrar — según su perfil de personalidad.
         </p>
       </div>
 

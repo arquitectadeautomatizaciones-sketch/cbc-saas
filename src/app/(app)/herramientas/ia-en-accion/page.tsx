@@ -74,7 +74,7 @@ export default function IaEnAccionPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold" style={{ color: VERDE, fontFamily: 'var(--font-jakarta)' }}>🧠 IA en Acción</h1>
-        <p className="text-gray-500 text-sm mt-1">Selecciona el momento en que estás ahora mismo.</p>
+        <p className="text-gray-500 text-sm mt-1">8 herramientas de IA organizadas por el momento exacto de tu día. Selecciona dónde estás ahora y CBC hace el trabajo.</p>
       </div>
 
       {/* Grid */}

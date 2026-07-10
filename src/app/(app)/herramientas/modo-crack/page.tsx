@@ -109,7 +109,7 @@ export default function ModoCrackPage() {
           🔥 Mi Modo Crack™
         </h1>
         <p className="text-gray-500 text-sm mt-1">
-          Prepárate mentalmente. Entra al día como un vendedor élite.
+          Tu ritual del día generado con tus datos reales — y 8 audios de reprogramación mental para cada momento clave. Úsalos con audífonos.
         </p>
       </div>
 

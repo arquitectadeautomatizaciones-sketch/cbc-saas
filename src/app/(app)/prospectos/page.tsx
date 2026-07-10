@@ -514,6 +514,9 @@ export default function ProspectosPage() {
                       <div className="flex flex-col gap-2">
                         {/* Botón contextual automático */}
                         {!modoRespondio && (
+                          <p className="text-xs text-gray-400 mb-2">CBC detecta en qué momento estás con este prospecto y te sugiere el mensaje correcto. Tócalo, revísalo y envíalo.</p>
+                        )}
+                        {!modoRespondio && (
                           <button
                             onClick={() => generarMensaje(editando)}
                             className="w-full py-3 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 transition-opacity hover:opacity-90"

@@ -93,7 +93,7 @@ export default function PropuestaPage() {
           </h1>
         </div>
         <p className="text-gray-500 text-sm mt-1 ml-12">
-          5 campos. 2 minutos. Una propuesta que cierra — y su versión para WhatsApp.
+          5 campos. 2 minutos. CBC genera una propuesta con neuroventas lista para enviar — y su versión corta para WhatsApp.
         </p>
       </div>
 

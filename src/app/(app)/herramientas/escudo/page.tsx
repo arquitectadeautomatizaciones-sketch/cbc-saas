@@ -133,7 +133,7 @@ export default function EscudoPage() {
             🛡️ Escudo de Objeciones™
           </h1>
           <p style={{ ...INTER, fontSize: 15, color: '#6b7280', margin: 0, lineHeight: 1.6 }}>
-            Respuesta exacta para cada objeción. Sin improvisar.
+            8 objeciones con respuesta de neuroventas lista para copiar. Sin improvisar. Sin perder la venta.
           </p>
         </div>
 

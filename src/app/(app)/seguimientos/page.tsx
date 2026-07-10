@@ -98,7 +98,7 @@ export default function SeguimientosPage() {
           </h1>
         </div>
         <p className="text-gray-500 text-sm mt-1 ml-12">
-          Mensajes del sistema para los días 1, 3 y 7 después de enviar una propuesta.
+          Los mensajes de seguimiento días 1, 3 y 7 que CBC programó automáticamente. Cópialos y envíalos — el sistema ya hizo el trabajo.
         </p>
       </div>
 

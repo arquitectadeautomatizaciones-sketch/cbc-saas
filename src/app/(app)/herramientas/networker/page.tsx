@@ -187,7 +187,7 @@ export default function NetworkerPage() {
 
         <div style={{ marginBottom: 24 }}>
           <h1 style={{ ...JAKARTA, fontSize: 26, fontWeight: 700, color: VERDE, margin: '0 0 6px' }}>⚡ Networker Élite™</h1>
-          <p style={{ ...INTER, fontSize: 15, color: '#6b7280', margin: 0 }}>Convierte eventos en pipeline real.</p>
+          <p style={{ ...INTER, fontSize: 15, color: '#6b7280', margin: 0 }}>Tu sistema de campo para eventos. Califica prospectos en 2 minutos, captura sus datos con voz y guárdalos directo en tu pipeline.</p>
         </div>
 
         {/* Tabs */}

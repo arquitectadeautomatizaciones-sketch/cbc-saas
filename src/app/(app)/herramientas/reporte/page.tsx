@@ -107,7 +107,7 @@ export default function ReportePage() {
           </h1>
         </div>
         <p className="text-gray-500 text-sm mt-1 ml-12">
-          Genera en un toque un reporte de tu desempeño para compartir con tu director. Con tus datos reales.
+          Un toque. CBC analiza tu pipeline real y genera el reporte para tu jefe — con el tono correcto según cómo va tu mes.
         </p>
       </div>
 

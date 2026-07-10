@@ -196,7 +196,7 @@ export default function QRCaptura() {
           QR de Captura Inteligente™
         </h1>
         <p className="text-gray-500 text-sm mt-1">
-          Tu prospecto escanea, llena sus datos y llegan directo a tu pipeline.
+          Tu QR único. El prospecto escanea, llena sus datos y entran directo a tu pipeline — sin que escribas nada.
         </p>
       </div>
 
