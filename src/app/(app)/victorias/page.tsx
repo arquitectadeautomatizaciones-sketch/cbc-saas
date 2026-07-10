@@ -50,6 +50,23 @@ export default function VictoriasPage() {
 
   const totalValor = victorias.reduce((sum, v) => sum + (v.valor ?? 0), 0)
 
+  // Contadores del mes
+  const ahora = new Date()
+  const estesMes = victorias.filter((v) => {
+    const f = new Date(v.fecha)
+    return f.getFullYear() === ahora.getFullYear() && f.getMonth() === ahora.getMonth()
+  })
+  const ventasMes    = estesMes.filter((v) => v.tipo === 'venta_cerrada').length
+  const reunionesMes = estesMes.filter((v) => v.tipo === 'reunion_lograda').length
+  const objecionesMes = estesMes.filter((v) => v.tipo === 'objecion_superada').length
+  const totalMes = estesMes.length
+
+  const mensajeMot =
+    totalMes === 0 ? 'Hoy es el día 1. La primera victoria está más cerca de lo que crees.' :
+    totalMes <= 2  ? 'Ya estás en movimiento. Cada victoria registrada es prueba de que puedes.' :
+    totalMes <= 5  ? 'Buen mes. El vendedor que registra sus victorias, cierra más.' :
+                     'Esto es lo que se ve cuando un crack tiene sistema. Sigue.'
+
   return (
     <div className="max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-6">
@@ -67,6 +84,30 @@ export default function VictoriasPage() {
           <Plus size={16} /> Registrar victoria
         </button>
       </div>
+
+      {/* Contadores del mes */}
+      {!loading && (
+        <div className="mb-6">
+          <div className="flex gap-3 mb-3">
+            {[
+              { emoji: '💰', label: 'Ventas cerradas', count: ventasMes, bg: '#F0FDF4', border: '#86efac', color: '#16a34a' },
+              { emoji: '🤝', label: 'Reuniones logradas', count: reunionesMes, bg: '#EFF6FF', border: '#93c5fd', color: '#1d4ed8' },
+              { emoji: '💬', label: 'Objeciones superadas', count: objecionesMes, bg: '#FFF7ED', border: '#fed7aa', color: '#c2410c' },
+            ].map((b) => (
+              <div
+                key={b.label}
+                className="flex-1 rounded-2xl px-4 py-3 flex flex-col items-center justify-center gap-0.5"
+                style={{ background: b.bg, border: `1.5px solid ${b.border}` }}
+              >
+                <span className="text-xl">{b.emoji}</span>
+                <span className="text-2xl font-black" style={{ color: b.color }}>{b.count}</span>
+                <span className="text-xs text-center leading-tight" style={{ color: b.color, opacity: 0.75 }}>{b.label}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-sm text-center text-gray-500 italic">{mensajeMot}</p>
+        </div>
+      )}
 
       {loading ? (
         <div className="text-center py-20 text-gray-400">Cargando...</div>
