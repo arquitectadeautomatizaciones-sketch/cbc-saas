@@ -222,9 +222,12 @@ export default function DiagnosticoPage() {
       {/* Cinta de alerta */}
       <div>
         <div style={{ height: 28, backgroundImage: 'repeating-linear-gradient(135deg,#f5c400 0px,#f5c400 16px,#111 16px,#111 32px)' }} />
-        <div style={{ background: '#111', padding: '16px 24px', textAlign: 'center' }}>
-          <p style={{ margin: 0, fontSize: 'clamp(15px,2.2vw,20px)', fontWeight: 800, color: '#ef4444', lineHeight: 1.35, letterSpacing: '-0.01em' }}>
-            🚨 2 minutos. Te voy a decir la verdad de quién te roba tus comisiones — la que nadie más te ha dicho.
+        <div style={{ background: '#111', padding: '18px 24px', textAlign: 'center' }}>
+          <p style={{ margin: '0 0 4px', fontSize: 'clamp(20px,3.5vw,30px)', fontWeight: 900, color: 'white', letterSpacing: '0.06em', textTransform: 'uppercase', lineHeight: 1 }}>
+            ⚠ EN 2 MINUTOS
+          </p>
+          <p style={{ margin: 0, fontSize: 'clamp(13px,1.8vw,17px)', fontWeight: 700, color: '#ff2c2c', lineHeight: 1.4 }}>
+            vas a ver algo que duele: te están robando comisiones cada mes — y hasta ahora lo habías ignorado.
           </p>
         </div>
         <div style={{ height: 28, backgroundImage: 'repeating-linear-gradient(135deg,#f5c400 0px,#f5c400 16px,#111 16px,#111 32px)' }} />
