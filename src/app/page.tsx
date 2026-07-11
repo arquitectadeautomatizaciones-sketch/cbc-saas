@@ -511,7 +511,7 @@ export default function LandingPage() {
           <div>
             <p style={{ margin: '0 0 12px', fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', color: TEAL, textTransform: 'uppercase' }}>Por qué existe CBC™</p>
             <h2 style={{ margin: '0 0 20px', fontSize: 'clamp(20px,2.5vw,30px)', fontWeight: 900, color: VERDE, lineHeight: 1.25 }}>
-              "Cerré un trato de $12.000 USD… que ya debía haber cerrado tres semanas antes."
+              Por qué construí el sistema que ningún CRM me ofrecía
             </h2>
             <p style={{ margin: '0 0 14px', fontSize: 15, color: '#374151', lineHeight: 1.7 }}>
               Después de 10 años vendiendo en B2B en LATAM, entendí que el problema nunca era el producto ni el precio. Era el caos entre propuesta y firma.
