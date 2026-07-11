@@ -2,6 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 const PUBLIC_PATHS = [
+  '/',
   '/login',
   '/register',
   '/onboarding',
@@ -11,6 +12,8 @@ const PUBLIC_PATHS = [
   '/api/auth/register',
   '/api/stripe/webhook',
   '/api/captura',
+  '/api/leads',
+  '/api/testimonios',
 ]
 
 // Paths where we skip the onboarding check (APIs, special pages)
