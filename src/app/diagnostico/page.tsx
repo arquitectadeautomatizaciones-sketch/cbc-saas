@@ -221,13 +221,13 @@ export default function DiagnosticoPage() {
 
       {/* Cinta de alerta */}
       <div>
-        <div style={{ height: 22, backgroundImage: 'repeating-linear-gradient(135deg,#f5c400 0px,#f5c400 16px,#111 16px,#111 32px)' }} />
-        <div style={{ background: '#111', padding: '11px 24px', textAlign: 'center' }}>
-          <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: AMARILLO }}>
-            ⚡ En 3 minutos sabes exactamente cuánto dinero estás regalando cada mes
+        <div style={{ height: 28, backgroundImage: 'repeating-linear-gradient(135deg,#f5c400 0px,#f5c400 16px,#111 16px,#111 32px)' }} />
+        <div style={{ background: '#111', padding: '16px 24px', textAlign: 'center' }}>
+          <p style={{ margin: 0, fontSize: 'clamp(15px,2.2vw,20px)', fontWeight: 800, color: '#ef4444', lineHeight: 1.35, letterSpacing: '-0.01em' }}>
+            🚨 2 minutos. Te voy a decir la verdad de quién te roba tus comisiones — la que nadie más te ha dicho.
           </p>
         </div>
-        <div style={{ height: 22, backgroundImage: 'repeating-linear-gradient(135deg,#f5c400 0px,#f5c400 16px,#111 16px,#111 32px)' }} />
+        <div style={{ height: 28, backgroundImage: 'repeating-linear-gradient(135deg,#f5c400 0px,#f5c400 16px,#111 16px,#111 32px)' }} />
       </div>
 
       {/* Headline */}
@@ -244,13 +244,6 @@ export default function DiagnosticoPage() {
       {/* Contexto de la auditoría */}
       {fase === 'form' && (
         <div style={{ padding: '0 24px 28px', maxWidth: 560, margin: '0 auto' }}>
-          {/* Badge */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: `${TEAL}22`, border: `1px solid ${TEAL}55`, borderRadius: 99, padding: '7px 14px', marginBottom: 12 }}>
-            <span style={{ fontSize: 14 }}>⏱</span>
-            <span style={{ fontSize: 13, fontWeight: 700, color: TEAL, lineHeight: 1.45 }}>
-              2 minutos. Te voy a decir la verdad de quién te roba tus comisiones — la que nadie más te ha dicho.
-            </span>
-          </div>
           {/* Bloque de contexto */}
           <div style={{ background: 'rgba(78,205,196,0.08)', border: '1px solid rgba(78,205,196,0.28)', borderRadius: 16, padding: '24px' }}>
             <p style={{ margin: '0 0 16px', fontSize: 18, fontWeight: 800, color: 'white', lineHeight: 1.35 }}>
