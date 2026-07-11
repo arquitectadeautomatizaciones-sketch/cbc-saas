@@ -139,8 +139,9 @@ const COMPARATIVA = [
   { feature: 'Guión de llamada con contexto real del prospecto', cbc: true, excel: false, crm: false },
   { feature: 'Propuesta Express con neuroventas en 2 min', cbc: true, excel: false, crm: false },
   { feature: 'Perfil DISC del prospecto para cerrar mejor', cbc: true, excel: false, crm: false },
-  { feature: 'Reporte al jefe generado en un toque', cbc: true, excel: false, crm: '~' },
-  { feature: 'IA que conoce tu pipeline real', cbc: true, excel: false, crm: false },
+  { feature: 'Reporte al Jefe™ — listo en un toque', cbc: true, excel: false, crm: '~' },
+  { feature: 'IA en Acción — 8 momentos clave del vendedor', cbc: true, excel: false, crm: false },
+  { feature: 'IA que conoce tu pipeline real (Sofía)', cbc: true, excel: false, crm: false },
   { feature: 'Sin instalación en empresa ni aprobación de IT', cbc: true, excel: true, crm: false },
   { feature: 'Hecho para el vendedor individual', cbc: true, excel: true, crm: false },
 ]
@@ -376,6 +377,34 @@ export default function LandingPage() {
         }
       `}</style>
 
+      {/* ═══ SCHEMA.ORG JSON-LD ═══ */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          name: 'CBC™ — Cierre Bajo Control',
+          applicationCategory: 'BusinessApplication',
+          operatingSystem: 'Web',
+          offers: {
+            '@type': 'Offer',
+            price: '9.90',
+            priceCurrency: 'USD',
+            priceValidUntil: '2027-01-01',
+            availability: 'https://schema.org/InStock',
+            description: '7 días gratis, luego $9.90 USD/mes',
+          },
+          description: 'Copiloto de ventas B2B para vendedores individuales en LATAM. Prioriza prospectos con semáforo automático, genera mensajes de seguimiento, guiones de llamada, propuestas y Reporte al Jefe™ con IA.',
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '5',
+            ratingCount: '1',
+            bestRating: '5',
+          },
+          url: 'https://app.arquitectadeautomatizaciones.com',
+        }) }}
+      />
+
       {/* ═══ NAV ═══ */}
       <nav style={{
         position: 'sticky', top: 0, zIndex: 100,
@@ -470,7 +499,7 @@ export default function LandingPage() {
             <div style={{ width: 180, height: 180, borderRadius: '50%', overflow: 'hidden', margin: '0 auto 16px', border: `4px solid ${TEAL}`, boxShadow: `0 0 0 8px ${TEAL}20` }}>
               <img
                 src="https://arquitectadeautomatizaciones.com/wp-content/uploads/2025/04/diana-garcia-arquitecta-de-automatizaciones.jpg"
-                alt="Diana García"
+                alt="Diana García — fundadora de CBC™, vendedora B2B con 10 años de experiencia en LATAM"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 onError={e => { (e.target as HTMLImageElement).src = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%231A4A44'/><text x='100' y='115' text-anchor='middle' fill='white' font-size='72' font-family='sans-serif'>DG</text></svg>` }}
               />
@@ -656,7 +685,7 @@ export default function LandingPage() {
             </div>
             <p style={{ margin: '0 0 28px', fontSize: 15, color: '#6b7280' }}>Todo incluido. Sin niveles. Sin extra por herramientas.</p>
             <div style={{ textAlign: 'left', marginBottom: 28 }}>
-              {['Semáforo de prioridad automático', 'Seguimientos programados con IA', 'Guión de llamada personalizado', 'Propuesta Express con neuroventas', 'Perfil DISC del prospecto', 'Reporte al jefe en un toque', 'Sofía — tu asistente de ventas 24/7', 'Audios de reprogramación mental'].map((feat, i) => (
+              {['Semáforo de prioridad automático', 'Seguimientos programados con IA', 'Guión de llamada personalizado', 'Propuesta Express con neuroventas', 'Perfil DISC del prospecto', 'Reporte al Jefe™ — listo en un toque', 'IA en Acción — 8 momentos clave del vendedor', 'Sofía — tu asistente de ventas 24/7', 'Audios de reprogramación mental'].map((feat, i) => (
                 <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 10 }}>
                   <span style={{ color: TEAL, fontSize: 16 }}>✓</span>
                   <span style={{ fontSize: 14, color: '#374151' }}>{feat}</span>

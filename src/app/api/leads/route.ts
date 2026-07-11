@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { resend } from '@/lib/resend'
 
-const FROM_DIANA = 'Diana de CBC™ <hola@cierrebajocontrol.com>'
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://cierrebajocontrol.com'
+// Extract the email address from the env var (e.g. "CBC <hola@dominio.com>" → "hola@dominio.com")
+const _baseFrom = process.env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev'
+const _match = _baseFrom.match(/<(.+)>/)
+const _emailAddr = _match ? _match[1] : _baseFrom
+const FROM_DIANA = `Diana de CBC™ <${_emailAddr}>`
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://app.arquitectadeautomatizaciones.com'
 
 export async function POST(req: NextRequest) {
   const { email, score, sub_scores, cuello_de_botella, respuestas } = await req.json()

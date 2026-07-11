@@ -11,4 +11,4 @@ export const resend = {
   },
 }
 
-export const FROM_EMAIL = 'CBC <hola@cierrebajocontrol.com>'
+export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? 'CBC <onboarding@resend.dev>'
