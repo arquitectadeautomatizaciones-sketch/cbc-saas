@@ -243,17 +243,29 @@ export default function DiagnosticoPage() {
       {/* Contexto de la auditoría */}
       {fase === 'form' && (
         <div style={{ padding: '0 24px 28px', maxWidth: 560, margin: '0 auto' }}>
-          <div style={{ background: 'rgba(78,205,196,0.08)', border: '1px solid rgba(78,205,196,0.28)', borderRadius: 16, padding: '24px 24px' }}>
-            <p style={{ margin: '0 0 14px', fontSize: 16, fontWeight: 800, color: 'white', lineHeight: 1.35 }}>
-              Esta es una auditoría de tus propias comisiones — con tus números reales.
+          {/* Badge */}
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: `${TEAL}22`, border: `1px solid ${TEAL}55`, borderRadius: 99, padding: '7px 14px', marginBottom: 12 }}>
+            <span style={{ fontSize: 14 }}>⏱</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: TEAL, lineHeight: 1.45 }}>
+              2 minutos. Te voy a decir la verdad de quién te roba tus comisiones — la que nadie más te ha dicho.
+            </span>
+          </div>
+          {/* Bloque de contexto */}
+          <div style={{ background: 'rgba(78,205,196,0.08)', border: '1px solid rgba(78,205,196,0.28)', borderRadius: 16, padding: '24px' }}>
+            <p style={{ margin: '0 0 16px', fontSize: 18, fontWeight: 800, color: 'white', lineHeight: 1.35 }}>
+              Esta auditoría es sobre TU dinero — no sobre técnica de ventas.
             </p>
-            <p style={{ margin: '0 0 12px', fontSize: 14, color: 'rgba(255,255,255,0.78)', lineHeight: 1.75 }}>
-              Te esfuerzas por buscar prospectos y presentar propuestas, pero mucho de ese trabajo se va a la basura por no hacer un seguimiento oportuno. Y no es tu culpa: entre llenar CRM, actualizar el pipeline, tareas administrativas, informes y reportes a tu jefe, es muy fácil olvidar lo que realmente te da dinero.
+            <p style={{ margin: '0 0 14px', fontSize: 16, color: 'rgba(255,255,255,0.82)', lineHeight: 1.75 }}>
+              Buscas prospectos. Presentas propuestas. Trabajas duro.<br />
+              Y aun así, gran parte de esa comisión se te escapa — no por falta de talento, sino por seguimiento que nunca llegó a tiempo.
             </p>
-            <p style={{ margin: '0 0 12px', fontSize: 14, color: 'rgba(255,255,255,0.78)', lineHeight: 1.75 }}>
-              Por eso vamos a auditar tus propias comisiones, con tus números reales. No inventes nada, sé honesto — nadie más tiene acceso a estas respuestas. No te traiciones.
+            <p style={{ margin: '0 0 14px', fontSize: 16, color: 'rgba(255,255,255,0.82)', lineHeight: 1.75 }}>
+              No es tu culpa. Entre CRM, pipeline, reportes al jefe... lo que realmente te paga el mes se pierde de vista.
             </p>
-            <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: TEAL, lineHeight: 1.6 }}>
+            <p style={{ margin: '0 0 14px', fontSize: 16, color: 'rgba(255,255,255,0.82)', lineHeight: 1.75 }}>
+              Sé honesto en tus respuestas. Nadie más las va a ver.
+            </p>
+            <p style={{ margin: 0, fontSize: 16, fontWeight: 700, color: TEAL, lineHeight: 1.6 }}>
               No te voy a cobrar nada. Solo quiero abrirte los ojos.
             </p>
           </div>
