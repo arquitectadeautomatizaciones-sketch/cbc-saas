@@ -233,8 +233,7 @@ export default function DiagnosticoPage() {
       {/* Headline */}
       <div style={{ textAlign: 'center', padding: '36px 24px 28px', maxWidth: 680, margin: '0 auto' }}>
         <h1 style={{ margin: '0 0 14px', fontSize: 'clamp(26px,5.5vw,54px)', fontWeight: 900, color: 'white', lineHeight: 1.06, letterSpacing: '-0.025em' }}>
-          ¿Qué va a pasar en 90 días<br />
-          <span style={{ color: AMARILLO }}>si no cambias nada?</span>
+          Esta auditoría es sobre <span style={{ color: AMARILLO }}>TU dinero</span> —<br />no sobre técnica de ventas.
         </h1>
         <p style={{ margin: 0, fontSize: 'clamp(14px,1.8vw,17px)', color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, maxWidth: 480, marginLeft: 'auto', marginRight: 'auto' }}>
           Responde con lo que es real, no con lo que quisieras que fuera. Nadie más tiene acceso a estas respuestas. No te traiciones.
