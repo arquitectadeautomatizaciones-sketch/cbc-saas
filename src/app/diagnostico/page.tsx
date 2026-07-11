@@ -164,10 +164,7 @@ export default function DiagnosticoPage() {
   const progreso = pasoForm + 1
   const progressBar = (
     <div style={{ marginBottom: 24 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-        <span style={{ fontSize: 12, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-          Pregunta {progreso} de 6
-        </span>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: 8 }}>
         <span style={{ fontSize: 12, fontWeight: 800, color: TEAL }}>{Math.round((progreso / 6) * 100)}%</span>
       </div>
       <div style={{ background: '#e5e7eb', borderRadius: 100, height: 5 }}>
@@ -275,8 +272,8 @@ export default function DiagnosticoPage() {
           {pasoForm === 0 && card(
             <>
               {progressBar}
-              <p style={{ margin: '0 0 6px', fontSize: 19, fontWeight: 800, color: VERDE, lineHeight: 1.25 }}>¿Cómo te llamas?</p>
-              <p style={{ margin: '0 0 16px', fontSize: 14, color: '#6b7280' }}>Usamos tu nombre para personalizar cada parte de tu diagnóstico.</p>
+              <p style={{ margin: '0 0 6px', fontSize: 19, fontWeight: 800, color: VERDE, lineHeight: 1.25 }}>¿Listo para comenzar? 👋 Empecemos por tu nombre.</p>
+              <p style={{ margin: '0 0 16px', fontSize: 14, color: '#6b7280' }}>Lo usamos para personalizar cada parte de tu diagnóstico — nada más.</p>
               <input
                 type="text"
                 placeholder="Tu nombre o como te dicen en el trabajo"
