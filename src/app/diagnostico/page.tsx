@@ -247,16 +247,13 @@ export default function DiagnosticoPage() {
           <div style={{ background: 'rgba(78,205,196,0.08)', border: '1px solid rgba(78,205,196,0.28)', borderRadius: 16, padding: '24px' }}>
             <p style={{ margin: '0 0 14px', fontSize: 16, color: 'rgba(255,255,255,0.82)', lineHeight: 1.75 }}>
               Buscas prospectos. Presentas propuestas. Trabajas duro.<br />
-              Y aun así, gran parte de esa comisión se te escapa — no por falta de talento, sino por seguimiento que nunca llegó a tiempo.
+              Y aun así, una parte de esa comisión se evapora cada mes — no por falta de talento, sino por seguimiento que llegó tarde o no llegó.
             </p>
             <p style={{ margin: '0 0 14px', fontSize: 16, color: 'rgba(255,255,255,0.82)', lineHeight: 1.75 }}>
-              No es tu culpa. Entre CRM, pipeline, reportes al jefe... lo que realmente te paga el mes se pierde de vista.
-            </p>
-            <p style={{ margin: '0 0 14px', fontSize: 16, color: 'rgba(255,255,255,0.82)', lineHeight: 1.75 }}>
-              Sé honesto en tus respuestas. Nadie más las va a ver.
+              Este diagnóstico te muestra exactamente dónde se está yendo tu dinero.
             </p>
             <p style={{ margin: 0, fontSize: 16, fontWeight: 700, color: TEAL, lineHeight: 1.6 }}>
-              No te voy a cobrar nada. Solo quiero abrirte los ojos.
+              Solo tú ves esto. Sé honesto — el resultado depende de eso.
             </p>
           </div>
         </div>
