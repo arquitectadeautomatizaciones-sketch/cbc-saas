@@ -9,6 +9,7 @@ const PUBLIC_PATHS = [
   '/subscribe',
   '/suspended',
   '/captura',
+  '/diagnostico',
   '/api/auth/register',
   '/api/stripe/webhook',
   '/api/captura',
