@@ -587,13 +587,38 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ═══ CINTA DE ALERTA ═══ */}
+      <div style={{ position: 'relative', overflow: 'hidden' }}>
+        {/* Rayas diagonales amarillo/negro */}
+        <div style={{
+          height: 28,
+          backgroundImage: 'repeating-linear-gradient(135deg, #f5c400 0px, #f5c400 20px, #111111 20px, #111111 40px)',
+        }} />
+        {/* Texto de urgencia */}
+        <div style={{ background: '#111111', padding: '12px 24px', textAlign: 'center' }}>
+          <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: '#f5c400', letterSpacing: '0.01em' }}>
+            ⚡ En 3 minutos sabes exactamente cuántas comisiones estás perdiendo cada mes
+          </p>
+        </div>
+        {/* Segunda tira de rayas */}
+        <div style={{
+          height: 28,
+          backgroundImage: 'repeating-linear-gradient(135deg, #f5c400 0px, #f5c400 20px, #111111 20px, #111111 40px)',
+        }} />
+      </div>
+
       {/* ═══ DIAGNÓSTICO ═══ */}
-      <section id="diagnostico" style={{ background: BEIGE, padding: '80px 24px' }}>
+      <section id="diagnostico" style={{ background: BEIGE, padding: '64px 24px 80px' }}>
         <div style={{ maxWidth: 720, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', color: TEAL, textTransform: 'uppercase' }}>Diagnóstico gratuito</p>
-            <h2 style={{ margin: '0 0 14px', fontSize: 'clamp(26px,4vw,40px)', fontWeight: 900, color: VERDE, lineHeight: 1.2 }}>¿Cuánto te está costando no tener sistema?</h2>
-            <p style={{ margin: 0, fontSize: 17, color: '#6b7280', lineHeight: 1.6 }}>5 preguntas. 2 minutos. Resultado inmediato con las 3 acciones concretas para esta semana.</p>
+            <h2 style={{ margin: '0 0 16px', fontSize: 'clamp(26px,4vw,42px)', fontWeight: 900, color: VERDE, lineHeight: 1.15 }}>
+              ¿Qué va a pasar en 90 días<br />si no cambias nada?
+            </h2>
+            <p style={{ margin: '0 0 10px', fontSize: 17, color: '#374151', lineHeight: 1.6, maxWidth: 520, marginLeft: 'auto', marginRight: 'auto', fontWeight: 500 }}>
+              Responde con lo que es real, no con lo que quisieras que fuera.<br />
+              <span style={{ color: '#6b7280', fontSize: 15 }}>Nadie más tiene acceso a estas respuestas. No te traiciones.</span>
+            </p>
           </div>
           <DiagnosticoInteractivo />
         </div>

@@ -10,16 +10,18 @@ const FROM_DIANA = `Diana de CBC™ <${_emailAddr}>`
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://app.arquitectadeautomatizaciones.com'
 
 export async function POST(req: NextRequest) {
-  const { email, score, sub_scores, cuello_de_botella, respuestas } = await req.json()
+  const { email, nombre, score, sub_scores, cuello_de_botella, respuestas } = await req.json()
 
   if (!email || !email.includes('@')) {
     return NextResponse.json({ error: 'Email inválido' }, { status: 400 })
   }
 
+  const nombreGuardado = (typeof nombre === 'string' && nombre.trim()) ? nombre.trim() : null
+
   const { error } = await supabaseAdmin
     .from('leads_landing')
     .upsert(
-      { email, score, sub_scores, cuello_de_botella, respuestas },
+      { email, nombre: nombreGuardado, score, sub_scores, cuello_de_botella, respuestas },
       { onConflict: 'email' },
     )
 
@@ -33,15 +35,16 @@ export async function POST(req: NextRequest) {
       from: FROM_DIANA,
       to: email,
       subject: 'hola, esto es lo que encontramos en tu pipeline ✨',
-      html: emailDiagnostico(APP_URL),
+      html: emailDiagnostico(APP_URL, nombreGuardado),
     })
     .catch((err: unknown) => console.error('[email/diagnostico]', err))
 
   return NextResponse.json({ ok: true })
 }
 
-function emailDiagnostico(appUrl: string): string {
+function emailDiagnostico(appUrl: string, nombre: string | null): string {
   const registerUrl = `${appUrl}/register`
+  const saludo = nombre ? `Hola ${nombre},` : 'Hola,'
 
   return `<!DOCTYPE html>
 <html lang="es">
@@ -68,7 +71,7 @@ function emailDiagnostico(appUrl: string): string {
           <td style="padding:36px 32px 28px">
 
             <p style="margin:0 0 20px;font-size:17px;color:#111827;line-height:1.65">
-              Hola,
+              ${saludo}
             </p>
 
             <p style="margin:0 0 20px;font-size:16px;color:#374151;line-height:1.75">
