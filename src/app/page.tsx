@@ -172,6 +172,181 @@ const FAQ = [
   },
 ]
 
+// ── Calculadora ROI ──────────────────────────────────────
+function CalculadoraROI() {
+  const [prospectos, setProspectos] = useState(2)
+  const [comision, setComision] = useState(500)
+  const perdida = prospectos * comision
+
+  const fmt = (n: number) =>
+    '$' + n.toLocaleString('en-US', { maximumFractionDigits: 0 })
+
+  return (
+    <section style={{ background: VERDE, padding: '80px 24px' }}>
+      <div style={{ maxWidth: 680, margin: '0 auto' }}>
+        {/* Headline */}
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', color: TEAL, textTransform: 'uppercase' }}>
+            ¿Vale la pena?
+          </p>
+          <h2 style={{ margin: 0, fontSize: 'clamp(26px,4vw,40px)', fontWeight: 900, color: 'white', lineHeight: 1.2 }}>
+            CBC™ se paga solo<br />con una sola venta.
+          </h2>
+        </div>
+
+        {/* Calculator card */}
+        <div style={{
+          background: 'rgba(255,255,255,0.06)',
+          border: '1px solid rgba(255,255,255,0.12)',
+          borderRadius: 24,
+          padding: '40px 36px',
+        }}>
+          {/* Field 1 */}
+          <div style={{ marginBottom: 32 }}>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 12 }}>
+              Prospectos perdidos al mes
+            </label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <input
+                type="range"
+                min={1}
+                max={20}
+                step={1}
+                value={prospectos}
+                onChange={e => setProspectos(Number(e.target.value))}
+                style={{ flex: 1, accentColor: TEAL, cursor: 'pointer', height: 6 }}
+              />
+              <div style={{
+                background: 'rgba(255,255,255,0.1)',
+                border: '2px solid rgba(78,205,196,0.4)',
+                borderRadius: 10,
+                padding: '8px 16px',
+                minWidth: 64,
+                textAlign: 'center',
+              }}>
+                <input
+                  type="number"
+                  min={1}
+                  max={99}
+                  value={prospectos}
+                  onChange={e => setProspectos(Math.max(1, Math.min(99, Number(e.target.value) || 1)))}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: TEAL,
+                    fontWeight: 900,
+                    fontSize: 22,
+                    width: 48,
+                    textAlign: 'center',
+                    outline: 'none',
+                    MozAppearance: 'textfield' as React.CSSProperties['MozAppearance'],
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* × */}
+          <div style={{ textAlign: 'center', fontSize: 28, color: 'rgba(255,255,255,0.3)', marginBottom: 32, fontWeight: 900 }}>
+            ×
+          </div>
+
+          {/* Field 2 */}
+          <div style={{ marginBottom: 32 }}>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 12 }}>
+              Comisión promedio por venta (USD)
+            </label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <input
+                type="range"
+                min={100}
+                max={10000}
+                step={100}
+                value={comision}
+                onChange={e => setComision(Number(e.target.value))}
+                style={{ flex: 1, accentColor: TEAL, cursor: 'pointer', height: 6 }}
+              />
+              <div style={{
+                background: 'rgba(255,255,255,0.1)',
+                border: '2px solid rgba(78,205,196,0.4)',
+                borderRadius: 10,
+                padding: '8px 12px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 4,
+              }}>
+                <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, fontWeight: 700 }}>$</span>
+                <input
+                  type="number"
+                  min={1}
+                  max={99999}
+                  value={comision}
+                  onChange={e => setComision(Math.max(1, Math.min(99999, Number(e.target.value) || 1)))}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: TEAL,
+                    fontWeight: 900,
+                    fontSize: 20,
+                    width: 72,
+                    textAlign: 'center',
+                    outline: 'none',
+                    MozAppearance: 'textfield' as React.CSSProperties['MozAppearance'],
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* = divider */}
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginBottom: 28 }} />
+
+          {/* Result */}
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+              Estás dejando en la mesa
+            </p>
+            <div style={{
+              fontSize: 'clamp(44px, 8vw, 72px)',
+              fontWeight: 900,
+              color: TEAL,
+              lineHeight: 1,
+              letterSpacing: '-0.03em',
+              marginBottom: 8,
+              transition: 'all 0.15s ease',
+            }}>
+              {fmt(perdida)}
+            </div>
+            <p style={{ margin: 0, fontSize: 16, color: 'rgba(255,255,255,0.6)' }}>
+              perdidos cada mes por prospectos que se enfrían.
+            </p>
+          </div>
+        </div>
+
+        {/* Fixed CBC price line */}
+        <div style={{
+          marginTop: 20,
+          textAlign: 'center',
+          padding: '16px 24px',
+          background: 'rgba(78,205,196,0.1)',
+          border: '1px solid rgba(78,205,196,0.25)',
+          borderRadius: 14,
+        }}>
+          <p style={{ margin: 0, fontSize: 15, color: 'rgba(255,255,255,0.85)', fontWeight: 600, lineHeight: 1.5 }}>
+            💡 <strong style={{ color: TEAL }}>CBC™ cuesta $9.90/mes</strong> — menos de lo que pierdes en una sola venta que se enfría.
+          </p>
+        </div>
+      </div>
+
+      <style>{`
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+      `}</style>
+    </section>
+  )
+}
+
 // ── Page ─────────────────────────────────────────────────
 export default function LandingPage() {
   const [testimonioAbierto, setTestimonioAbierto] = useState(false)
@@ -464,6 +639,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* ═══ CALCULADORA ROI ═══ */}
+      <CalculadoraROI />
 
       {/* ═══ PRECIO ═══ */}
       <section style={{ background: BEIGE, padding: '80px 24px' }}>
