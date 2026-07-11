@@ -4,12 +4,13 @@ import { useState, useEffect, useRef } from 'react'
 import {
   type Selecciones,
   calcular, calcular90dias,
-  Q2_OPTS, Q3_OPTS, Q4_OPTS, Q5_OPTS,
+  SUENO_DATA,
 } from '@/lib/diagnostico'
 
 const VERDE = '#1A4A44'
 const TEAL = '#4ECDC4'
 const AMARILLO = '#f5c400'
+const ROJO = '#ef4444'
 
 // ── Gauge ─────────────────────────────────────────────────
 function GaugeSVG({ score, color }: { score: number; color: string }) {
@@ -62,27 +63,38 @@ function SubBar({ label, score, delay = 0 }: { label: string; score: number; del
   )
 }
 
-// ── Opcion ────────────────────────────────────────────────
-function Opcion({ label, selected, onClick }: { label: string; selected: boolean; onClick: () => void }) {
+// ── TogBtn (binary choice) ────────────────────────────────
+function TogBtn({ label, selected, variant, onClick }: { label: string; selected: boolean; variant: 'yes' | 'no'; onClick: () => void }) {
+  const selColor = variant === 'yes' ? '#10b981' : ROJO
+  const selBg    = variant === 'yes' ? '#f0fdf4' : '#fef2f2'
   return (
     <button type="button" onClick={onClick} style={{
-      display: 'block', width: '100%', textAlign: 'left', padding: '14px 48px 14px 16px',
-      borderRadius: 10,
-      border: selected ? `2px solid ${TEAL}` : '2px solid #e5e7eb',
-      background: selected ? `${TEAL}18` : 'white',
-      color: selected ? VERDE : '#374151',
-      fontWeight: selected ? 700 : 500, fontSize: 15,
-      cursor: 'pointer', marginBottom: 8, transition: 'all 0.15s', position: 'relative',
+      flex: 1, padding: '16px 12px', borderRadius: 12,
+      border: selected ? `2px solid ${selColor}` : '2px solid #e5e7eb',
+      background: selected ? selBg : 'white',
+      color: selected ? selColor : '#6b7280',
+      fontWeight: selected ? 700 : 500, fontSize: 14,
+      cursor: 'pointer', transition: 'all 0.15s', lineHeight: 1.4, textAlign: 'center',
     }}>
-      <span style={{
-        position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)',
-        width: 20, height: 20, borderRadius: '50%',
-        border: selected ? 'none' : '2px solid #d1d5db',
-        background: selected ? TEAL : 'transparent',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 12, color: 'white', flexShrink: 0,
-      }}>{selected ? '✓' : ''}</span>
       {label}
+    </button>
+  )
+}
+
+// ── DreamBtn ──────────────────────────────────────────────
+function DreamBtn({ icon, label, selected, onClick }: { icon: string; label: string; selected: boolean; onClick: () => void }) {
+  return (
+    <button type="button" onClick={onClick} style={{
+      display: 'flex', alignItems: 'center', gap: 10, padding: '14px',
+      borderRadius: 12,
+      border: selected ? `2px solid ${AMARILLO}` : '2px solid #e5e7eb',
+      background: selected ? '#fffbeb' : 'white',
+      color: selected ? '#92400e' : '#6b7280',
+      fontWeight: selected ? 700 : 500, fontSize: 14,
+      cursor: 'pointer', transition: 'all 0.15s', textAlign: 'left',
+    }}>
+      <span style={{ fontSize: 20, flexShrink: 0 }}>{icon}</span>
+      <span>{label}</span>
     </button>
   )
 }
@@ -94,24 +106,24 @@ export default function DiagnosticoPage() {
   const [fase, setFase] = useState<Fase>('form')
   const [pasoForm, setPasoForm] = useState(0)   // 0 = nombre, 1-5 = preguntas
   const [nombre, setNombre] = useState('')
-  const [sel, setSel] = useState<Selecciones>({ q1val: null, q1label: '', q2: null, q2lost: 0, q3: null, q4: null, q5: null })
+  const [sel, setSel] = useState<Selecciones>({ v1: null, v2: null, q3: null, q4: null, sueno: null })
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [guardando, setGuardando] = useState(false)
   const [msgIdx, setMsgIdx] = useState(0)
-  const cardRef    = useRef<HTMLDivElement>(null)
-  const resultRef  = useRef<HTMLDivElement>(null)
+  const cardRef   = useRef<HTMLDivElement>(null)
+  const resultRef = useRef<HTMLDivElement>(null)
 
   const nombreTrimmed = nombre.trim()
 
   // ── ¿Puede avanzar? ───────────────────────────────────
   function puedeAvanzar() {
     if (pasoForm === 0) return nombreTrimmed.length >= 2
-    if (pasoForm === 1) return sel.q1val !== null && sel.q1val > 0
-    if (pasoForm === 2) return sel.q2   !== null
-    if (pasoForm === 3) return sel.q3   !== null
-    if (pasoForm === 4) return sel.q4   !== null
-    if (pasoForm === 5) return sel.q5   !== null
+    if (pasoForm === 1) return sel.v1 !== null && sel.v1 > 0
+    if (pasoForm === 2) return sel.v2 !== null
+    if (pasoForm === 3) return sel.q3 !== null
+    if (pasoForm === 4) return sel.q4 !== null
+    if (pasoForm === 5) return sel.sueno !== null
     return false
   }
 
@@ -123,7 +135,6 @@ export default function DiagnosticoPage() {
       setTimeout(() => cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60)
       return
     }
-    // Último paso → iniciar diagnóstico
     setFase('cargando')
     let i = 0
     const iv = setInterval(() => { i++; setMsgIdx(Math.min(i, 3)) }, 900)
@@ -147,7 +158,7 @@ export default function DiagnosticoPage() {
         email,
         nombre: nombreTrimmed || null,
         score: r.total,
-        sub_scores: r.sub,
+        perdida_mensual: r.perdidaMensual,
         cuello_de_botella: r.cuello,
         respuestas: sel,
       }),
@@ -159,12 +170,10 @@ export default function DiagnosticoPage() {
   const r = (fase === 'resultado' || fase === 'desbloqueado') ? calcular(sel) : null
   const bgImg = 'url(/bg-diagnostico.jpg)'
 
-  // ── Barra de progreso ─────────────────────────────────
-  // pasoForm 0-5 → "Pregunta 1 de 6" … "Pregunta 6 de 6"
   const progreso = pasoForm + 1
   const progressBar = (
     <div style={{ marginBottom: 24 }}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: 8 }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
         <span style={{ fontSize: 12, fontWeight: 800, color: TEAL }}>{Math.round((progreso / 6) * 100)}%</span>
       </div>
       <div style={{ background: '#e5e7eb', borderRadius: 100, height: 5 }}>
@@ -193,13 +202,14 @@ export default function DiagnosticoPage() {
     }}>{label}</button>
   )
 
-  // ── MENSAJES SPINNER ──────────────────────────────────
   const MSGS = [
     `Analizando las respuestas de ${nombreTrimmed}…`,
     'Calculando pérdida mensual estimada…',
     'Identificando tu cuello de botella principal…',
     'Preparando tu diagnóstico personalizado…',
   ]
+
+  const fmt = (n: number) => '$' + n.toLocaleString('en-US')
 
   return (
     <div style={{ minHeight: '100vh', fontFamily: 'system-ui,-apple-system,sans-serif', backgroundImage: `linear-gradient(rgba(7,26,23,0.75),rgba(7,26,23,0.82)), ${bgImg}`, backgroundSize: 'cover', backgroundPosition: 'center top', backgroundAttachment: 'fixed' }}>
@@ -209,6 +219,9 @@ export default function DiagnosticoPage() {
         @keyframes spin  { to { transform: rotate(360deg); } }
         @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.35; } }
         @keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+        input[type=number] { -moz-appearance: textfield; }
       `}</style>
 
       {/* Logo */}
@@ -236,14 +249,13 @@ export default function DiagnosticoPage() {
           Esta auditoría es sobre <span style={{ color: AMARILLO }}>TU dinero</span> —<br />no sobre técnica de ventas.
         </h1>
         <p style={{ margin: 0, fontSize: 'clamp(14px,1.8vw,17px)', color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, maxWidth: 480, marginLeft: 'auto', marginRight: 'auto' }}>
-          Responde con lo que es real, no con lo que quisieras que fuera. Nadie más tiene acceso a estas respuestas. No te traiciones.
+          Responde con lo que es real, no con lo que quisieras que fuera. Nadie más tiene acceso a estas respuestas.
         </p>
       </div>
 
-      {/* Contexto de la auditoría */}
+      {/* Bloque de contexto */}
       {fase === 'form' && (
         <div style={{ padding: '0 24px 28px', maxWidth: 560, margin: '0 auto' }}>
-          {/* Bloque de contexto */}
           <div style={{ background: 'rgba(78,205,196,0.08)', border: '1px solid rgba(78,205,196,0.28)', borderRadius: 16, padding: '24px' }}>
             <p style={{ margin: '0 0 14px', fontSize: 16, color: 'rgba(255,255,255,0.82)', lineHeight: 1.75 }}>
               Buscas prospectos. Presentas propuestas. Trabajas duro.<br />
@@ -265,7 +277,7 @@ export default function DiagnosticoPage() {
       {fase === 'form' && (
         <div style={{ padding: '0 16px 64px' }}>
 
-          {/* Pregunta 0 — Nombre */}
+          {/* Paso 0 — Nombre */}
           {pasoForm === 0 && card(
             <>
               {progressBar}
@@ -288,22 +300,20 @@ export default function DiagnosticoPage() {
             </>
           )}
 
-          {/* Preguntas 1-5 */}
+          {/* Pasos 1-5 */}
           {pasoForm >= 1 && card(
             <>
               {progressBar}
 
+              {/* Q1 — ¿Cuánto vale cada venta? */}
               {pasoForm === 1 && <>
                 <p style={{ margin: '0 0 4px', fontSize: 19, fontWeight: 800, color: VERDE, lineHeight: 1.3 }}>¿Cuánto vale cada venta que cierras?</p>
                 <p style={{ margin: '0 0 20px', fontSize: 13, color: '#6b7280', lineHeight: 1.6 }}>¿Cuánto dinero entra a tu bolsillo cuando cierras una venta? Pon el número real — comisión, margen, lo que sea que cobras tú.</p>
-                <div style={{ display: 'flex', alignItems: 'center', border: `2px solid ${(sel.q1val ?? 0) > 0 ? TEAL : '#e5e7eb'}`, borderRadius: 12, overflow: 'hidden', transition: 'border-color 0.2s' }}>
+                <div style={{ display: 'flex', alignItems: 'center', border: `2px solid ${(sel.v1 ?? 0) > 0 ? TEAL : '#e5e7eb'}`, borderRadius: 12, overflow: 'hidden', transition: 'border-color 0.2s' }}>
                   <span style={{ padding: '14px 14px 14px 16px', fontSize: 22, fontWeight: 700, color: '#9ca3af', background: '#f9fafb', borderRight: '1px solid #e5e7eb' }}>$</span>
                   <input
-                    type="number"
-                    min={0}
-                    placeholder="0"
-                    value={sel.q1val ?? ''}
-                    onChange={e => { const v = Number(e.target.value); setSel(s => ({ ...s, q1val: v > 0 ? v : null, q1label: v > 0 ? String(v) : '' })) }}
+                    type="number" min={0} placeholder="0" value={sel.v1 ?? ''}
+                    onChange={e => { const v = Number(e.target.value); setSel(s => ({ ...s, v1: v > 0 ? v : null })) }}
                     onKeyDown={e => e.key === 'Enter' && avanzar()}
                     autoFocus
                     style={{ flex: 1, padding: '14px 16px', fontSize: 24, fontWeight: 700, color: VERDE, border: 'none', outline: 'none', fontFamily: 'inherit', background: 'white' }}
@@ -313,31 +323,79 @@ export default function DiagnosticoPage() {
                 <p style={{ margin: '8px 0 0', fontSize: 12, color: '#9ca3af' }}>Escribe el número exacto — solo tú lo ves.</p>
               </>}
 
+              {/* Q2 — Prospectos >7 días sin seguimiento */}
               {pasoForm === 2 && <>
-                <p style={{ margin: '0 0 4px', fontSize: 19, fontWeight: 800, color: VERDE, lineHeight: 1.3 }}>¿Cuántos prospectos pierdes al mes por no hacer seguimiento a tiempo?</p>
-                <p style={{ margin: '0 0 16px', fontSize: 13, color: '#6b7280' }}>Prospectos que tuvieron interés real pero se enfriaron.</p>
-                {Q2_OPTS.map(o => <Opcion key={o.pts} label={o.label} selected={sel.q2 === o.pts} onClick={() => setSel(s => ({ ...s, q2: o.pts, q2lost: o.lost }))} />)}
+                <p style={{ margin: '0 0 4px', fontSize: 19, fontWeight: 800, color: VERDE, lineHeight: 1.3 }}>¿Cuántos prospectos llevan más de 7 días sin seguimiento?</p>
+                <p style={{ margin: '0 0 20px', fontSize: 13, color: '#6b7280', lineHeight: 1.6 }}>Los que están en tu lista esperando. Ahora mismo. Sé honesto.</p>
+                <div style={{ display: 'flex', alignItems: 'center', border: `2px solid ${sel.v2 !== null ? TEAL : '#e5e7eb'}`, borderRadius: 12, overflow: 'hidden', transition: 'border-color 0.2s' }}>
+                  <span style={{ padding: '14px 14px 14px 16px', fontSize: 18, fontWeight: 700, color: '#9ca3af', background: '#f9fafb', borderRight: '1px solid #e5e7eb' }}>#</span>
+                  <input
+                    type="number" min={0} placeholder="0" value={sel.v2 ?? ''}
+                    onChange={e => { const v = Number(e.target.value); setSel(s => ({ ...s, v2: e.target.value === '' ? null : v >= 0 ? v : 0 })) }}
+                    onKeyDown={e => e.key === 'Enter' && avanzar()}
+                    autoFocus
+                    style={{ flex: 1, padding: '14px 16px', fontSize: 28, fontWeight: 700, color: VERDE, border: 'none', outline: 'none', fontFamily: 'inherit', background: 'white' }}
+                  />
+                  <span style={{ padding: '14px 16px 14px 0', fontSize: 13, fontWeight: 600, color: '#9ca3af' }}>prospectos</span>
+                </div>
+                <p style={{ margin: '8px 0 0', fontSize: 12, color: '#9ca3af' }}>Si no recuerdas exactamente, pon el número más honesto que puedas.</p>
               </>}
 
+              {/* Q3 — Protocolo para "lo pienso" */}
               {pasoForm === 3 && <>
-                <p style={{ margin: '0 0 4px', fontSize: 19, fontWeight: 800, color: VERDE, lineHeight: 1.3 }}>¿Tienes un sistema de seguimiento activo?</p>
-                <p style={{ margin: '0 0 16px', fontSize: 13, color: '#6b7280' }}>Algo que uses consistentemente, no "cuando me acuerdo".</p>
-                {Q3_OPTS.map(o => <Opcion key={o.pts} label={o.label} selected={sel.q3 === o.pts} onClick={() => setSel(s => ({ ...s, q3: o.pts }))} />)}
+                <p style={{ margin: '0 0 4px', fontSize: 19, fontWeight: 800, color: VERDE, lineHeight: 1.3 }}>Cuando un cliente dice "lo pienso" — ¿qué haces?</p>
+                <p style={{ margin: '0 0 20px', fontSize: 13, color: '#6b7280', lineHeight: 1.6 }}>Nadie te mira. Di la verdad.</p>
+                <div style={{ display: 'flex', gap: 10 }}>
+                  <TogBtn
+                    label="Tengo un protocolo claro y lo ejecuto siempre"
+                    selected={sel.q3 === true}
+                    variant="yes"
+                    onClick={() => setSel(s => ({ ...s, q3: true }))}
+                  />
+                  <TogBtn
+                    label="Improviso y espero que me llamen"
+                    selected={sel.q3 === false}
+                    variant="no"
+                    onClick={() => setSel(s => ({ ...s, q3: false }))}
+                  />
+                </div>
               </>}
 
+              {/* Q4 — Tasa de cierre */}
               {pasoForm === 4 && <>
-                <p style={{ margin: '0 0 4px', fontSize: 19, fontWeight: 800, color: VERDE, lineHeight: 1.3 }}>¿Sabes cuál es tu tasa de cierre actual?</p>
-                <p style={{ margin: '0 0 16px', fontSize: 13, color: '#6b7280' }}>El % de prospectos que se convierten en clientes.</p>
-                {Q4_OPTS.map(o => <Opcion key={o.pts} label={o.label} selected={sel.q4 === o.pts} onClick={() => setSel(s => ({ ...s, q4: o.pts }))} />)}
+                <p style={{ margin: '0 0 4px', fontSize: 19, fontWeight: 800, color: VERDE, lineHeight: 1.3 }}>¿Sabes exactamente cuál es tu tasa de cierre?</p>
+                <p style={{ margin: '0 0 20px', fontSize: 13, color: '#6b7280', lineHeight: 1.6 }}>No aproximada. El número real: de cada 10 prospectos, ¿cuántos cierras?</p>
+                <div style={{ display: 'flex', gap: 10 }}>
+                  <TogBtn
+                    label="Sí, lo tengo medido y calculado"
+                    selected={sel.q4 === true}
+                    variant="yes"
+                    onClick={() => setSel(s => ({ ...s, q4: true }))}
+                  />
+                  <TogBtn
+                    label="No, nunca lo he calculado"
+                    selected={sel.q4 === false}
+                    variant="no"
+                    onClick={() => setSel(s => ({ ...s, q4: false }))}
+                  />
+                </div>
               </>}
 
+              {/* Q5 — Sueño */}
               {pasoForm === 5 && <>
-                <p style={{ margin: '0 0 4px', fontSize: 19, fontWeight: 800, color: VERDE, lineHeight: 1.3 }}>¿Cuánto tardas en preparar un mensaje de seguimiento?</p>
-                <p style={{ margin: '0 0 16px', fontSize: 13, color: '#6b7280' }}>Desde que decides escribir hasta que lo envías.</p>
-                {Q5_OPTS.map(o => <Opcion key={o.pts} label={o.label} selected={sel.q5 === o.pts} onClick={() => setSel(s => ({ ...s, q5: o.pts }))} />)}
+                <p style={{ margin: '0 0 4px', fontSize: 19, fontWeight: 800, color: VERDE, lineHeight: 1.3 }}>¿Qué sueño lleva más tiempo esperando?</p>
+                <p style={{ margin: '0 0 20px', fontSize: 13, color: '#6b7280', lineHeight: 1.6 }}>El que piensas cuando dices "cuando me vaya mejor..."</p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                  <DreamBtn icon="🏠" label="La casa o el arreglo prometido" selected={sel.sueno === 'casa'} onClick={() => setSel(s => ({ ...s, sueno: 'casa' }))} />
+                  <DreamBtn icon="✈️" label="Las vacaciones postergadas" selected={sel.sueno === 'viaje'} onClick={() => setSel(s => ({ ...s, sueno: 'viaje' }))} />
+                  <DreamBtn icon="🎓" label="Los estudios tuyos o de tus hijos" selected={sel.sueno === 'estudios'} onClick={() => setSel(s => ({ ...s, sueno: 'estudios' }))} />
+                  <DreamBtn icon="💳" label="La deuda que no te deja dormir" selected={sel.sueno === 'deuda'} onClick={() => setSel(s => ({ ...s, sueno: 'deuda' }))} />
+                  <DreamBtn icon="🚗" label="El carro que prometiste cambiar" selected={sel.sueno === 'carro'} onClick={() => setSel(s => ({ ...s, sueno: 'carro' }))} />
+                  <DreamBtn icon="⏰" label="Tiempo libre sin culpa ni estrés" selected={sel.sueno === 'libertad'} onClick={() => setSel(s => ({ ...s, sueno: 'libertad' }))} />
+                </div>
               </>}
 
-              {nextBtn(pasoForm < 5 ? 'Siguiente →' : `Ver mi diagnóstico →`)}
+              {nextBtn(pasoForm < 5 ? 'Siguiente →' : 'Ver mi diagnóstico →')}
             </>
           )}
         </div>
@@ -357,7 +415,7 @@ export default function DiagnosticoPage() {
               {MSGS[msgIdx]}
             </p>
             <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.25)' }}>
-              Estamos procesando tus respuestas reales…<br />Esto puede tardar unos segundos. No cierres esta ventana.
+              Procesando tus respuestas reales… No cierres esta ventana.
             </p>
           </div>
         </div>
@@ -372,20 +430,43 @@ export default function DiagnosticoPage() {
 
             {/* Header */}
             <div style={{ textAlign: 'center', padding: '32px 0 20px' }}>
-              <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase' }}>
-                El diagnóstico de {nombreTrimmed}
-              </p>
+              <div style={{
+                display: 'inline-block', padding: '5px 16px', borderRadius: 4, marginBottom: 12,
+                background: r.rawScore >= 4 ? '#1a0000' : r.rawScore >= 2 ? '#0a0900' : '#001a0a',
+                border: `1px solid ${r.nivelColor}`, color: r.nivelColor,
+                fontSize: 11, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase',
+              }}>
+                {r.rawScore >= 4 ? '⚠️ Alerta — Acción Urgente' : r.rawScore >= 2 ? 'Vendedor con Frenos' : 'Cerca — Pero Cerca No Paga'}
+              </div>
               <h2 style={{ margin: 0, fontSize: 'clamp(22px,4vw,36px)', fontWeight: 900, color: 'white', letterSpacing: '-0.02em' }}>
                 EL DIAGNÓSTICO DE {nombreTrimmed.toUpperCase()}
               </h2>
             </div>
+
+            {/* Cajas monetarias */}
+            {r.perdidaMensual > 0 && (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginBottom: 14 }}>
+                <div style={{ background: '#1a0000', border: `1px solid ${ROJO}40`, borderRadius: 14, padding: '16px 12px', textAlign: 'center' }}>
+                  <p style={{ margin: '0 0 6px', fontSize: 10, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.1em', lineHeight: 1.4 }}>Pierdes<br/>este mes</p>
+                  <p style={{ margin: 0, fontSize: 'clamp(20px,4vw,28px)', fontWeight: 900, color: ROJO, lineHeight: 1 }}>{fmt(r.perdidaMensual)}</p>
+                </div>
+                <div style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: '16px 12px', textAlign: 'center' }}>
+                  <p style={{ margin: '0 0 6px', fontSize: 10, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.1em', lineHeight: 1.4 }}>En 90 días<br/>sin cambiar</p>
+                  <p style={{ margin: 0, fontSize: 'clamp(20px,4vw,28px)', fontWeight: 900, color: 'white', lineHeight: 1 }}>{fmt(r.perdida90)}</p>
+                </div>
+                <div style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: '16px 12px', textAlign: 'center' }}>
+                  <p style={{ margin: '0 0 6px', fontSize: 10, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.1em', lineHeight: 1.4 }}>En 12 meses<br/>al año</p>
+                  <p style={{ margin: 0, fontSize: 'clamp(20px,4vw,28px)', fontWeight: 900, color: 'white', lineHeight: 1 }}>{fmt(r.perdidaAnual)}</p>
+                </div>
+              </div>
+            )}
 
             {/* Gauge */}
             <div style={{ background: 'white', borderRadius: 20, padding: '28px 24px', boxShadow: '0 4px 24px rgba(0,0,0,0.3)', marginBottom: 14 }}>
               <GaugeSVG score={r.total} color={r.nivelColor} />
               <div style={{ marginTop: 20, borderTop: '1px solid #f3f4f6', paddingTop: 18 }}>
                 <p style={{ margin: '0 0 12px', fontSize: 12, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Por categoría</p>
-                <SubBar label="Seguimiento" score={r.sub.seguimiento} delay={0}   />
+                <SubBar label="Seguimiento"  score={r.sub.seguimiento}  delay={0}   />
                 <SubBar label="Priorización" score={r.sub.priorizacion} delay={100} />
                 <SubBar label="Preparación"  score={r.sub.preparacion}  delay={200} />
                 <SubBar label="Reporte"      score={r.sub.reporte}      delay={300} />
@@ -397,11 +478,11 @@ export default function DiagnosticoPage() {
               <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, color: r.nivelColor, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 {nombreTrimmed}, tu cuello de botella hoy es: {r.cuelloLabel}
               </p>
-              <p style={{ margin: 0, fontSize: 14, color: VERDE, fontWeight: 600, lineHeight: 1.55 }}>{r.cuelloTexto}</p>
+              <p style={{ margin: 0, fontSize: 14, color: 'white', fontWeight: 600, lineHeight: 1.55 }}>{r.cuelloTexto}</p>
             </div>
 
             {/* 90 días */}
-            <div style={{ background: '#111827', borderRadius: 14, padding: '18px 18px', marginBottom: 14 }}>
+            <div style={{ background: '#111827', borderRadius: 14, padding: '18px', marginBottom: 14 }}>
               <p style={{ margin: '0 0 12px', fontSize: 11, fontWeight: 700, color: AMARILLO, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 ⚠ Lo que pasa en 90 días si {nombreTrimmed} no cambia nada
               </p>
@@ -413,9 +494,8 @@ export default function DiagnosticoPage() {
               ))}
             </div>
 
-            {/* Dos columnas: fortalezas / fricciones */}
+            {/* Fortalezas / Fricciones */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
-              {/* Fortalezas */}
               <div style={{ background: 'white', borderRadius: 14, padding: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.18)' }}>
                 <p style={{ margin: '0 0 10px', fontSize: 11, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   Lo que {nombreTrimmed} ya hace bien
@@ -426,16 +506,10 @@ export default function DiagnosticoPage() {
                     <p style={{ margin: 0, fontSize: 12, color: '#374151', lineHeight: 1.55 }}>{f.texto}</p>
                   </div>
                 ))}
-                {r.fortalezas.length > 2 && (
-                  <p style={{ margin: '6px 0 0', fontSize: 11, color: '#9ca3af', fontStyle: 'italic' }}>
-                    +{r.fortalezas.length - 2} más en el reporte completo
-                  </p>
-                )}
               </div>
-              {/* Fricciones */}
               <div style={{ background: 'white', borderRadius: 14, padding: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.18)' }}>
                 <p style={{ margin: '0 0 10px', fontSize: 11, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Dónde se le van las comisiones a {nombreTrimmed}
+                  Dónde se le van las comisiones
                 </p>
                 {r.debilidades.slice(0, 2).map((d, i) => (
                   <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginBottom: 8 }}>
@@ -443,21 +517,30 @@ export default function DiagnosticoPage() {
                     <p style={{ margin: 0, fontSize: 12, color: '#374151', lineHeight: 1.55 }}>{d.texto}</p>
                   </div>
                 ))}
-                {r.debilidades.length > 2 && (
-                  <p style={{ margin: '6px 0 0', fontSize: 11, color: '#9ca3af', fontStyle: 'italic' }}>
-                    +{r.debilidades.length - 2} más en el reporte completo
-                  </p>
-                )}
               </div>
             </div>
 
-            {/* Maxwell */}
+            {/* Maxwell — dinámico por puntaje */}
             <div style={{ borderLeft: `4px solid ${AMARILLO}`, background: '#fffbeb', borderRadius: '0 12px 12px 0', padding: '14px 18px', marginBottom: 14 }}>
               <p style={{ margin: '0 0 5px', fontSize: 14, color: '#374151', lineHeight: 1.6, fontStyle: 'italic' }}>
-                "Si llevas 10 años haciendo lo mismo, no tienes 10 años de experiencia. Tienes 1 año repetido 10 veces."
+                {r.maxwell}
               </p>
               <p style={{ margin: 0, fontSize: 11, fontWeight: 700, color: '#92400e' }}>— Atribuido a John C. Maxwell</p>
             </div>
+
+            {/* Bloque del sueño */}
+            {r.suenoTextos && (
+              <div style={{ background: '#0d0000', border: `1px solid ${ROJO}30`, borderRadius: 14, padding: '20px 18px', marginBottom: 14 }}>
+                <p style={{ margin: '0 0 14px', fontSize: 11, fontWeight: 700, color: ROJO, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  Y ese sueño tuyo... el que llevas tiempo postergando
+                </p>
+                {r.suenoTextos.map((linea, i) => (
+                  <p key={i} style={{ margin: i < 2 ? '0 0 10px' : 0, fontSize: 14, color: 'rgba(255,255,255,0.85)', lineHeight: 1.65 }}>
+                    {linea}
+                  </p>
+                ))}
+              </div>
+            )}
 
             {/* ── PAYWALL ── */}
             {fase === 'resultado' && (
@@ -467,20 +550,17 @@ export default function DiagnosticoPage() {
                   Desbloquea el reporte completo de {nombreTrimmed}
                 </h3>
                 <p style={{ margin: '0 0 20px', fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.6 }}>
-                  Incluye las {r.debilidades.length - 2} áreas de mejora restantes, 3 acciones concretas para esta semana y el camino exacto para cerrar más con lo que ya tienes.
+                  3 acciones concretas para esta semana y el camino exacto para cerrar más con lo que ya tienes.
                 </p>
                 <input
-                  type="email"
-                  placeholder="tu@email.com"
-                  value={email}
+                  type="email" placeholder="tu@email.com" value={email}
                   onChange={e => { setEmail(e.target.value); setEmailError('') }}
                   onKeyDown={e => e.key === 'Enter' && desbloquear()}
                   style={{ display: 'block', width: '100%', padding: '14px', borderRadius: 10, border: emailError ? '2px solid #fca5a5' : '2px solid transparent', fontSize: 15, marginBottom: emailError ? 6 : 12, outline: 'none', fontFamily: 'inherit' }}
                 />
                 {emailError && <p style={{ color: '#fca5a5', fontSize: 12, margin: '0 0 10px', textAlign: 'left' }}>{emailError}</p>}
                 <button
-                  onClick={desbloquear}
-                  disabled={guardando}
+                  onClick={desbloquear} disabled={guardando}
                   style={{ display: 'block', width: '100%', padding: '15px', borderRadius: 10, border: 'none', background: TEAL, color: VERDE, fontWeight: 800, fontSize: 16, cursor: guardando ? 'not-allowed' : 'pointer' }}
                 >
                   {guardando ? 'Guardando...' : 'Desbloquear mi reporte →'}
@@ -491,7 +571,7 @@ export default function DiagnosticoPage() {
               </div>
             )}
 
-            {/* ── GRACIAS (desbloqueado) ── */}
+            {/* ── GRACIAS ── */}
             {fase === 'desbloqueado' && (
               <div style={{ background: 'white', borderRadius: 18, padding: '32px 28px', textAlign: 'center', boxShadow: '0 4px 24px rgba(0,0,0,0.2)', animation: 'fadeUp 0.5s ease both' }}>
                 <div style={{ fontSize: 40, marginBottom: 14 }}>✅</div>
