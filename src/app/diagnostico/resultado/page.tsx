@@ -500,7 +500,36 @@ export default function ResultadoPage() {
             </div>
           </section>
 
-          {/* TESTIMONIO — pendiente: agregar cita real de Tatiana Panadero */}
+          {/* TESTIMONIO — Tatiana Panadero, audio 15 mayo 2026 */}
+          <section style={{ background: BEIGE, padding: '80px 24px' }}>
+            <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
+              <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', color: '#9ca3af', textTransform: 'uppercase' }}>Lo que dicen quienes ya lo usan</p>
+              <h2 style={{ margin: '0 0 48px', fontSize: 'clamp(24px,3.5vw,36px)', fontWeight: 900, color: VERDE }}>Resultados reales.</h2>
+              <div style={{ background: 'white', borderRadius: 20, padding: '36px 32px', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', border: '1px solid rgba(0,0,0,0.06)', textAlign: 'left' }}>
+                <div style={{ display: 'flex', gap: 6, marginBottom: 20 }}>
+                  {[1,2,3,4,5].map(i => <span key={i} style={{ color: AMARILLO, fontSize: 20 }}>★</span>)}
+                </div>
+                <p style={{ margin: '0 0 24px', fontSize: 17, color: '#1f2937', lineHeight: 1.75, fontStyle: 'italic', fontWeight: 500 }}>
+                  "Está buenísimo, de verdad está genial. El semáforo, el script para reportar al jefe… tal cual. Eso es sencillo, corto, y es lo que de verdad le importa a los directores a nivel de números. Imagínate que tuve una reunión con mi nueva directora y tal cual manejé el speech. Si voy bien digo tal cosa, si voy regular digo tal cosa, si voy mal digo tal cosa. Concreto. Era exactamente lo que ella quería escuchar."
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                  <div style={{ width: 52, height: 52, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `3px solid ${TEAL}` }}>
+                    <img
+                      src="https://assets.cdn.filesafe.space/MgsViYLMmCdJksx9p3va/media/6a13da46fe2210f89e7033ce.jpeg"
+                      alt="Tatiana Panadero — Ejecutiva Comercial Senior, Bogotá, Colombia"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onError={e => { (e.target as HTMLImageElement).src = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'><rect width='52' height='52' fill='%231A4A44'/><text x='26' y='33' text-anchor='middle' fill='white' font-size='20' font-family='sans-serif'>TP</text></svg>` }}
+                    />
+                  </div>
+                  <div>
+                    <p style={{ margin: '0 0 2px', fontWeight: 800, fontSize: 15, color: VERDE }}>Tatiana Panadero</p>
+                    <p style={{ margin: 0, fontSize: 13, color: '#6b7280' }}>Ejecutiva Comercial Senior · Bogotá, Colombia</p>
+                    <p style={{ margin: '3px 0 0', fontSize: 11, color: '#9ca3af' }}>Testimonio de audio · 15 de mayo de 2026</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
 
           {/* CALCULADORA */}
           <CalculadoraROI />
