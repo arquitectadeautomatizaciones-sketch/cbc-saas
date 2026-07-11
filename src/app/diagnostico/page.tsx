@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import {
   type Selecciones,
   calcular, calcular90dias,
-  COMISION_OPTS, Q2_OPTS, Q3_OPTS, Q4_OPTS, Q5_OPTS,
+  Q2_OPTS, Q3_OPTS, Q4_OPTS, Q5_OPTS,
 } from '@/lib/diagnostico'
 
 const VERDE = '#1A4A44'
@@ -107,7 +107,7 @@ export default function DiagnosticoPage() {
   // ── ¿Puede avanzar? ───────────────────────────────────
   function puedeAvanzar() {
     if (pasoForm === 0) return nombreTrimmed.length >= 2
-    if (pasoForm === 1) return sel.q1val !== null
+    if (pasoForm === 1) return sel.q1val !== null && sel.q1val > 0
     if (pasoForm === 2) return sel.q2   !== null
     if (pasoForm === 3) return sel.q3   !== null
     if (pasoForm === 4) return sel.q4   !== null
@@ -297,9 +297,23 @@ export default function DiagnosticoPage() {
               {progressBar}
 
               {pasoForm === 1 && <>
-                <p style={{ margin: '0 0 4px', fontSize: 19, fontWeight: 800, color: VERDE, lineHeight: 1.3 }}>¿Cuánto es tu comisión promedio por venta cerrada?</p>
-                <p style={{ margin: '0 0 16px', fontSize: 13, color: '#6b7280' }}>Nos ayuda a calcular cuánto estás dejando en la mesa.</p>
-                {COMISION_OPTS.map(o => <Opcion key={o.val} label={o.label} selected={sel.q1val === o.val} onClick={() => setSel(s => ({ ...s, q1val: o.val, q1label: o.label }))} />)}
+                <p style={{ margin: '0 0 4px', fontSize: 19, fontWeight: 800, color: VERDE, lineHeight: 1.3 }}>¿Cuánto vale cada venta que cierras?</p>
+                <p style={{ margin: '0 0 20px', fontSize: 13, color: '#6b7280', lineHeight: 1.6 }}>¿Cuánto dinero entra a tu bolsillo cuando cierras una venta? Pon el número real — comisión, margen, lo que sea que cobras tú.</p>
+                <div style={{ display: 'flex', alignItems: 'center', border: `2px solid ${(sel.q1val ?? 0) > 0 ? TEAL : '#e5e7eb'}`, borderRadius: 12, overflow: 'hidden', transition: 'border-color 0.2s' }}>
+                  <span style={{ padding: '14px 14px 14px 16px', fontSize: 22, fontWeight: 700, color: '#9ca3af', background: '#f9fafb', borderRight: '1px solid #e5e7eb' }}>$</span>
+                  <input
+                    type="number"
+                    min={0}
+                    placeholder="0"
+                    value={sel.q1val ?? ''}
+                    onChange={e => { const v = Number(e.target.value); setSel(s => ({ ...s, q1val: v > 0 ? v : null, q1label: v > 0 ? String(v) : '' })) }}
+                    onKeyDown={e => e.key === 'Enter' && avanzar()}
+                    autoFocus
+                    style={{ flex: 1, padding: '14px 16px', fontSize: 24, fontWeight: 700, color: VERDE, border: 'none', outline: 'none', fontFamily: 'inherit', background: 'white' }}
+                  />
+                  <span style={{ padding: '14px 16px 14px 0', fontSize: 13, fontWeight: 600, color: '#9ca3af' }}>USD</span>
+                </div>
+                <p style={{ margin: '8px 0 0', fontSize: 12, color: '#9ca3af' }}>Escribe el número exacto — solo tú lo ves.</p>
               </>}
 
               {pasoForm === 2 && <>
