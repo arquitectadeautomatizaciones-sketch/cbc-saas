@@ -248,9 +248,6 @@ export default function DiagnosticoPage() {
         <div style={{ padding: '0 24px 28px', maxWidth: 560, margin: '0 auto' }}>
           {/* Bloque de contexto */}
           <div style={{ background: 'rgba(78,205,196,0.08)', border: '1px solid rgba(78,205,196,0.28)', borderRadius: 16, padding: '24px' }}>
-            <p style={{ margin: '0 0 16px', fontSize: 18, fontWeight: 800, color: 'white', lineHeight: 1.35 }}>
-              Esta auditoría es sobre TU dinero — no sobre técnica de ventas.
-            </p>
             <p style={{ margin: '0 0 14px', fontSize: 16, color: 'rgba(255,255,255,0.82)', lineHeight: 1.75 }}>
               Buscas prospectos. Presentas propuestas. Trabajas duro.<br />
               Y aun así, gran parte de esa comisión se te escapa — no por falta de talento, sino por seguimiento que nunca llegó a tiempo.
