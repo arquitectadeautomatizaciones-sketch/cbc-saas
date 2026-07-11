@@ -240,13 +240,21 @@ export default function DiagnosticoPage() {
         </p>
       </div>
 
-      {/* Promesa del lead magnet */}
+      {/* Contexto de la auditoría */}
       {fase === 'form' && (
         <div style={{ padding: '0 24px 28px', maxWidth: 560, margin: '0 auto' }}>
-          <div style={{ background: 'rgba(78,205,196,0.1)', border: '1px solid rgba(78,205,196,0.28)', borderRadius: 14, padding: '18px 20px' }}>
-            <p style={{ margin: 0, fontSize: 15, color: 'rgba(255,255,255,0.9)', lineHeight: 1.7, fontWeight: 500 }}>
-              Responde 6 preguntas sobre tu proceso de ventas. En menos de 3 minutos te digo exactamente cuál es tu cuello de botella y cuánto dinero te está costando cada mes —{' '}
-              <strong style={{ color: TEAL }}>gratis, sin tarjeta, solo tu diagnóstico.</strong>
+          <div style={{ background: 'rgba(78,205,196,0.08)', border: '1px solid rgba(78,205,196,0.28)', borderRadius: 16, padding: '24px 24px' }}>
+            <p style={{ margin: '0 0 14px', fontSize: 16, fontWeight: 800, color: 'white', lineHeight: 1.35 }}>
+              Esta es una auditoría de tus propias comisiones — con tus números reales.
+            </p>
+            <p style={{ margin: '0 0 12px', fontSize: 14, color: 'rgba(255,255,255,0.78)', lineHeight: 1.75 }}>
+              Te esfuerzas por buscar prospectos y presentar propuestas, pero mucho de ese trabajo se va a la basura por no hacer un seguimiento oportuno. Y no es tu culpa: entre llenar CRM, actualizar el pipeline, tareas administrativas, informes y reportes a tu jefe, es muy fácil olvidar lo que realmente te da dinero.
+            </p>
+            <p style={{ margin: '0 0 12px', fontSize: 14, color: 'rgba(255,255,255,0.78)', lineHeight: 1.75 }}>
+              Por eso vamos a auditar tus propias comisiones, con tus números reales. No inventes nada, sé honesto — nadie más tiene acceso a estas respuestas. No te traiciones.
+            </p>
+            <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: TEAL, lineHeight: 1.6 }}>
+              No te voy a cobrar nada. Solo quiero abrirte los ojos.
             </p>
           </div>
         </div>
