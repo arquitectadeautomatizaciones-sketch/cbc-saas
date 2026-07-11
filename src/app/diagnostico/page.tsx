@@ -187,9 +187,11 @@ export default function DiagnosticoPage() {
   const nextBtn = (label: string) => (
     <button onClick={avanzar} disabled={!puedeAvanzar()} style={{
       display: 'block', width: '100%', marginTop: 18, padding: '15px 24px', borderRadius: 12,
-      border: 'none', background: puedeAvanzar() ? VERDE : '#d1d5db', color: 'white',
+      border: 'none',
+      background: puedeAvanzar() ? TEAL : '#d1d5db',
+      color: puedeAvanzar() ? VERDE : '#9ca3af',
       fontSize: 16, fontWeight: 800, cursor: puedeAvanzar() ? 'pointer' : 'not-allowed',
-      transition: 'background 0.2s',
+      transition: 'background 0.2s, color 0.2s',
     }}>{label}</button>
   )
 
@@ -204,6 +206,7 @@ export default function DiagnosticoPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#071a17', fontFamily: 'system-ui,-apple-system,sans-serif' }}>
       <style>{`
+        :root { color-scheme: light; }
         * { box-sizing: border-box; }
         @keyframes spin  { to { transform: rotate(360deg); } }
         @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.35; } }
@@ -236,6 +239,18 @@ export default function DiagnosticoPage() {
           Responde con lo que es real, no con lo que quisieras que fuera. Nadie más tiene acceso a estas respuestas. No te traiciones.
         </p>
       </div>
+
+      {/* Promesa del lead magnet */}
+      {fase === 'form' && (
+        <div style={{ padding: '0 24px 28px', maxWidth: 560, margin: '0 auto' }}>
+          <div style={{ background: 'rgba(78,205,196,0.1)', border: '1px solid rgba(78,205,196,0.28)', borderRadius: 14, padding: '18px 20px' }}>
+            <p style={{ margin: 0, fontSize: 15, color: 'rgba(255,255,255,0.9)', lineHeight: 1.7, fontWeight: 500 }}>
+              Responde 6 preguntas sobre tu proceso de ventas. En menos de 3 minutos te digo exactamente cuál es tu cuello de botella y cuánto dinero te está costando cada mes —{' '}
+              <strong style={{ color: TEAL }}>gratis, sin tarjeta, solo tu diagnóstico.</strong>
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* ════════════════════════════════════════
           FORMULARIO
