@@ -157,6 +157,7 @@ export default function DiagnosticoPage() {
   }
 
   const r = (fase === 'resultado' || fase === 'desbloqueado') ? calcular(sel) : null
+  const bgImg = 'url(/bg-diagnostico.jpg)'
 
   // ── Barra de progreso ─────────────────────────────────
   // pasoForm 0-5 → "Pregunta 1 de 6" … "Pregunta 6 de 6"
@@ -204,7 +205,7 @@ export default function DiagnosticoPage() {
   ]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#071a17', fontFamily: 'system-ui,-apple-system,sans-serif' }}>
+    <div style={{ minHeight: '100vh', fontFamily: 'system-ui,-apple-system,sans-serif', backgroundImage: `linear-gradient(rgba(7,26,23,0.75),rgba(7,26,23,0.82)), ${bgImg}`, backgroundSize: 'cover', backgroundPosition: 'center top', backgroundAttachment: 'fixed' }}>
       <style>{`
         :root { color-scheme: light; }
         * { box-sizing: border-box; }
