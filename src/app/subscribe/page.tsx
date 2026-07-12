@@ -384,17 +384,10 @@ function SubscribeContent() {
               Era exactamente lo que ella quería escuchar."
             </blockquote>
 
-            <div style={{ paddingTop: 20, borderTop: `1px solid ${PAPERD}` }}>
-              <div style={{ fontFamily: MONO, fontSize: 10, color: '#aaa', letterSpacing: '0.12em', marginBottom: 10 }}>
-                TESTIMONIO POR AUDIO · 15 MAY 2026
-              </div>
-              <p style={{ fontFamily: INTER, fontSize: 13, color: '#888', margin: '0 0 10px' }}>
-                Tatiana comparte su experiencia después de usar CBC™ en una reunión real con su directora.
-              </p>
-              <audio controls style={{ width: '100%' }}>
-                <source src="/audio/tatiana-panadero.mp3" type="audio/mpeg" />
-                Tu navegador no soporta audio.
-              </audio>
+            <div style={{ paddingTop: 16, borderTop: `1px solid ${PAPERD}` }}>
+              <span style={{ fontFamily: MONO, fontSize: 10, color: '#bbb', letterSpacing: '0.12em' }}>
+                TESTIMONIO DOCUMENTADO · 15 MAY 2026 · BOGOTÁ, COLOMBIA
+              </span>
             </div>
           </div>
 
