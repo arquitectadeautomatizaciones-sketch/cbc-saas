@@ -1,5 +1,5 @@
 'use client'
-// v2-razonamiento
+// v2-fase-c
 import { useState, useEffect, useRef } from 'react'
 import {
   type Selecciones,
@@ -12,8 +12,18 @@ const AMARILLO = '#f5c400'
 const NEGRO   = '#080808'
 const DARK    = '#111111'
 const DARK2   = '#1a1a1a'
-const VERDE_S = '#00C853'   // solo para toggle "sí"
-const TEAL_R  = '#4ECDC4'   // solo para paywall/unlock
+const VERDE_S = '#00C853'
+const TEAL_R  = '#4ECDC4'
+
+// ── Labels forenses para E05 ──────────────────────────────
+const SUENO_LABELS: Record<string, string> = {
+  casa:      'Hay semanas donde trabajo muchísimo y vendo muy poco.',
+  viaje:     'Los clientes desaparecen sin una explicación clara.',
+  estudios:  'Nunca sé con certeza dónde se perdió una venta.',
+  deuda:     'Todo depende de que yo esté encima del proceso.',
+  carro:     'Tengo ingresos demasiado variables.',
+  libertad:  'Siento que trabajo más de lo que el sistema produce.',
+}
 
 // ── Gauge ─────────────────────────────────────────────────
 function GaugeSVG({ score, color }: { score: number; color: string }) {
@@ -85,28 +95,34 @@ function TogBtn({ label, selected, variant, onClick }: { label: string; selected
   )
 }
 
-// ── DreamBtn ──────────────────────────────────────────────
-function DreamBtn({ icon, label, selected, onClick }: { icon: string; label: string; selected: boolean; onClick: () => void }) {
+// ── ConseqBtn — botón de consecuencia forense (E05) ───────
+function ConseqBtn({ label, selected, onClick }: { label: string; selected: boolean; onClick: () => void }) {
   return (
     <button type="button" onClick={onClick} style={{
-      display: 'flex', alignItems: 'center', gap: 10, padding: '14px',
+      display: 'block', width: '100%', padding: '14px 18px',
       borderRadius: 10,
-      border: selected ? `1px solid ${AMARILLO}` : '1px solid #2a2a2a',
+      border: selected ? `1px solid ${AMARILLO}` : '1px solid #1e1e1e',
       background: selected ? '#0a0900' : '#0a0a0a',
-      color: selected ? AMARILLO : '#666',
-      fontFamily: "'Barlow', sans-serif",
-      fontWeight: selected ? 700 : 600, fontSize: 13,
+      color: selected ? AMARILLO : '#555',
+      fontFamily: "'Inter', sans-serif",
+      fontWeight: selected ? 600 : 400, fontSize: 14,
       cursor: 'pointer', transition: 'all 0.15s', textAlign: 'left',
+      lineHeight: 1.5,
     }}>
-      <span style={{ fontSize: 18, flexShrink: 0 }}>{icon}</span>
-      <span>{label}</span>
+      {label}
     </button>
   )
 }
 
 // ── Hipótesis: valores de confianza por paso ──────────────
+// P1: paso=1 diferenciado por v1 — escasez de contactos se debilita cuando el valor es alto
 function getHipValsCurr(paso: number, sel: Selecciones): [number, number, number] {
-  if (paso === 1) return [38, 32, 30]
+  if (paso === 1) {
+    const v1 = sel.v1 ?? 0
+    if (v1 >= 3000) return [12, 55, 33]
+    if (v1 >= 1000) return [28, 48, 24]
+    return [45, 30, 25]
+  }
   if (paso === 2) {
     const v2 = sel.v2 ?? 0
     if (v2 >= 5) return [10, 76, 14]
@@ -115,7 +131,7 @@ function getHipValsCurr(paso: number, sel: Selecciones): [number, number, number
   }
   if (paso === 3) {
     if (sel.q3 === false) return [8, 86, 6]
-    return [18, 40, 55]         // dirección inesperada cuando hay proceso definido
+    return [18, 40, 55]
   }
   if (paso === 4) {
     if (sel.q4 === false) return [5, 92, 3]
@@ -128,62 +144,75 @@ function getHipValsPrev(paso: number, sel: Selecciones): [number, number, number
   return getHipValsCurr(paso - 1, sel)
 }
 
-// ── Textos de razonamiento personalizados por paso ────────
+// ── Textos de razonamiento — P11 Economía Cognitiva aplicada ─
 function getRazTexts(paso: number, sel: Selecciones, nombre: string): [string, string, string] {
   const v1s = sel.v1 ? `$${sel.v1.toLocaleString('en-US')}` : 'el valor registrado'
   const v2   = sel.v2 ?? 0
   const fn   = nombre.split(' ')[0] || nombre
 
-  if (paso === 1) return [
-    'Incorporando primera evidencia...',
-    `Con un valor de ${v1s} por operación, el rango de impacto potencial pasó de estimación amplia a cálculo acotado. El análisis puede comenzar con precisión real sobre los números de ${fn}.`,
-    'Las hipótesis iniciales están siendo ponderadas con este parámetro de referencia.',
-  ]
+  if (paso === 1) {
+    const v1 = sel.v1 ?? 0
+    if (v1 >= 3000) return [
+      'Primera evidencia incorporada.',
+      `Con ${v1s} por operación, la escasez de oportunidades queda descartada como causa principal. Quien trabaja en este nivel tiene acceso. El problema está en otro punto.`,
+      'Una hipótesis perdió peso. La investigación se orienta hacia el proceso.',
+    ]
+    if (v1 >= 1000) return [
+      'Primera evidencia incorporada.',
+      `Con ${v1s} registrado, el rango de impacto dejó de ser estimación. El análisis tiene ahora un número real.`,
+      'Las hipótesis están siendo calibradas con este parámetro.',
+    ]
+    return [
+      'Primera evidencia incorporada.',
+      `Con ${v1s} por operación, el volumen de oportunidades necesario es significativo. La investigación evalúa si la escasez de contactos está operando como factor.`,
+      'Una hipótesis ganó relevancia.',
+    ]
+  }
   if (paso === 2) {
     if (v2 >= 5) return [
       'Relacionando con la evidencia anterior...',
-      `Con ${v2} operaciones en zona de enfriamiento — y cruzando ese dato con el valor de ${v1s} — una de las hipótesis iniciales deja de ser compatible con el comportamiento observado. La escasez de contactos no explica este patrón.`,
-      'Una explicación fue descartada. La investigación se concentra en una posibilidad más específica.',
+      `Con ${v2} operaciones en enfriamiento y un valor de ${v1s}, la escasez de contactos no explica este patrón. Fue descartada.`,
+      'Una explicación descartada. La investigación se concentra.',
     ]
     if (v2 >= 2) return [
       'Relacionando con la evidencia anterior...',
-      `Al combinar las ${v2} operaciones sin actividad con el valor de referencia de ${v1s}, el análisis define el nivel de exposición real del caso. El patrón empieza a ser visible.`,
-      'La investigación necesita una evidencia más para confirmar la dirección.',
+      `Al cruzar ${v2} operaciones sin actividad con ${v1s}, el nivel de exposición queda definido. El patrón empieza a ser visible.`,
+      'La investigación necesita una evidencia más para confirmar dirección.',
     ]
     return [
       'Evaluando la evidencia...',
-      `Con ${v2 === 0 ? 'ninguna' : v2} operación${v2 === 1 ? '' : 'es'} en zona de enfriamiento, este dato presenta una combinación inusual con el valor anterior. La investigación evalúa una hipótesis alternativa.`,
+      `${v2 === 0 ? 'Ninguna' : v2} operación${v2 === 1 ? '' : 'es'} en enfriamiento con un valor de ${v1s}. Combinación inusual. La investigación evalúa una hipótesis alternativa.`,
       'La dirección del análisis acaba de cambiar.',
     ]
   }
   if (paso === 3) {
     if (sel.q3 === false) return [
-      'Reevaluando el caso con esta evidencia...',
-      'La ausencia de una secuencia estructurada ante la fase de deliberación confirma un patrón documentado en este tipo de casos. Es precisamente en ese momento donde la mayoría de las operaciones desaparecen sin dejar rastro.',
-      'Esta evidencia cambió el peso de las hipótesis. Una acaba de ganar ventaja decisiva.',
+      'Recalibración en curso.',
+      'Hipótesis confirmada. La ausencia de secuencia en la fase de deliberación identifica el punto exacto donde las operaciones desaparecen.',
+      'La investigación tiene ahora un origen específico.',
     ]
     return [
-      'La evidencia recibida reforzaba una interpretación distinta.',
-      'Nueva información recibida. La presencia de una secuencia definida en la fase de deliberación contradice la hipótesis que dominaba hasta este punto. Corrección: la explicación anterior ya no es suficiente. La investigación cambia de dirección.',
-      'Una hipótesis descartada. Una alternativa acaba de ganar relevancia. La investigación continúa.',
+      'Recalculando.',
+      `Corrección. La secuencia definida en E03 contradice la lectura anterior. El problema no está en la estructura del proceso — está en otro punto.`,
+      'Hipótesis descartada. Nueva dirección confirmada.',
     ]
   }
   if (paso === 4) {
     if (sel.q4 === false) return [
       'Incorporando parámetro de calibración...',
-      'La ausencia de métricas de conversión documentadas, junto con la evidencia acumulada, establece con claridad la naturaleza de las fugas. Hay una brecha que opera en un punto específico y repetible del proceso de ' + fn + '.',
-      'La hipótesis dominante se confirma. Solo falta cuantificar el impacto en términos concretos.',
+      `Sin métricas de conversión documentadas, la naturaleza de las fugas queda establecida. Hay una brecha que opera en un punto específico y repetible del proceso de ${fn}.`,
+      'La hipótesis dominante se confirma.',
     ]
     return [
       'Incorporando parámetro de calibración...',
-      'La existencia de métricas documentadas descarta una de las posibles explicaciones. El origen de las fugas apunta a un punto del proceso que opera fuera del control actual.',
-      'El análisis se concentra ahora en la explicación que mejor describe el comportamiento observado.',
+      'Las métricas documentadas descartan una de las posibles explicaciones. El origen apunta a un punto del proceso que opera fuera del control actual.',
+      'El análisis se concentra en la explicación que mejor describe el patrón.',
     ]
   }
   return [
-    'Relacionando la última evidencia...',
-    `La investigación está completa, ${fn}. El impacto puede expresarse ahora en términos concretos — calculados con tus propios datos, no con estimaciones genéricas.`,
-    'Todas las hipótesis han sido evaluadas. Una sola sobrevive.',
+    'Última evidencia registrada.',
+    `La investigación está completa, ${fn}. El impacto puede expresarse en términos concretos — calculados con tus propios datos.`,
+    'Todas las hipótesis evaluadas. Una sola sobrevive.',
   ]
 }
 
@@ -301,7 +330,7 @@ function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof ca
             {maskRange(r.perdidaMensual)}
           </div>
           <p style={{ fontFamily: "'Inter', sans-serif", margin: '12px 0 0', fontSize: 12, color: '#444', lineHeight: 1.65 }}>
-            La cifra exacta depende de variables que el expediente completo documenta. Lo que ya es confirmable: el patrón existe y el punto de fuga está identificado.
+            La cifra exacta se documenta en el expediente. El patrón existe. El punto de fuga está identificado.
           </p>
         </div>
 
@@ -313,7 +342,7 @@ function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof ca
             {r.cuelloLabel.toUpperCase()}
           </p>
           <p style={{ fontFamily: "'Inter', sans-serif", margin: '8px 0 0', fontSize: 13, color: '#888', lineHeight: 1.65 }}>
-            El expediente reconstruye cómo se llegó a esta conclusión, qué hipótesis se descartaron en el camino, y qué implica exactamente para {nombre.split(' ')[0] || nombre}.
+            El expediente documenta las hipótesis descartadas y las implicaciones para {nombre.split(' ')[0] || nombre}.
           </p>
         </div>
 
@@ -353,12 +382,10 @@ function VeredictoReveal({ r, nombre, onContinue }: { r: ReturnType<typeof calcu
     <div style={{ padding: '48px 16px 64px', animation: 'fadeUp 0.5s ease both' }}>
       <div style={{ maxWidth: 500, margin: '0 auto' }}>
 
-        {/* Beat 0: siempre visible */}
         <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 40, textAlign: 'center' }}>
           DICTAMEN EMITIDO · CASO {nombre.toUpperCase()}
         </div>
 
-        {/* Beat 1: RESPONSABLE IDENTIFICADO */}
         {beat >= 1 && (
           <div style={{ animation: 'fadeUp 0.5s ease both', marginBottom: 32, textAlign: 'center' }}>
             <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#555', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 12 }}>
@@ -373,24 +400,27 @@ function VeredictoReveal({ r, nombre, onContinue }: { r: ReturnType<typeof calcu
           </div>
         )}
 
-        {/* Beat 2: números */}
+        {/* P3: cifras exactas solo en veredicto — primer reveal real */}
         {beat >= 2 && r.perdidaMensual > 0 && (
           <div style={{ animation: 'fadeUp 0.5s ease both', background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px', marginBottom: 28 }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>IMPACTO ECONÓMICO DOCUMENTADO</div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>CIFRA EXACTA · IMPACTO MENSUAL</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
               <div>
-                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(28px,6vw,42px)', color: ROJO, letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdidaMensual)}</div>
+                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(24px,5vw,38px)', color: ROJO, letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdidaMensual)}</div>
                 <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>por mes</div>
               </div>
               <div>
-                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(28px,6vw,42px)', color: AMARILLO, letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdida90)}</div>
+                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(24px,5vw,38px)', color: AMARILLO, letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdida90)}</div>
                 <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>en 90 días</div>
+              </div>
+              <div>
+                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(24px,5vw,38px)', color: '#555', letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdidaAnual)}</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>al año</div>
               </div>
             </div>
           </div>
         )}
 
-        {/* Beat 3: conexión con el sueño */}
         {beat >= 3 && r.suenoTextos && (
           <div style={{ animation: 'fadeUp 0.5s ease both', marginBottom: 32 }}>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: '#888', lineHeight: 1.85, margin: '0 0 8px', fontStyle: 'italic' }}>
@@ -402,7 +432,6 @@ function VeredictoReveal({ r, nombre, onContinue }: { r: ReturnType<typeof calcu
           </div>
         )}
 
-        {/* Beat 4: CTA */}
         {beat >= 4 && (
           <div style={{ animation: 'fadeUp 0.5s ease both' }}>
             <button onClick={onContinue} style={{
@@ -411,7 +440,7 @@ function VeredictoReveal({ r, nombre, onContinue }: { r: ReturnType<typeof calcu
               fontFamily: "'Bebas Neue', sans-serif", fontSize: 20, letterSpacing: '0.1em',
               boxShadow: `0 4px 28px rgba(232,0,29,0.3)`,
             }}>
-              VER EL EXPEDIENTE COMPLETO →
+              RECIBIR EL PLAN DE INTERVENCIÓN →
             </button>
             <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', marginTop: 14 }}>
               {primerNombre}, el expediente incluye el plan de recuperación personalizado.
@@ -436,6 +465,15 @@ function maskRange(perdida: number): string {
   const lo = maskAmount(perdida)
   const hi = maskAmount(Math.round(perdida * 2.4))
   return `${lo} — ${hi}`
+}
+
+// P3: rango calibrado para expediente — magnitud visible, cifra no exacta
+function calibratedRange(perdida: number): string {
+  if (perdida <= 0) return 'Pendiente de cálculo'
+  const f = (n: number) => '$' + Math.round(n).toLocaleString('en-US')
+  const lo = Math.floor(perdida * 0.75 / 1000) * 1000
+  const hi = Math.ceil(perdida * 1.35 / 1000) * 1000
+  return `${f(lo)} — ${f(hi)}`
 }
 
 // ── Page ──────────────────────────────────────────────────
@@ -467,7 +505,6 @@ export default function DiagnosticoPage() {
   }
 
   function avanzar() {
-    // Desde el panel de razonamiento: avanzar al siguiente paso
     if (fase === 'razonando') {
       if (razonandoPaso < 5) {
         setPasoForm(razonandoPaso + 1)
@@ -480,13 +517,11 @@ export default function DiagnosticoPage() {
       return
     }
     if (!puedeAvanzar()) return
-    // Paso 0: solo avanzar, sin razonamiento
     if (pasoForm === 0) {
       setPasoForm(1)
       setTimeout(() => cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60)
       return
     }
-    // Pasos 1-5: ir al razonamiento visible antes de avanzar
     setRazonandoPaso(pasoForm)
     setFase('razonando')
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -606,7 +641,6 @@ export default function DiagnosticoPage() {
     <p style={{ fontFamily: "'Inter', sans-serif", margin: '0 0 24px', fontSize: 13, color: '#666', lineHeight: 1.7 }}>{text}</p>
   )
 
-  // Imágenes por paso — placeholder único hasta generar las individuales
   const bgMap: Record<number, string> = {
     0: 'url(/bg-q0.jpg)',
     1: 'url(/bg-q1.jpg)',
@@ -617,6 +651,34 @@ export default function DiagnosticoPage() {
   }
   const bgKey    = fase === 'razonando' ? razonandoPaso : pasoForm
   const bgActual = (fase === 'suspense' || fase === 'dictamen_preliminar') ? 'url(/bg-diagnostico.jpg)' : (bgMap[bgKey] ?? 'url(/bg-diagnostico.jpg)')
+
+  // P4: contenido del expediente personalizado por cuello
+  const accionPorCuello: Record<string, { ref: string; texto: string }[]> = {
+    seguimiento: [
+      { ref: 'ANEXO 01', texto: `Los ${sel.v2 ?? 0} casos en zona de enfriamiento tienen una ventana de reactivación. El expediente documenta la secuencia exacta para cada uno.` },
+      { ref: 'ANEXO 02', texto: `El momento crítico: entre el día 7 y el día 14 sin contacto. Ahí es donde una operación de ${sel.v1 ? fmt(sel.v1) : 'ese valor'} pasa de activa a perdida.` },
+      { ref: 'ANEXO 03', texto: `La secuencia de reactivación tiene 3 puntos de contacto específicos — calibrados para el patrón observado en el caso ${nombreTrimmed.split(' ')[0] || nombreTrimmed}.` },
+      { ref: 'ANEXO 04', texto: `Sin intervención, el acumulado en 90 días supera ${r ? fmt(r.perdida90) : 'lo calculado'}. El expediente establece el momento de corte.` },
+    ],
+    priorizacion: [
+      { ref: 'ANEXO 01', texto: `El problema no es la cantidad de oportunidades. Es que las de mayor valor esperan mientras las de menor valor consumen tiempo de ${nombreTrimmed.split(' ')[0] || nombreTrimmed}.` },
+      { ref: 'ANEXO 02', texto: `Con operaciones de ${sel.v1 ? fmt(sel.v1) : 'ese valor'}, una semana de atención mal priorizada equivale a esa cifra perdida sin que nadie lo registre.` },
+      { ref: 'ANEXO 03', texto: `El expediente documenta el criterio de priorización exacto: qué señales determinan qué oportunidad va primero — y cuál puede esperar.` },
+      { ref: 'ANEXO 04', texto: `Sin un sistema de priorización, el patrón se repite: más esfuerzo, resultado variable. El expediente documenta dónde cortar ese ciclo.` },
+    ],
+    preparacion: [
+      { ref: 'ANEXO 01', texto: `El momento de mayor riesgo es cuando el cliente duda. El expediente documenta qué ocurre exactamente en ese punto en el proceso de ${nombreTrimmed.split(' ')[0] || nombreTrimmed}.` },
+      { ref: 'ANEXO 02', texto: `Las 3 objeciones más frecuentes en este tipo de casos representan más del 60% de las operaciones perdidas en la fase de deliberación.` },
+      { ref: 'ANEXO 03', texto: `Con operaciones de ${sel.v1 ? fmt(sel.v1) : 'ese valor'}, una objeción sin respuesta preparada es una pérdida predecible — y evitable.` },
+      { ref: 'ANEXO 04', texto: `El expediente incluye la reconstrucción exacta de en qué punto entra en juego la falta de preparación en este caso específico.` },
+    ],
+    reporte: [
+      { ref: 'ANEXO 01', texto: `Sin métricas documentadas, el proceso se repite sin corrección. Los ${sel.v2 ?? 0} casos en enfriamiento son evidencia de ese ciclo.` },
+      { ref: 'ANEXO 02', texto: `El expediente establece los 3 indicadores mínimos que bastan para detectar dónde se pierde cada operación de ${sel.v1 ? fmt(sel.v1) : 'ese valor'}.` },
+      { ref: 'ANEXO 03', texto: `Con visibilidad básica del proceso, el patrón actual se interrumpe en menos de 30 días. El expediente documenta el punto de entrada.` },
+      { ref: 'ANEXO 04', texto: `El costo de no medir está calculado. El expediente documenta cómo revertirlo con los datos que ya existen en el caso de ${nombreTrimmed.split(' ')[0] || nombreTrimmed}.` },
+    ],
+  }
 
   return (
     <div style={{
@@ -641,7 +703,7 @@ export default function DiagnosticoPage() {
         input::placeholder { color: #333; }
       `}</style>
 
-      {/* Barra superior — logo + status de investigación */}
+      {/* Barra superior */}
       <div style={{ borderBottom: '1px solid #1a1a1a', background: 'rgba(8,8,8,0.96)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 50 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 24px', maxWidth: 1100, margin: '0 auto' }}>
           <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 18, color: 'white', letterSpacing: '0.12em' }}>CBC™</span>
@@ -652,7 +714,7 @@ export default function DiagnosticoPage() {
         </div>
       </div>
 
-      {/* Hero — solo visible en paso 0 */}
+      {/* Hero — solo paso 0 */}
       <section style={{ padding: '60px 24px 48px', textAlign: 'center', position: 'relative', overflow: 'hidden', display: pasoForm === 0 ? 'block' : 'none' }}>
         <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse 60% 50% at 50% 0%, rgba(229,57,53,0.07), transparent 70%)`, pointerEvents: 'none' }} />
         <div style={{ maxWidth: 640, margin: '0 auto', position: 'relative' }}>
@@ -667,7 +729,7 @@ export default function DiagnosticoPage() {
               Cada mes, una parte de las comisiones que deberías estar cobrando desaparece antes de llegar a ti. Sin alertas. Sin rastro visible. Sin que nadie lo haya señalado.
             </p>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 'clamp(13px,1.8vw,15px)', color: '#666', lineHeight: 1.7, margin: 0 }}>
-              Esta auditoría necesita <strong style={{ color: '#B8B8B8' }}>5 evidencias</strong> para identificar el responsable. Los datos que proporciones serán procesados en tiempo real y permanecen confidenciales.
+              Esta auditoría necesita <strong style={{ color: '#B8B8B8' }}>5 evidencias</strong> para identificar el responsable. Los datos permanecen confidenciales.
             </p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'center', maxWidth: 400, margin: '0 auto' }}>
@@ -684,7 +746,6 @@ export default function DiagnosticoPage() {
       {fase === 'form' && (
         <div style={{ padding: '0 16px 64px' }}>
 
-          {/* Paso 0 — Identificación del agente */}
           {pasoForm === 0 && (
             <div style={{ animation: 'up 0.4s ease' }}>
               {card(
@@ -709,7 +770,6 @@ export default function DiagnosticoPage() {
             </div>
           )}
 
-          {/* Pasos 1-5 — Evidencias */}
           {pasoForm >= 1 && (
             <div style={{ animation: 'up 0.4s ease' }}>
               {card(
@@ -718,7 +778,7 @@ export default function DiagnosticoPage() {
 
                   {/* E1 */}
                   {pasoForm === 1 && <>
-                    {qTitle('Para determinar el impacto real, la investigación necesita el valor de referencia.')}
+                    {qTitle('La investigación necesita el valor de referencia.')}
                     {qSub('Sin este dato, el análisis es una estimación. Con él, es un cálculo exacto con tus propios números.')}
                     <div style={{ position: 'relative', marginBottom: 8 }}>
                       <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontFamily: "'JetBrains Mono', monospace", fontSize: 18, color: '#444', pointerEvents: 'none', zIndex: 1 }}>$</span>
@@ -731,7 +791,7 @@ export default function DiagnosticoPage() {
                   {/* E2 */}
                   {pasoForm === 2 && <>
                     {qTitle('La investigación necesita cuantificar las operaciones en zona de riesgo activo.')}
-                    {qSub('Llamamos "zona de enfriamiento" al período de más de 7 días sin contacto activo con una oportunidad. Las operaciones en esta zona no desaparecen de golpe — se enfrían sin señales visibles.')}
+                    {qSub('Llamamos "zona de enfriamiento" al período de más de 7 días sin contacto. Las operaciones en esta zona no desaparecen de golpe — se enfrían sin señales visibles.')}
                     <div style={{ position: 'relative', marginBottom: 8 }}>
                       <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontFamily: "'JetBrains Mono', monospace", fontSize: 16, color: '#444', pointerEvents: 'none', zIndex: 1 }}>#</span>
                       <input type="number" min={0} placeholder="0" value={sel.v2 ?? ''} onChange={e => { const v = Number(e.target.value); setSel(s => ({ ...s, v2: e.target.value === '' ? null : v >= 0 ? v : 0 })) }} onKeyDown={e => e.key === 'Enter' && avanzar()} autoFocus
@@ -753,24 +813,24 @@ export default function DiagnosticoPage() {
                   {/* E4 */}
                   {pasoForm === 4 && <>
                     {qTitle('Para que el análisis sea preciso, la investigación necesita calibrar los cálculos.')}
-                    {qSub('La tasa de conversión permite distinguir entre dos tipos de fuga que se ven idénticas desde fuera pero tienen causas distintas. Ambas se resuelven — pero el diagnóstico debe ser exacto.')}
+                    {qSub('La tasa de conversión permite distinguir entre dos tipos de fuga que se ven idénticas desde fuera pero tienen causas distintas.')}
                     <div style={{ display: 'flex', gap: 10 }}>
                       <TogBtn label="Tengo esa cifra medida con datos reales y actualizados" selected={sel.q4 === true}  variant="yes" onClick={() => setSel(s => ({ ...s, q4: true }))} />
                       <TogBtn label="No tengo ese dato calculado con precisión"               selected={sel.q4 === false} variant="no"  onClick={() => setSel(s => ({ ...s, q4: false }))} />
                     </div>
                   </>}
 
-                  {/* E5 */}
+                  {/* E5 — P2: forense, sin emojis, consecuencias observables */}
                   {pasoForm === 5 && <>
-                    {qTitle('Los datos anteriores muestran el costo en cifras. Esta evidencia completa el cuadro.')}
-                    {qSub('El impacto real de una fuga comercial no se mide únicamente en dinero. Se mide en lo que ese dinero representa para cada persona. La investigación necesita este parámetro para traducir las cifras a términos concretos.')}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                      <DreamBtn icon="🏠" label="La casa o el arreglo prometido"    selected={sel.sueno === 'casa'}     onClick={() => setSel(s => ({ ...s, sueno: 'casa' }))} />
-                      <DreamBtn icon="✈️" label="Las vacaciones postergadas"         selected={sel.sueno === 'viaje'}    onClick={() => setSel(s => ({ ...s, sueno: 'viaje' }))} />
-                      <DreamBtn icon="🎓" label="Los estudios tuyos o de tus hijos" selected={sel.sueno === 'estudios'} onClick={() => setSel(s => ({ ...s, sueno: 'estudios' }))} />
-                      <DreamBtn icon="💳" label="La deuda que no te deja dormir"    selected={sel.sueno === 'deuda'}    onClick={() => setSel(s => ({ ...s, sueno: 'deuda' }))} />
-                      <DreamBtn icon="🚗" label="El vehículo que prometiste cambiar" selected={sel.sueno === 'carro'}   onClick={() => setSel(s => ({ ...s, sueno: 'carro' }))} />
-                      <DreamBtn icon="⏰" label="Tiempo libre sin culpa ni estrés"  selected={sel.sueno === 'libertad'} onClick={() => setSel(s => ({ ...s, sueno: 'libertad' }))} />
+                    {qTitle('La investigación documenta el patrón de consecuencia predominante.')}
+                    {qSub('¿Cuál de estas situaciones ocurre con más frecuencia en tu proceso?')}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      <ConseqBtn label="Hay semanas donde trabajo muchísimo y vendo muy poco."     selected={sel.sueno === 'casa'}     onClick={() => setSel(s => ({ ...s, sueno: 'casa' }))} />
+                      <ConseqBtn label="Los clientes desaparecen sin una explicación clara."        selected={sel.sueno === 'viaje'}    onClick={() => setSel(s => ({ ...s, sueno: 'viaje' }))} />
+                      <ConseqBtn label="Nunca sé con certeza dónde se perdió una venta."            selected={sel.sueno === 'estudios'} onClick={() => setSel(s => ({ ...s, sueno: 'estudios' }))} />
+                      <ConseqBtn label="Todo depende de que yo esté encima del proceso."            selected={sel.sueno === 'deuda'}    onClick={() => setSel(s => ({ ...s, sueno: 'deuda' }))} />
+                      <ConseqBtn label="Tengo ingresos demasiado variables."                        selected={sel.sueno === 'carro'}    onClick={() => setSel(s => ({ ...s, sueno: 'carro' }))} />
+                      <ConseqBtn label="Siento que trabajo más de lo que el sistema produce."       selected={sel.sueno === 'libertad'} onClick={() => setSel(s => ({ ...s, sueno: 'libertad' }))} />
                     </div>
                   </>}
                 </>
@@ -788,7 +848,7 @@ export default function DiagnosticoPage() {
       )}
 
       {/* ════════════════════════════════════════
-          RAZONAMIENTO VISIBLE — entre cada evidencia
+          RAZONAMIENTO VISIBLE
       ════════════════════════════════════════ */}
       {fase === 'razonando' && (
         <RazonamientoPanel
@@ -800,13 +860,13 @@ export default function DiagnosticoPage() {
       )}
 
       {/* ════════════════════════════════════════
-          SUSPENSE — toda la evidencia fue recibida
+          SUSPENSE
       ════════════════════════════════════════ */}
       {fase === 'suspense' && (
         <div style={{ padding: '48px 16px 80px', animation: 'fadeUp 0.5s ease both' }}>
           <div style={{ maxWidth: 520, margin: '0 auto', textAlign: 'center' }}>
             <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 36 }}>
-              INVESTIGACIÓN CBC™
+              INVESTIGACIÓN CBC™ · CASO {nombreTrimmed.toUpperCase()}
             </div>
             <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(44px,9vw,76px)', lineHeight: 0.94, color: 'white', margin: '0 0 36px', letterSpacing: '0.01em' }}>
               TODA LA<br />EVIDENCIA FUE<br /><span style={{ color: ROJO }}>RECIBIDA.</span>
@@ -821,7 +881,7 @@ export default function DiagnosticoPage() {
                 Y tiene nombre.
               </p>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: '#444', lineHeight: 1.75, margin: 0 }}>
-                En unos segundos sabrás exactamente qué mecanismo está operando en tu proceso — y cuánto te ha costado cada mes.
+                El mecanismo está identificado. El costo, calculado.
               </p>
             </div>
             <button onClick={lanzarResultado} style={{
@@ -837,7 +897,7 @@ export default function DiagnosticoPage() {
       )}
 
       {/* ════════════════════════════════════════
-          DICTAMEN EN CONSTRUCCIÓN — reemplaza spinner
+          DICTAMEN EN CONSTRUCCIÓN
       ════════════════════════════════════════ */}
       {fase === 'cargando' && (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px 80px' }}>
@@ -860,20 +920,19 @@ export default function DiagnosticoPage() {
       )}
 
       {/* ════════════════════════════════════════
-          DICTAMEN PRELIMINAR — reveal parcial, crea anticipación
+          DICTAMEN PRELIMINAR
       ════════════════════════════════════════ */}
       {fase === 'dictamen_preliminar' && r && (
         <DictamenPreliminar r={r} nombre={nombreTrimmed} onContinue={() => { setFase('expediente'); window.scrollTo({ top: 0, behavior: 'smooth' }) }} />
       )}
 
       {/* ════════════════════════════════════════
-          EXPEDIENTE — reconstrucción forense completa
+          EXPEDIENTE
       ════════════════════════════════════════ */}
       {fase === 'expediente' && r && (
         <div ref={resultRef} style={{ padding: '48px 16px 80px', animation: 'fadeUp 0.5s ease both' }}>
           <div style={{ maxWidth: 560, margin: '0 auto' }}>
 
-            {/* Encabezado del expediente */}
             <div style={{ marginBottom: 40 }}>
               <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>
                 EXPEDIENTE — CASO {nombreTrimmed.toUpperCase()}
@@ -882,7 +941,7 @@ export default function DiagnosticoPage() {
                 RECONSTRUCCIÓN<br /><span style={{ color: ROJO }}>DEL CASO</span>
               </h2>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: '#555', lineHeight: 1.75, margin: 0 }}>
-                Lo que la investigación observó, descartó y concluyó. En el orden en que ocurrió.
+                Lo que la investigación observó, descartó y concluyó.
               </p>
             </div>
 
@@ -894,14 +953,15 @@ export default function DiagnosticoPage() {
                 { ref: 'E02', label: 'Operaciones en zona de enfriamiento', val: `${sel.v2 ?? 0} activas` },
                 { ref: 'E03', label: 'Secuencia en fase de deliberación', val: sel.q3 === true ? 'Definida' : sel.q3 === false ? 'Variable' : '—' },
                 { ref: 'E04', label: 'Métrica de conversión documentada', val: sel.q4 === true ? 'Sí' : sel.q4 === false ? 'No' : '—' },
-                { ref: 'E05', label: 'Primera consecuencia esperada', val: sel.sueno ? sel.sueno.charAt(0).toUpperCase() + sel.sueno.slice(1) : '—' },
+                // P2: label forense en lugar de valor crudo
+                { ref: 'E05', label: 'Consecuencia predominante', val: sel.sueno ? SUENO_LABELS[sel.sueno] ?? sel.sueno : '—' },
               ].map(({ ref: eRef, label, val }) => (
                 <div key={eRef} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', padding: '10px 0', borderBottom: '1px solid #141414' }}>
-                  <div>
+                  <div style={{ flexShrink: 0 }}>
                     <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: '#333', letterSpacing: '0.12em', marginRight: 10 }}>{eRef}</span>
                     <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#666' }}>{label}</span>
                   </div>
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#B8B8B8', letterSpacing: '0.04em', flexShrink: 0, marginLeft: 12 }}>{val}</span>
+                  <span style={{ fontFamily: eRef === 'E05' ? "'Inter', sans-serif" : "'JetBrains Mono', monospace", fontSize: eRef === 'E05' ? 11 : 12, color: '#888', letterSpacing: '0.02em', flexShrink: 1, marginLeft: 12, textAlign: 'right', maxWidth: '55%', lineHeight: 1.4 }}>{val}</span>
                 </div>
               ))}
             </div>
@@ -925,16 +985,30 @@ export default function DiagnosticoPage() {
               })}
             </div>
 
-            {/* Sección 3: Corrección controlada (solo si ocurrió) */}
-            {sel.q3 === true && (
+            {/* Sección 3: Corrección controlada — P5: ambas ramas */}
+            {sel.q3 !== null && (
               <div style={{ background: '#0a0800', border: '1px solid rgba(245,196,0,0.15)', borderRadius: 12, padding: '20px 24px', marginBottom: 12 }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#444', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>CORRECCIÓN REGISTRADA · E03</div>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#888', lineHeight: 1.8, margin: '0 0 8px' }}>
-                  La evidencia E02 reforzaba una interpretación que señalaba ausencia de estructura como causa principal.
-                </p>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#B8B8B8', lineHeight: 1.8, margin: 0 }}>
-                  La evidencia E03 obligó a corregir esa lectura. La secuencia definida existe — el problema opera en otro punto del proceso. La investigación cambió de dirección en ese momento.
-                </p>
+                {sel.q3 === true ? (
+                  <>
+                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#444', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>CORRECCIÓN REGISTRADA · E03</div>
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#888', lineHeight: 1.8, margin: '0 0 8px' }}>
+                      La evidencia E02 reforzaba una interpretación que señalaba ausencia de estructura como causa principal.
+                    </p>
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#B8B8B8', lineHeight: 1.8, margin: 0 }}>
+                      La evidencia E03 obligó a corregir esa lectura. La secuencia definida existe — el problema opera en otro punto. La investigación cambió de dirección en ese momento.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#444', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>CONFIRMACIÓN REGISTRADA · E03</div>
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#888', lineHeight: 1.8, margin: '0 0 8px' }}>
+                      La evidencia E02 establecía un patrón de exposición.
+                    </p>
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#B8B8B8', lineHeight: 1.8, margin: 0 }}>
+                      La evidencia E03 lo confirmó: la variabilidad del proceso es el mecanismo por el que las operaciones desaparecen. La investigación no cambió de dirección — identificó el punto exacto de origen.
+                    </p>
+                  </>
+                )}
               </div>
             )}
 
@@ -955,29 +1029,24 @@ export default function DiagnosticoPage() {
               </p>
             </div>
 
-            {/* Sección 5: Impacto económico — ahora en cifras exactas */}
+            {/* Sección 5: P3 — rango calibrado, cifra exacta solo en veredicto */}
             {r.perdidaMensual > 0 && (
               <div style={{ background: '#0d0000', border: '1px solid #2a0000', borderRadius: 12, padding: '22px 24px', marginBottom: 12 }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>IMPACTO ECONÓMICO · CIFRAS EXACTAS</div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
-                  {[
-                    { label: 'Por mes', val: fmt(r.perdidaMensual), color: ROJO },
-                    { label: 'En 90 días', val: fmt(r.perdida90), color: '#888' },
-                    { label: 'Al año', val: fmt(r.perdidaAnual), color: '#555' },
-                  ].map(({ label, val, color }) => (
-                    <div key={label}>
-                      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(20px,4vw,30px)', color, letterSpacing: '0.02em', lineHeight: 1 }}>{val}</div>
-                      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: '#333', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: 4 }}>{label}</div>
-                    </div>
-                  ))}
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>IMPACTO ECONÓMICO · RANGO CALIBRADO</div>
+                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(28px,6vw,44px)', color: ROJO, letterSpacing: '0.02em', lineHeight: 1, marginBottom: 8 }}>
+                  {calibratedRange(r.perdidaMensual)}
                 </div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: '#333', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 14 }}>mensual · calculado con las evidencias del caso</div>
                 {(sel.v1 ?? 0) > 0 && (
-                  <div style={{ borderTop: '1px solid #1a0000', marginTop: 16, paddingTop: 14 }}>
-                    <p style={{ fontFamily: "'Inter', sans-serif", margin: 0, fontSize: 12, color: '#444', lineHeight: 1.65 }}>
-                      Equivale a ≈ {Math.max(1, Math.round(r.perdida90 / (sel.v1 ?? 1)))} operaciones cerradas que ya no se van a recuperar en los próximos 90 días si el patrón no cambia.
-                    </p>
-                  </div>
+                  <p style={{ fontFamily: "'Inter', sans-serif", margin: 0, fontSize: 12, color: '#444', lineHeight: 1.65 }}>
+                    Equivale a ≈ {Math.max(1, Math.round(r.perdida90 / (sel.v1 ?? 1)))} operaciones no realizadas en 90 días si el patrón no cambia.
+                  </p>
                 )}
+                <div style={{ borderTop: '1px solid #1a0000', marginTop: 14, paddingTop: 12 }}>
+                  <p style={{ fontFamily: "'JetBrains Mono', monospace", margin: 0, fontSize: 9, color: '#2a2a2a', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                    La cifra exacta se emite en el veredicto.
+                  </p>
+                </div>
               </div>
             )}
 
@@ -1012,14 +1081,14 @@ export default function DiagnosticoPage() {
       )}
 
       {/* ════════════════════════════════════════
-          VEREDICTO FINAL — después del expediente, inevitable
+          VEREDICTO FINAL
       ════════════════════════════════════════ */}
       {fase === 'veredicto' && r && (
         <VeredictoReveal r={r} nombre={nombreTrimmed} onContinue={() => { setFase('accion'); window.scrollTo({ top: 0, behavior: 'smooth' }) }} />
       )}
 
       {/* ════════════════════════════════════════
-          ACCIÓN — continuación narrativa del expediente
+          ACCIÓN
       ════════════════════════════════════════ */}
       {(fase === 'accion' || fase === 'desbloqueado') && r && (
         <div style={{ padding: '48px 16px 80px', animation: 'fadeUp 0.5s ease both' }}>
@@ -1034,20 +1103,16 @@ export default function DiagnosticoPage() {
                   EXPEDIENTE<br /><span style={{ color: ROJO }}>INCOMPLETO.</span>
                 </h2>
                 <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, color: '#B8B8B8', lineHeight: 1.85, margin: '0 0 32px' }}>
-                  El dictamen que acabas de recibir es el resumen ejecutivo del caso. Existe una versión extendida con las conclusiones técnicas completas y las acciones priorizadas para {nombreTrimmed.split(' ')[0] || nombreTrimmed}.
+                  El dictamen emitido es el resumen ejecutivo. Existe una versión extendida con las conclusiones técnicas y el plan de intervención específico para {nombreTrimmed.split(' ')[0] || nombreTrimmed}.
                 </p>
 
+                {/* P4: contenido personalizado por cuello */}
                 <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px', marginBottom: 28 }}>
-                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>EL EXPEDIENTE COMPLETO INCLUYE</div>
-                  {[
-                    'Secuencia exacta de las 3 acciones con mayor impacto documentado.',
-                    'Reconstrucción detallada del punto de fuga identificado en el proceso.',
-                    'Anexo técnico con los parámetros calculados para este caso específico.',
-                    'Protocolo de intervención prioritario basado en las evidencias registradas.',
-                  ].map((item, i) => (
-                    <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', padding: '10px 0', borderBottom: i < 3 ? '1px solid #141414' : 'none' }}>
-                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', flexShrink: 0, marginTop: 2 }}>0{i + 1}</span>
-                      <p style={{ fontFamily: "'Inter', sans-serif", margin: 0, fontSize: 13, color: '#888', lineHeight: 1.65 }}>{item}</p>
+                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>EXPEDIENTE COMPLETO · {r.cuello.toUpperCase()}</div>
+                  {(accionPorCuello[r.cuello] ?? accionPorCuello['seguimiento']).map(({ ref: aRef, texto }, i) => (
+                    <div key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', padding: '12px 0', borderBottom: i < 3 ? '1px solid #141414' : 'none' }}>
+                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: ROJO, flexShrink: 0, marginTop: 3, letterSpacing: '0.08em' }}>{aRef}</span>
+                      <p style={{ fontFamily: "'Inter', sans-serif", margin: 0, fontSize: 13, color: '#888', lineHeight: 1.7 }}>{texto}</p>
                     </div>
                   ))}
                 </div>
@@ -1086,7 +1151,7 @@ export default function DiagnosticoPage() {
                   El expediente completo fue enviado. Revisa tu correo.
                 </p>
                 <p style={{ fontFamily: "'Inter', sans-serif", margin: 0, fontSize: 13, color: '#444', lineHeight: 1.65 }}>
-                  Incluye la reconstrucción del caso, el responsable documentado y el protocolo de intervención para el punto de fuga identificado.
+                  Incluye la reconstrucción del caso, el responsable documentado y el plan de intervención para el punto de fuga identificado.
                 </p>
               </div>
             )}
