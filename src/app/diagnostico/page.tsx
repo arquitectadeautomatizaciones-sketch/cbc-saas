@@ -268,7 +268,7 @@ export default function DiagnosticoPage() {
             Diagnóstico con tus números reales
           </div>
           <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(52px,10vw,96px)', lineHeight: 0.92, color: 'white', margin: '0 0 14px', letterSpacing: '0.01em' }}>
-            Esta auditoría es<br />sobre <span style={{ color: ROJO }}>TU dinero</span> —<br />no técnica de ventas.
+            ¿Qué va a pasar<br />en <span style={{ color: ROJO }}>90 días</span><br />si no cambias nada?
           </h1>
           <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: 'clamp(14px,2vw,17px)', color: '#aaa', lineHeight: 1.7, margin: '0 0 24px' }}>
             Responde con lo que es real, no con lo que quisieras que fuera.<br />Nadie más tiene acceso a estas respuestas. No te traiciones.
