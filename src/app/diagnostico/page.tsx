@@ -521,11 +521,11 @@ export default function DiagnosticoPage() {
 
             {/* Sueño */}
             {r.suenoTextos && (
-              <div style={{ background: '#0d0000', border: `1px solid rgba(232,0,29,0.2)`, borderRadius: 14, padding: '20px 18px', marginBottom: 14 }}>
-                <p style={{ fontFamily: "'Bebas Neue', sans-serif", margin: '0 0 4px', fontSize: 24, color: 'white', letterSpacing: '0.01em' }}>Y ese sueño tuyo...</p>
-                <p style={{ fontFamily: "'Barlow', sans-serif", margin: '0 0 16px', fontSize: 11, color: '#666', textTransform: 'uppercase', letterSpacing: '0.08em' }}>El que llevas tiempo postergando</p>
+              <div style={{ background: '#0a0900', border: `1px solid rgba(245,196,0,0.2)`, borderRadius: 14, padding: '20px 18px', marginBottom: 14 }}>
+                <p style={{ fontFamily: "'Bebas Neue', sans-serif", margin: '0 0 4px', fontSize: 24, color: AMARILLO, letterSpacing: '0.01em' }}>Y ese sueño tuyo...</p>
+                <p style={{ fontFamily: "'Barlow', sans-serif", margin: '0 0 16px', fontSize: 11, color: 'rgba(245,196,0,0.5)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>El que llevas tiempo postergando</p>
                 {r.suenoTextos.map((linea, i) => (
-                  <p key={i} style={{ fontFamily: "'Barlow', sans-serif", margin: i < 2 ? '0 0 10px' : 0, fontSize: 14, color: '#ccc', lineHeight: 1.65, borderBottom: i < 2 ? `1px solid rgba(232,0,29,0.08)` : 'none', paddingBottom: i < 2 ? 10 : 0 }}>
+                  <p key={i} style={{ fontFamily: "'Barlow', sans-serif", margin: i < 2 ? '0 0 10px' : 0, fontSize: 14, color: '#ccc', lineHeight: 1.65, borderBottom: i < 2 ? `1px solid rgba(245,196,0,0.08)` : 'none', paddingBottom: i < 2 ? 10 : 0 }}>
                     {linea}
                   </p>
                 ))}
