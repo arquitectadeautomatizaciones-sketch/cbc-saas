@@ -140,7 +140,8 @@ function getHipValsCurr(paso: number, sel: Selecciones): [number, number, number
   return [4, 93, 3]
 }
 function getHipValsPrev(paso: number, sel: Selecciones): [number, number, number] {
-  if (paso <= 1) return [0, 0, 0]
+  if (paso <= 0) return [0, 0, 0]
+  if (paso === 1) return [33, 33, 34]  // prior uniforme antes de cualquier evidencia
   return getHipValsCurr(paso - 1, sel)
 }
 
