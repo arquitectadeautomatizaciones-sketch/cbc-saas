@@ -202,32 +202,144 @@ function SubscribeContent() {
   return (
     <div style={{ fontFamily: INTER, overflowX: 'hidden' }}>
 
-      {/* ── Google Fonts ─────────────────────────────────────── */}
+      {/* ── Google Fonts + Ambiente ──────────────────────────── */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;600;700&display=swap');
         * { box-sizing: border-box; }
+
+        /* ── Capas ambientales — secciones oscuras ── */
+        .sec-oscura {
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* Degradado radial: da profundidad, el centro respira */
+        .sec-oscura::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(ellipse 90% 70% at 50% 30%,
+              rgba(30,30,30,0.55) 0%,
+              transparent 65%),
+            radial-gradient(ellipse 60% 80% at 80% 80%,
+              rgba(232,0,29,0.04) 0%,
+              transparent 60%);
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        /* Ruido cinematográfico 2–3 % */
+        .sec-oscura::after {
+          content: '';
+          position: absolute;
+          inset: -50%;
+          width: 200%;
+          height: 200%;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+          opacity: 0.028;
+          pointer-events: none;
+          z-index: 0;
+          animation: grain 0.4s steps(1) infinite;
+        }
+
+        @keyframes grain {
+          0%   { transform: translate(0, 0); }
+          25%  { transform: translate(-2%, -3%); }
+          50%  { transform: translate(3%, 2%); }
+          75%  { transform: translate(-1%, 3%); }
+          100% { transform: translate(2%, -1%); }
+        }
+
+        /* Vignette lateral — sombras profundas en los bordes */
+        .sec-oscura .vignette {
+          position: absolute;
+          inset: 0;
+          background:
+            linear-gradient(to right,  rgba(0,0,0,0.45) 0%, transparent 25%, transparent 75%, rgba(0,0,0,0.45) 100%),
+            linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.4) 100%);
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        /* Líneas de escáner muy sutiles */
+        .scan-lines {
+          position: absolute;
+          inset: 0;
+          background-image: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(255,255,255,0.012) 3px,
+            rgba(255,255,255,0.012) 4px
+          );
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        /* Todo el contenido de secciones oscuras sobre las capas */
+        .sec-oscura .inner {
+          position: relative;
+          z-index: 1;
+        }
+
+        /* Sección verde oscura — misma atmósfera, tinte frío */
+        .sec-verde {
+          position: relative;
+          overflow: hidden;
+        }
+        .sec-verde::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(ellipse 80% 60% at 50% 40%,
+              rgba(78,205,196,0.06) 0%,
+              transparent 60%),
+            radial-gradient(ellipse 60% 80% at 10% 90%,
+              rgba(0,0,0,0.35) 0%,
+              transparent 50%);
+          pointer-events: none;
+          z-index: 0;
+        }
+        .sec-verde::after {
+          content: '';
+          position: absolute;
+          inset: -50%;
+          width: 200%;
+          height: 200%;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+          opacity: 0.022;
+          pointer-events: none;
+          z-index: 0;
+          animation: grain 0.4s steps(1) infinite;
+        }
+        .sec-verde .inner {
+          position: relative;
+          z-index: 1;
+        }
       `}</style>
 
       {/* ════════════════════════════════════════════════════════
           SECCIÓN 01 — SELLO DE CIERRE
           Estado: CONTINUIDAD · "Sigo dentro del mismo caso"
       ════════════════════════════════════════════════════════ */}
-      <section style={{ background: NEGRO, padding: '72px 24px 64px', position: 'relative' }}>
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4,
-          background: `repeating-linear-gradient(90deg, ${ROJO} 0,${ROJO} 22px, transparent 22px, transparent 30px)` }} />
+      <section className="sec-oscura" style={{ background: NEGRO, padding: '88px 24px 72px' }}>
+        <div className="vignette" />
+        <div className="scan-lines" />
 
-        <div style={{ maxWidth: 720, margin: '0 auto' }}>
-          <div style={{ fontFamily: MONO, fontSize: 11, color: '#444', letterSpacing: '0.15em', marginBottom: 24 }}>
+        <div className="inner" style={{ maxWidth: 720, margin: '0 auto' }}>
+          <div style={{ fontFamily: MONO, fontSize: 11, color: '#3a3a3a', letterSpacing: '0.15em', marginBottom: 20 }}>
             EXPEDIENTE · ESTADO: CERRADO · FASE ACTIVA: INTERVENCIÓN
           </div>
 
-          <h1 style={{ fontFamily: BEBAS, fontSize: 'clamp(56px, 8vw, 84px)', color: PAPER, lineHeight: 1, margin: '0 0 6px', letterSpacing: '0.02em' }}>
+          <h1 style={{ fontFamily: BEBAS, fontSize: 'clamp(56px, 8vw, 84px)', color: PAPER, lineHeight: 1, margin: '0 0 4px', letterSpacing: '0.02em' }}>
             La investigación
           </h1>
-          <h1 style={{ fontFamily: BEBAS, fontSize: 'clamp(56px, 8vw, 84px)', color: ROJO, lineHeight: 1, margin: '0 0 28px', letterSpacing: '0.02em' }}>
+          <h1 style={{ fontFamily: BEBAS, fontSize: 'clamp(56px, 8vw, 84px)', color: ROJO, lineHeight: 1, margin: '0 0 24px', letterSpacing: '0.02em' }}>
             terminó.
           </h1>
-          <p style={{ fontFamily: INTER, fontSize: 17, color: '#777', lineHeight: 1.65, maxWidth: 500, margin: '0 0 44px' }}>
+          <p style={{ fontFamily: INTER, fontSize: 17, color: '#666', lineHeight: 1.65, maxWidth: 480, margin: '0 0 40px' }}>
             El veredicto fue emitido. El cuello fue identificado.
             Ahora comienza la intervención.
           </p>
@@ -238,9 +350,6 @@ function SubscribeContent() {
             texto="Revisé tu expediente. El patrón ya está identificado. Déjame mostrarte cómo vamos a intervenirlo."
           />
         </div>
-
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 4,
-          background: `repeating-linear-gradient(90deg, ${ROJO} 0,${ROJO} 22px, transparent 22px, transparent 30px)` }} />
       </section>
 
       {/* ════════════════════════════════════════════════════════
@@ -400,8 +509,8 @@ function SubscribeContent() {
           SECCIÓN 06 — LA INVESTIGADORA (Origen del Protocolo)
           Estado: VALIDACIÓN DE ORIGEN
       ════════════════════════════════════════════════════════ */}
-      <section style={{ background: VERDE, padding: '80px 24px' }}>
-        <div style={{ maxWidth: 720, margin: '0 auto' }}>
+      <section className="sec-verde" style={{ background: VERDE, padding: '80px 24px' }}>
+        <div className="inner" style={{ maxWidth: 720, margin: '0 auto' }}>
           <div style={{ fontFamily: MONO, fontSize: 11, color: `${TEAL}99`, letterSpacing: '0.15em', marginBottom: 16 }}>
             ORIGEN DEL PROTOCOLO
           </div>
@@ -607,11 +716,11 @@ function SubscribeContent() {
           SECCIÓN 11 — CIERRE
           Estado: DECISIÓN · "La siguiente acción es la consecuencia natural"
       ════════════════════════════════════════════════════════ */}
-      <section style={{ background: NEGRO, padding: '80px 24px', position: 'relative' }}>
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4,
-          background: `repeating-linear-gradient(90deg, ${ROJO} 0,${ROJO} 22px, transparent 22px, transparent 30px)` }} />
+      <section className="sec-oscura" style={{ background: NEGRO, padding: '88px 24px' }}>
+        <div className="vignette" />
+        <div className="scan-lines" />
 
-        <div style={{ maxWidth: 720, margin: '0 auto' }}>
+        <div className="inner" style={{ maxWidth: 720, margin: '0 auto' }}>
           <div style={{ fontFamily: MONO, fontSize: 11, color: '#444', letterSpacing: '0.15em', marginBottom: 16 }}>
             CIERRE DEL EXPEDIENTE
           </div>
