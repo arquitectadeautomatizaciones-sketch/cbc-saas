@@ -329,7 +329,7 @@ function SubscribeContent() {
         <div className="scan-lines" />
 
         <div className="inner" style={{ maxWidth: 720, margin: '0 auto' }}>
-          <div style={{ fontFamily: MONO, fontSize: 11, color: '#3a3a3a', letterSpacing: '0.15em', marginBottom: 20 }}>
+          <div style={{ fontFamily: MONO, fontSize: 12, fontWeight: 600, color: '#888', letterSpacing: '0.2em', marginBottom: 20 }}>
             EXPEDIENTE · ESTADO: CERRADO · FASE ACTIVA: INTERVENCIÓN
           </div>
 
@@ -721,7 +721,7 @@ function SubscribeContent() {
         <div className="scan-lines" />
 
         <div className="inner" style={{ maxWidth: 720, margin: '0 auto' }}>
-          <div style={{ fontFamily: MONO, fontSize: 11, color: '#444', letterSpacing: '0.15em', marginBottom: 16 }}>
+          <div style={{ fontFamily: MONO, fontSize: 12, fontWeight: 600, color: '#888', letterSpacing: '0.2em', marginBottom: 16 }}>
             CIERRE DEL EXPEDIENTE
           </div>
           <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(42px, 6vw, 64px)', color: PAPER, margin: '0 0 36px', lineHeight: 1.05 }}>

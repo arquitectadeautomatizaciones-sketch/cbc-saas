@@ -719,8 +719,8 @@ export default function DiagnosticoPage() {
       <section style={{ padding: '60px 24px 48px', textAlign: 'center', position: 'relative', overflow: 'hidden', display: pasoForm === 0 ? 'block' : 'none' }}>
         <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse 60% 50% at 50% 0%, rgba(229,57,53,0.07), transparent 70%)`, pointerEvents: 'none' }} />
         <div style={{ maxWidth: 640, margin: '0 auto', position: 'relative' }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#444', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 32 }}>
-            AUDITORÍA FORENSE COMERCIAL · CBC™
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, fontWeight: 600, color: '#888', letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 32 }}>
+            EXPEDIENTE DE AUDITORÍA FORENSE · CBC™
           </div>
           <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(52px,10vw,96px)', lineHeight: 0.9, color: 'white', margin: '0 0 32px', letterSpacing: '0.02em' }}>
             EXISTE UNA FUGA<br />INVISIBLE EN TU<br /><span style={{ color: ROJO }}>PROCESO.</span>
