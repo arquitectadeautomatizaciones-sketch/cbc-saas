@@ -18,6 +18,14 @@ export const metadata: Metadata = {
   title: 'CBC™ — Sistema de seguimiento de ventas B2B para LATAM',
   description: 'Cierra más sin improvisar. CBC™ prioriza tus prospectos, genera el mensaje correcto y te prepara para cada reunión — todo en un solo lugar. Prueba gratis 7 días.',
 
+  manifest: '/manifest.json',
+  themeColor: '#4ECDC4',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'CBC™',
+  },
+
   metadataBase: new URL(SITE_URL),
 
   openGraph: {
@@ -67,6 +75,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${plusJakarta.variable} ${inter.variable} h-full antialiased`}>
+      <head>
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      </head>
       <body className="min-h-full flex flex-col bg-[#F5F0E8]" style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif' }}>{children}</body>
     </html>
   )
