@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     .send({
       from: FROM_DIANA,
       to: email,
-      subject: 'hola, esto es lo que encontramos en tu pipeline ✨',
+      subject: nombreGuardado ? `${nombreGuardado.split(' ')[0]}, ya sabemos quién es el ladrón 🔍` : 'Ya sabemos quién es el ladrón 🔍',
       html: emailDiagnostico(APP_URL, nombreGuardado),
     })
     .catch((err: unknown) => console.error('[email/diagnostico]', err))
@@ -54,6 +54,7 @@ function emailDiagnostico(appUrl: string, nombre: string | null): string {
   <title>Tu diagnóstico de pipeline</title>
 </head>
 <body style="margin:0;padding:0;background:#F5F0E8;font-family:system-ui,-apple-system,sans-serif">
+  <span style="display:none;font-size:1px;color:#F5F0E8;max-height:0;max-width:0;opacity:0;overflow:hidden;">hola, esto es lo que encontramos en tus números 👀</span>
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#F5F0E8;padding:40px 16px">
     <tr><td align="center">
       <table width="100%" style="max-width:520px;background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.06)">
