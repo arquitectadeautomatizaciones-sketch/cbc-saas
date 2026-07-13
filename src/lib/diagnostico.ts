@@ -43,7 +43,7 @@ export const SUENO_DATA: Record<string, string[]> = {
 
 export const FORTALEZAS: Record<string, string> = {
   seguimiento: 'Tienes pocos prospectos sin seguimiento — eso ya te pone por encima del 70% de los vendedores B2B.',
-  priorizacion: 'Tu nivel de prospectos activos muestra que tienes el pipeline bajo control.',
+  priorizacion: 'Tu nivel de prospectos activos muestra que tienes el flujo bajo control.',
   preparacion: 'Tener un protocolo para el "lo pienso" es una ventaja real — la mayoría improvisa y pierde ahí.',
   reporte: 'Conoces tu tasa de cierre — eso te hace más persuasivo ante tu director y más consciente de tu proceso.',
 }
