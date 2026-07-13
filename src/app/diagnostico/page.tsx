@@ -594,18 +594,18 @@ export default function DiagnosticoPage() {
 
   const PASO_LABELS = ['', 'Pregunta 1 de 5', 'Pregunta 2 de 5', 'Pregunta 3 de 5', 'Pregunta 4 de 5', 'Pregunta 5 de 5']
 
-  const progressBar = pasoForm > 0 ? (
+  const progressBar = (
     <div style={{ marginBottom: 28 }}>
       <div style={{ marginBottom: 10 }}>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: ROJO, letterSpacing: '0.16em', textTransform: 'uppercase' }}>
-          {PASO_LABELS[pasoForm]}
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: pasoForm > 0 ? ROJO : '#444', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+          {pasoForm > 0 ? PASO_LABELS[pasoForm] : '5 PREGUNTAS · 2 MINUTOS'}
         </span>
       </div>
       <div style={{ background: '#1a1a1a', borderRadius: 100, height: 2 }}>
         <div style={{ width: `${(pasoForm / 5) * 100}%`, height: '100%', background: ROJO, borderRadius: 100, transition: 'width 0.6s ease' }} />
       </div>
     </div>
-  ) : null
+  )
 
   const card = (children: React.ReactNode) => (
     <div ref={cardRef} style={{
@@ -760,9 +760,9 @@ export default function DiagnosticoPage() {
             <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.90)', lineHeight: 1.8, margin: '0 0 20px' }}>
               Existe una fuga. ¿Tienes algún sospechoso en mente?
             </p>
-            <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 'clamp(15px,1.8vw,16px)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, margin: 0 }}>
-              Son <strong style={{ color: '#B8B8B8' }}>5 preguntas</strong>. Tus respuestas permanecen confidenciales.
-            </p>
+          </div>
+          <div style={{ maxWidth: 520, margin: '0 auto 8px' }}>
+            {progressBar}
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'center', maxWidth: 400, margin: '0 auto' }}>
             <div style={{ height: 1, flex: 1, background: '#222' }} />
