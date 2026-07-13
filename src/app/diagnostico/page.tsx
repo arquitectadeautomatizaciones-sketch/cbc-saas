@@ -104,7 +104,7 @@ function ConseqBtn({ label, selected, onClick }: { label: string; selected: bool
       border: selected ? `1px solid ${AMARILLO}` : '1px solid #1e1e1e',
       background: selected ? '#0a0900' : '#0a0a0a',
       color: selected ? AMARILLO : '#555',
-      fontFamily: "'Inter', sans-serif",
+      fontFamily: "'General Sans', system-ui, sans-serif",
       fontWeight: selected ? 600 : 400, fontSize: 14,
       cursor: 'pointer', transition: 'all 0.15s', textAlign: 'left',
       lineHeight: 1.5,
@@ -243,7 +243,7 @@ function DictamenRow({ label, delay }: { label: string; delay: number }) {
   useEffect(() => { const id = setTimeout(() => setDone(true), delay); return () => clearTimeout(id) }, [delay])
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 0', borderBottom: '1px solid #141414' }}>
-      <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: done ? '#888' : '#2a2a2a', transition: 'color 0.9s ease', letterSpacing: '0.01em' }}>{label}</span>
+      <span style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 14, color: done ? '#888' : '#2a2a2a', transition: 'color 0.9s ease', letterSpacing: '0.01em' }}>{label}</span>
       <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: done ? '#22C55E' : '#1a1a1a', transition: 'color 0.9s ease', letterSpacing: '0.1em', minWidth: 28, textAlign: 'right' }}>
         {done ? '✔' : '···'}
       </span>
@@ -277,7 +277,7 @@ function RazonamientoPanel({ paso, sel, nombre, onContinue }: {
 
         {beat >= 1 && (
           <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '24px', marginBottom: 14, animation: 'up 0.5s ease' }}>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: '#B8B8B8', lineHeight: 1.85, margin: 0 }}>{b1}</p>
+            <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.88)', lineHeight: 1.85, margin: 0 }}>{b1}</p>
           </div>
         )}
 
@@ -322,7 +322,7 @@ function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof ca
         </div>
 
         <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(42px,9vw,72px)', lineHeight: 0.9, color: 'white', margin: '0 0 28px', letterSpacing: '0.01em' }}>
-          ALGO SE<br /><span style={{ color: ROJO }}>ESTÁ PERDIENDO.</span><br />AHORA CALCULAMOS<br />CUÁNTO.
+          ALGO SE<br />ESTÁ <span style={{ fontFamily: "'Alex Brush', cursive", color: ROJO, fontSize: 'clamp(52px,11vw,88px)', lineHeight: 0.80, display: 'inline-block', verticalAlign: 'middle' }}>Perdiendo.</span><br />AHORA CALCULAMOS<br />CUÁNTO.
         </h2>
 
         <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px 28px', marginBottom: 20 }}>
@@ -330,19 +330,19 @@ function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof ca
           <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(38px,8vw,60px)', color: AMARILLO, letterSpacing: '0.02em', lineHeight: 1 }}>
             {maskRange(r.perdidaMensual)}
           </div>
-          <p style={{ fontFamily: "'Inter', sans-serif", margin: '12px 0 0', fontSize: 12, color: '#444', lineHeight: 1.65 }}>
+          <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '12px 0 0', fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65 }}>
             La cifra exacta aparece en el siguiente paso. Ya encontramos dónde está la fuga.
           </p>
         </div>
 
         <div style={{ background: '#0a0800', border: `1px solid rgba(245,196,0,0.1)`, borderRadius: 10, padding: '18px 22px', marginBottom: 32 }}>
-          <p style={{ fontFamily: "'Inter', sans-serif", margin: '0 0 10px', fontSize: 13, color: '#666', lineHeight: 1.75 }}>
+          <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '0 0 10px', fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75 }}>
             Encontramos el cuello de botella que está frenando tus comisiones.
           </p>
           <p style={{ fontFamily: "'Bebas Neue', sans-serif", margin: 0, fontSize: 22, color: 'white', letterSpacing: '0.04em' }}>
             {r.cuelloLabel.toUpperCase()}
           </p>
-          <p style={{ fontFamily: "'Inter', sans-serif", margin: '8px 0 0', fontSize: 13, color: '#888', lineHeight: 1.65 }}>
+          <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '8px 0 0', fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65 }}>
             El detalle completo de tu diagnóstico incluye las causas descartadas y los pasos concretos para {nombre.split(' ')[0] || nombre}.
           </p>
         </div>
@@ -395,7 +395,7 @@ function VeredictoReveal({ r, nombre, sel, onContinue }: { r: ReturnType<typeof 
             <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(44px,10vw,82px)', lineHeight: 0.92, color: 'white', margin: '0 0 10px', letterSpacing: '0.01em' }}>
               {r.cuelloLabel.toUpperCase()}
             </h2>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: '#666', lineHeight: 1.7, margin: 0 }}>
+            <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, margin: 0 }}>
               {r.cuelloTexto}
             </p>
           </div>
@@ -419,7 +419,7 @@ function VeredictoReveal({ r, nombre, sel, onContinue }: { r: ReturnType<typeof 
               </div>
             </div>
             {r.perdidaMensual > 0 && (sel.v1 ?? 0) > 0 && (
-              <p style={{ fontFamily: "'Inter', sans-serif", margin: '14px 0 0', fontSize: 12, color: '#444', lineHeight: 1.65, borderTop: '1px solid #1a0000', paddingTop: 12 }}>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '14px 0 0', fontSize: 12, color: '#444', lineHeight: 1.65, borderTop: '1px solid #1a0000', paddingTop: 12 }}>
                 Hoy dejaste escapar el equivalente a {Math.max(1, Math.round(r.perdida90 / (sel.v1 ?? 1)))} ventas. Si nada cambia, en 90 días habrás dejado escapar {fmt(r.perdida90)} — eso equivale a clientes que ya casi tenías cerrados.
               </p>
             )}
@@ -435,10 +435,10 @@ function VeredictoReveal({ r, nombre, sel, onContinue }: { r: ReturnType<typeof 
               <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 20, color: AMARILLO, letterSpacing: '0.04em', margin: '0 0 14px' }}>
                 {SUENO_LABELS[sel.sueno]?.toUpperCase()}
               </p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#888', lineHeight: 1.8, margin: '0 0 10px' }}>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.8, margin: '0 0 10px' }}>
                 No necesita que trabajes más horas. Necesita un sistema que siga vendiendo cuando tú estás con tu familia, durmiendo, o disfrutando de un fin de semana.
               </p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#555', lineHeight: 1.75, margin: 0 }}>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, margin: 0 }}>
                 Cada seguimiento que depende de tu memoria pone un límite al crecimiento de tu negocio.
               </p>
             </div>
@@ -448,7 +448,7 @@ function VeredictoReveal({ r, nombre, sel, onContinue }: { r: ReturnType<typeof 
         {beat >= 4 && (
           <div style={{ animation: 'fadeUp 0.5s ease both' }}>
             <div style={{ borderLeft: '2px solid #222', paddingLeft: 16, marginBottom: 24 }}>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#555', lineHeight: 1.8, margin: '0 0 8px', fontStyle: 'italic' }}>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.8, margin: '0 0 8px', fontStyle: 'italic' }}>
                 "Si llevas 10 años haciendo lo mismo, no tienes 10 años de experiencia. Tienes 1 año repetido 10 veces."
               </p>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.1em' }}>
@@ -459,8 +459,8 @@ function VeredictoReveal({ r, nombre, sel, onContinue }: { r: ReturnType<typeof 
               <div style={{ background: '#0a0a0a', border: '1px solid #1a1a1a', borderRadius: 10, padding: '16px 20px', marginBottom: 24 }}>
                 <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 12 }}>LO QUE YA HACES BIEN</div>
                 {r.fortalezas.slice(0, 2).map((f, i) => (
-                  <p key={i} style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#666', lineHeight: 1.75, margin: i === 0 ? '0 0 8px' : 0 }}>
-                    ✓ {f.texto}
+                  <p key={i} style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, margin: i === 0 ? '0 0 8px' : 0 }}>
+                    – {f.texto}
                   </p>
                 ))}
               </div>
@@ -669,7 +669,7 @@ export default function DiagnosticoPage() {
     </div>
   )
   const qSub = (text: string) => (
-    <p style={{ fontFamily: "'Inter', sans-serif", margin: '0 0 24px', fontSize: 13, color: '#666', lineHeight: 1.7 }}>{text}</p>
+    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '0 0 24px', fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75 }}>{text}</p>
   )
 
   const bgMap: Record<number, string> = {
@@ -713,14 +713,15 @@ export default function DiagnosticoPage() {
 
   return (
     <div style={{
-      minHeight: '100vh', fontFamily: "'Barlow', sans-serif", color: 'white', overflowX: 'hidden',
+      minHeight: '100vh', fontFamily: "'General Sans', system-ui, sans-serif", color: 'white', overflowX: 'hidden',
       background: NEGRO,
       backgroundImage: (fase === 'form' || fase === 'suspense' || fase === 'razonando' || fase === 'dictamen_preliminar') ? `linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 100%), ${bgActual}` : 'none',
       backgroundSize: 'cover', backgroundPosition: 'center top', backgroundAttachment: 'fixed',
       transition: 'background-image 0.6s ease',
     }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;600;700&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&display=swap');
         :root { color-scheme: dark; }
         * { box-sizing: border-box; }
         @keyframes spin    { to { transform: rotate(360deg); } }
@@ -753,13 +754,13 @@ export default function DiagnosticoPage() {
             DIAGNÓSTICO COMERCIAL · CBC™
           </div>
           <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(52px,10vw,96px)', lineHeight: 0.9, color: 'white', margin: '0 0 32px', letterSpacing: '0.02em' }}>
-            EN 2 MINUTOS<br />SABES QUIÉN TE<br />ESTÁ <span style={{ color: ROJO }}>ROBANDO</span><br />TUS COMISIONES.
+            EN 2 MINUTOS<br />SABES QUIÉN TE<br />ESTÁ <span style={{ fontFamily: "'Alex Brush', cursive", color: ROJO, fontSize: 'clamp(64px,12.5vw,118px)', lineHeight: 0.80, display: 'inline-block', verticalAlign: 'middle', marginTop: '-2px' }}>Robando</span><br />TUS COMISIONES.
           </h1>
           <div style={{ textAlign: 'left', maxWidth: 520, margin: '0 auto 36px' }}>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 'clamp(14px,2vw,16px)', color: '#B8B8B8', lineHeight: 1.8, margin: '0 0 20px' }}>
+            <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.90)', lineHeight: 1.8, margin: '0 0 20px' }}>
               Existe una fuga. ¿Tienes algún sospechoso en mente?
             </p>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 'clamp(13px,1.8vw,15px)', color: '#666', lineHeight: 1.7, margin: 0 }}>
+            <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 'clamp(15px,1.8vw,16px)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, margin: 0 }}>
               Son <strong style={{ color: '#B8B8B8' }}>5 preguntas</strong>. Tus respuestas permanecen confidenciales.
             </p>
           </div>
@@ -789,7 +790,7 @@ export default function DiagnosticoPage() {
                     onChange={e => setNombre(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && avanzar()}
                     autoFocus
-                    style={{ display: 'block', width: '100%', padding: '14px 18px', background: '#0c0c0c', border: `1px solid ${nombreTrimmed.length >= 2 ? ROJO : '#222'}`, borderRadius: 8, color: 'white', fontFamily: "'Inter', sans-serif", fontSize: 16, fontWeight: 600, outline: 'none', transition: 'border-color 0.2s', letterSpacing: '0.02em' }}
+                    style={{ display: 'block', width: '100%', padding: '14px 18px', background: '#0c0c0c', border: `1px solid ${nombreTrimmed.length >= 2 ? ROJO : '#222'}`, borderRadius: 8, color: 'white', fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 16, fontWeight: 600, outline: 'none', transition: 'border-color 0.2s', letterSpacing: '0.02em' }}
                   />
                 </>
               )}
@@ -851,7 +852,7 @@ export default function DiagnosticoPage() {
                   {pasoForm === 5 && <>
                     {qTitle('Soñar no cuesta nada. Hacerlo realidad sí.')}
                     {qSub('¿Cuál es ese sueño que llevas más tiempo esperando o postergando?')}
-                    <p style={{ fontFamily: "'Inter', sans-serif", margin: '-16px 0 16px', fontSize: 12, color: '#444', lineHeight: 1.6, fontStyle: 'italic' }}>
+                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '-16px 0 16px', fontSize: 12, color: '#444', lineHeight: 1.6, fontStyle: 'italic' }}>
                       El que piensas cuando dices "cuando me vaya mejor..."
                     </p>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -864,7 +865,7 @@ export default function DiagnosticoPage() {
                     </div>
                     {sel.sueno && (
                       <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid #1a1a1a' }}>
-                        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: '#888', lineHeight: 1.75, margin: '0 0 6px', textAlign: 'center' }}>
+                        <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 14, color: '#888', lineHeight: 1.75, margin: '0 0 6px', textAlign: 'center' }}>
                           En menos de 60 segundos vas a saber quién es el verdadero ladrón de tus comisiones...
                         </p>
                         <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', margin: 0 }}>
@@ -910,10 +911,10 @@ export default function DiagnosticoPage() {
               PREPARANDO<br />TU<br /><span style={{ color: ROJO }}>DIAGNÓSTICO...</span>
             </h2>
             <div style={{ maxWidth: 420, margin: '0 auto 40px', textAlign: 'left' }}>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, color: '#B8B8B8', lineHeight: 1.85, margin: '0 0 16px' }}>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.90)', lineHeight: 1.85, margin: '0 0 16px' }}>
                 Estamos analizando tus respuestas para identificar el mayor responsable de la pérdida de tus comisiones.
               </p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: '#444', lineHeight: 1.75, margin: 0 }}>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, margin: 0 }}>
                 En unos segundos lo descubrirás con tus propios números.
               </p>
             </div>
@@ -973,28 +974,27 @@ export default function DiagnosticoPage() {
               <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(38px,8vw,64px)', lineHeight: 0.92, color: 'white', margin: '0 0 16px', letterSpacing: '0.01em' }}>
                 {nombreTrimmed.split(' ')[0] || nombreTrimmed}, ¿QUÉ VA A PASAR<br />EN 90 DÍAS SI NO<br /><span style={{ color: ROJO }}>CAMBIAS NADA?</span>
               </h2>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: '#555', lineHeight: 1.75, margin: 0 }}>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, margin: 0 }}>
                 Encontramos el cuello de botella que está frenando tus comisiones.
               </p>
             </div>
 
             {/* Sección 1: Tus respuestas */}
             <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px', marginBottom: 12 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>TUS RESPUESTAS</div>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#555', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>TUS RESPUESTAS</div>
               {[
                 { ref: 'E01', label: 'Valor de operación', val: sel.v1 ? fmt(sel.v1) : '—' },
                 { ref: 'E02', label: 'Prospectos sin seguimiento +7 días', val: `${sel.v2 ?? 0} activos` },
                 { ref: 'E03', label: 'Protocolo ante el "lo pienso"', val: sel.q3 === true ? 'Definido' : sel.q3 === false ? 'Improvisa' : '—' },
                 { ref: 'E04', label: 'Tasa de cierre documentada', val: sel.q4 === true ? 'Sí' : sel.q4 === false ? 'No' : '—' },
-                // P2: label forense en lugar de valor crudo
                 { ref: 'E05', label: 'Consecuencia predominante', val: sel.sueno ? SUENO_LABELS[sel.sueno] ?? sel.sueno : '—' },
               ].map(({ ref: eRef, label, val }) => (
                 <div key={eRef} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', padding: '10px 0', borderBottom: '1px solid #141414' }}>
                   <div style={{ flexShrink: 0 }}>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: '#333', letterSpacing: '0.12em', marginRight: 10 }}>{eRef}</span>
-                    <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#666' }}>{label}</span>
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: '#444', letterSpacing: '0.12em', marginRight: 10 }}>{eRef}</span>
+                    <span style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 14, color: 'rgba(255,255,255,0.65)' }}>{label}</span>
                   </div>
-                  <span style={{ fontFamily: eRef === 'E05' ? "'Inter', sans-serif" : "'JetBrains Mono', monospace", fontSize: eRef === 'E05' ? 11 : 12, color: '#888', letterSpacing: '0.02em', flexShrink: 1, marginLeft: 12, textAlign: 'right', maxWidth: '55%', lineHeight: 1.4 }}>{val}</span>
+                  <span style={{ fontFamily: eRef === 'E05' ? "'General Sans', system-ui, sans-serif" : "'JetBrains Mono', monospace", fontSize: eRef === 'E05' ? 13 : 12, color: 'rgba(255,255,255,0.72)', letterSpacing: '0.02em', flexShrink: 1, marginLeft: 12, textAlign: 'right', maxWidth: '55%', lineHeight: 1.4 }}>{val}</span>
                 </div>
               ))}
             </div>
@@ -1024,20 +1024,20 @@ export default function DiagnosticoPage() {
                 {sel.q3 === true ? (
                   <>
                     <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#444', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>AJUSTE EN EL ANÁLISIS · PREGUNTA 3</div>
-                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#888', lineHeight: 1.8, margin: '0 0 8px' }}>
+                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, margin: '0 0 8px' }}>
                       Tu respuesta anterior apuntaba a la falta de protocolo como causa principal.
                     </p>
-                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#B8B8B8', lineHeight: 1.8, margin: 0 }}>
+                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: 0 }}>
                       Pero tener un protocolo claro para el "lo pienso" descarta esa causa. El problema está en otro punto del proceso — el análisis cambió de dirección en ese momento.
                     </p>
                   </>
                 ) : (
                   <>
-                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#444', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>CONFIRMACIÓN EN EL ANÁLISIS · PREGUNTA 3</div>
-                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#888', lineHeight: 1.8, margin: '0 0 8px' }}>
+                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#555', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>CONFIRMACIÓN EN EL ANÁLISIS · PREGUNTA 3</div>
+                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, margin: '0 0 8px' }}>
                       Tus respuestas anteriores mostraban un patrón de prospectos sin contacto.
                     </p>
-                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#B8B8B8', lineHeight: 1.8, margin: 0 }}>
+                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: 0 }}>
                       La pregunta 3 lo confirmó: improvisar ante el "lo pienso" es exactamente donde desaparecen tus ventas. El análisis no cambió de dirección — encontró el punto exacto de origen.
                     </p>
                   </>
@@ -1047,7 +1047,7 @@ export default function DiagnosticoPage() {
 
             {/* La buena noticia */}
             <div style={{ background: '#0a1a0a', border: '1px solid rgba(34,197,94,0.12)', borderRadius: 12, padding: '16px 22px', marginBottom: 12 }}>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: '#4a8a4a', lineHeight: 1.75, margin: 0 }}>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: '#5cb85c', lineHeight: 1.75, margin: 0 }}>
                 La buena noticia: no necesitas conseguir más clientes. Solo recuperar mejor los que ya tienes.
               </p>
             </div>
@@ -1058,8 +1058,8 @@ export default function DiagnosticoPage() {
               <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(28px,5vw,38px)', color: 'white', letterSpacing: '0.02em', lineHeight: 1, margin: '0 0 12px' }}>
                 {r.cuelloLabel.toUpperCase()}
               </p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: 'rgba(255,255,255,0.75)', lineHeight: 1.75, margin: '0 0 10px' }}>{r.cuelloTexto}</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: AMARILLO, lineHeight: 1.65, margin: 0, fontStyle: 'italic' }}>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.88)', lineHeight: 1.75, margin: '0 0 10px' }}>{r.cuelloTexto}</p>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: AMARILLO, lineHeight: 1.65, margin: 0, fontStyle: 'italic' }}>
                 {{
                   seguimiento: 'No estás perdiendo clientes por tu pitch. Los estás perdiendo porque nadie los vuelve a contactar en el momento justo.',
                   priorizacion: 'No estás perdiendo clientes. Estás dejando esperar demasiado a los clientes correctos — y en ventas, tarde es peor que nunca.',
@@ -1078,7 +1078,7 @@ export default function DiagnosticoPage() {
                 </div>
                 <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: '#333', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 14 }}>mensual · calculado con tus propios datos</div>
                 {(sel.v1 ?? 0) > 0 && (
-                  <p style={{ fontFamily: "'Inter', sans-serif", margin: 0, fontSize: 12, color: '#444', lineHeight: 1.65 }}>
+                  <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: 0, fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65 }}>
                     Hoy dejaste escapar el equivalente a {Math.max(1, Math.round(r.perdida90 / (sel.v1 ?? 1)))} ventas. Si nada cambia, en 90 días habrás dejado escapar clientes que ya casi tenías cerrados.
                   </p>
                 )}
@@ -1093,13 +1093,13 @@ export default function DiagnosticoPage() {
             {/* Sección 6: Lo que pasa en 90 días */}
             <div style={{ background: '#0a0800', border: `1px solid rgba(245,196,0,0.1)`, borderRadius: 12, padding: '22px 24px', marginBottom: 12 }}>
               <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>ESTO ES LO QUE PASA EN 90 DÍAS SI NO CAMBIAS NADA</div>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#666', lineHeight: 1.7, margin: '0 0 14px' }}>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.7, margin: '0 0 14px' }}>
                 Estás dejando escapar ventas que ya habías conseguido. Tus clientes no desaparecen — se enfrían.
               </p>
               {calcular90dias(sel, r.perdidaMensual).map((linea, i) => (
                 <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', paddingBottom: 10, marginBottom: 10, borderBottom: i < 2 ? '1px solid rgba(245,196,0,0.06)' : 'none' }}>
                   <span style={{ color: ROJO, flexShrink: 0, marginTop: 2, fontFamily: "'JetBrains Mono', monospace", fontSize: 10 }}>→</span>
-                  <p style={{ fontFamily: "'Inter', sans-serif", margin: 0, fontSize: 13, color: '#888', lineHeight: 1.7 }}>{linea}</p>
+                  <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: 0, fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.7 }}>{linea}</p>
                 </div>
               ))}
             </div>
@@ -1145,7 +1145,7 @@ export default function DiagnosticoPage() {
                 <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(38px,8vw,62px)', lineHeight: 0.92, color: 'white', margin: '0 0 24px', letterSpacing: '0.01em' }}>
                   {nombreTrimmed.split(' ')[0] || nombreTrimmed},<br />DESBLOQUEA TU<br /><span style={{ color: TEAL_R }}>PLAN DE ACCIÓN.</span>
                 </h2>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, color: '#B8B8B8', lineHeight: 1.85, margin: '0 0 20px' }}>
+                <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: '#B8B8B8', lineHeight: 1.85, margin: '0 0 20px' }}>
                   Recibirás además:
                 </p>
 
@@ -1159,7 +1159,7 @@ export default function DiagnosticoPage() {
                     ].map((item, i) => (
                       <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                         <span style={{ color: VERDE_S, flexShrink: 0, fontSize: 14 }}>✅</span>
-                        <p style={{ fontFamily: "'Inter', sans-serif", margin: 0, fontSize: 13, color: '#888', lineHeight: 1.6 }}>{item}</p>
+                        <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: 0, fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.6 }}>{item}</p>
                       </div>
                     ))}
                   </div>
@@ -1170,7 +1170,7 @@ export default function DiagnosticoPage() {
                     {(accionPorCuello[r.cuello] ?? accionPorCuello['seguimiento']).map(({ ref: aRef, texto }, i) => (
                       <div key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', padding: '10px 0', borderBottom: i < 3 ? '1px solid #141414' : 'none' }}>
                         <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: ROJO, flexShrink: 0, marginTop: 3, letterSpacing: '0.08em' }}>{aRef}</span>
-                        <p style={{ fontFamily: "'Inter', sans-serif", margin: 0, fontSize: 13, color: '#888', lineHeight: 1.7 }}>{texto}</p>
+                        <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: 0, fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.7 }}>{texto}</p>
                       </div>
                     ))}
                   </div>
@@ -1180,7 +1180,7 @@ export default function DiagnosticoPage() {
                   type="email" placeholder="correo@dominio.com" value={email}
                   onChange={e => { setEmail(e.target.value); setEmailError('') }}
                   onKeyDown={e => e.key === 'Enter' && desbloquear()}
-                  style={{ display: 'block', width: '100%', padding: '14px 18px', borderRadius: 8, background: '#0a0a0a', border: emailError ? `1px solid ${ROJO}` : '1px solid #222', color: 'white', fontSize: 15, marginBottom: emailError ? 6 : 14, outline: 'none', fontFamily: "'Inter', sans-serif", letterSpacing: '0.01em' }}
+                  style={{ display: 'block', width: '100%', padding: '14px 18px', borderRadius: 8, background: '#0a0a0a', border: emailError ? `1px solid ${ROJO}` : '1px solid #222', color: 'white', fontSize: 15, marginBottom: emailError ? 6 : 14, outline: 'none', fontFamily: "'General Sans', system-ui, sans-serif", letterSpacing: '0.01em' }}
                 />
                 {emailError && <p style={{ fontFamily: "'JetBrains Mono', monospace", color: ROJO, fontSize: 10, margin: '0 0 12px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{emailError}</p>}
                 <button
@@ -1201,12 +1201,12 @@ export default function DiagnosticoPage() {
                   PLAN ENVIADO
                 </div>
                 <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", margin: '0 0 20px', fontSize: 'clamp(36px,7vw,56px)', color: 'white', letterSpacing: '0.01em', lineHeight: 0.95 }}>
-                  LISTO,<br /><span style={{ color: VERDE_S }}>{nombreTrimmed.split(' ')[0].toUpperCase() || nombreTrimmed.toUpperCase()}.</span>
+                  LISTO,<br /><span style={{ fontFamily: "'Alex Brush', cursive", color: VERDE_S, fontSize: 'clamp(44px,8.5vw,68px)', lineHeight: 0.88, display: 'inline-block' }}>{nombreTrimmed.split(' ')[0] || nombreTrimmed}.</span>
                 </h3>
-                <p style={{ fontFamily: "'Inter', sans-serif", margin: '0 0 12px', fontSize: 15, color: '#888', lineHeight: 1.75 }}>
+                <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '0 0 12px', fontSize: 15, color: 'rgba(255,255,255,0.88)', lineHeight: 1.75 }}>
                   Tu plan de acción ya está en camino a tu correo.
                 </p>
-                <p style={{ fontFamily: "'Inter', sans-serif", margin: 0, fontSize: 13, color: '#444', lineHeight: 1.65 }}>
+                <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: 0, fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65 }}>
                   Revísalo en los próximos minutos — ahí están las 3 acciones que más impacto van a tener en tu semana.
                 </p>
               </div>
