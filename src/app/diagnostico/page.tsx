@@ -592,13 +592,11 @@ export default function DiagnosticoPage() {
 
   const r = (fase === 'dictamen_preliminar' || fase === 'expediente' || fase === 'veredicto' || fase === 'accion' || fase === 'desbloqueado') ? calcular(sel) : null
 
-  const PASO_LABELS = ['', 'Pregunta 1 de 5', 'Pregunta 2 de 5', 'Pregunta 3 de 5', 'Pregunta 4 de 5', 'Pregunta 5 de 5']
-
   const progressBar = (
     <div style={{ marginBottom: 28 }}>
       <div style={{ marginBottom: 10 }}>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: pasoForm > 0 ? ROJO : 'rgba(255,255,255,0.65)', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
-          {pasoForm > 0 ? PASO_LABELS[pasoForm] : '5 PREGUNTAS · 2 MINUTOS'}
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+          {pasoForm === 0 ? 'EN 2 MINUTOS' : ''}
         </span>
       </div>
       <div style={{ background: '#1a1a1a', borderRadius: 100, height: 2 }}>
@@ -824,7 +822,7 @@ export default function DiagnosticoPage() {
 
                   {/* E1 */}
                   {pasoForm === 1 && <>
-                    {qTitle(`¿Estás listo, ${nombreTrimmed.split(' ')[0] || nombreTrimmed}? Vamos a reunir las pistas.`)}
+                    {qTitle(`¿Estás list@ para identificar al ladrón de tus comisiones?`)}
                     {qSub('¿Cuánto es tu comisión por cada venta que cierras?')}
                     <div style={{ position: 'relative', marginBottom: 8 }}>
                       <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontFamily: "'JetBrains Mono', monospace", fontSize: 18, color: '#444', pointerEvents: 'none', zIndex: 1 }}>$</span>
