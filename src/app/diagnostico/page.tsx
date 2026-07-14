@@ -838,7 +838,10 @@ export default function DiagnosticoPage() {
 
                   {/* E1 */}
                   {pasoForm === 1 && <>
-                    {qTitle(`${nombreTrimmed.split(' ')[0] || nombreTrimmed}, ¿Estás list@ para identificar al ladrón de tus comisiones?`)}
+                    <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(26px,5vw,38px)', lineHeight: 1.05, marginBottom: 10, letterSpacing: '0.01em' }}>
+                      <span style={{ color: 'white' }}>{nombreTrimmed.split(' ')[0] || nombreTrimmed}, </span>
+                      <span style={{ color: ROJO }}>¿Estás list@ para identificar al ladrón de tus comisiones?</span>
+                    </div>
                     {qSub('¿Cuánto es tu comisión por cada venta que cierras?')}
                     <div style={{ position: 'relative', marginBottom: 8 }}>
                       <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontFamily: "'JetBrains Mono', monospace", fontSize: 18, color: 'rgba(255,255,255,0.65)', pointerEvents: 'none', zIndex: 1 }}>$</span>
