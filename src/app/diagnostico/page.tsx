@@ -856,7 +856,7 @@ export default function DiagnosticoPage() {
     5: 'url(/bg-q5.jpg)',
   }
   const bgKey    = fase === 'razonando' ? razonandoPaso : pasoForm
-  const bgActual = fase === 'suspense' ? 'url(/bg-diagnostico.jpg)' : fase === 'dictamen_preliminar' ? 'url(/bg-detective.jpg)' : (bgMap[bgKey] ?? 'url(/bg-diagnostico.jpg)')
+  const bgActual = (fase === 'suspense' || fase === 'dictamen_preliminar') ? 'url(/bg-detective.jpg)' : (bgMap[bgKey] ?? 'url(/bg-diagnostico.jpg)')
 
   // Contenido personalizado por cuello de botella — Pantalla 9
   const accionPorCuello: Record<string, { ref: string; texto: string }[]> = {
@@ -890,7 +890,7 @@ export default function DiagnosticoPage() {
     <div style={{
       minHeight: '100vh', fontFamily: "'General Sans', system-ui, sans-serif", color: 'white', overflowX: 'hidden',
       background: NEGRO,
-      backgroundImage: (fase === 'form' || fase === 'suspense' || fase === 'razonando' || fase === 'dictamen_preliminar') ? (fase === 'dictamen_preliminar' ? `linear-gradient(rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.75) 100%), ${bgActual}` : `linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 100%), ${bgActual}`) : 'none',
+      backgroundImage: fase === 'suspense' ? bgActual : fase === 'dictamen_preliminar' ? `linear-gradient(rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.75) 100%), ${bgActual}` : (fase === 'form' || fase === 'razonando') ? `linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 100%), ${bgActual}` : 'none',
       backgroundSize: 'cover', backgroundPosition: 'center top', backgroundAttachment: 'fixed',
       transition: 'background-image 0.6s ease',
     }}>
@@ -1239,29 +1239,69 @@ export default function DiagnosticoPage() {
           SUSPENSE
       ════════════════════════════════════════ */}
       {fase === 'suspense' && (
-        <div style={{ padding: '48px 16px 80px', animation: 'fadeUp 0.5s ease both' }}>
-          <div style={{ maxWidth: 520, margin: '0 auto', textAlign: 'center' }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 36 }}>
-              DIAGNÓSTICO CBC™ · EN PREPARACIÓN
-            </div>
-            <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(44px,9vw,76px)', lineHeight: 0.94, color: 'white', margin: '0 0 36px', letterSpacing: '0.01em' }}>
-              PREPARANDO<br />TU<br /><span style={{ color: ROJO }}>DIAGNÓSTICO...</span>
-            </h2>
-            <div style={{ maxWidth: 420, margin: '0 auto 40px', textAlign: 'left' }}>
-              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.90)', lineHeight: 1.85, margin: '0 0 16px' }}>
-                Estamos analizando tus respuestas para identificar el mayor responsable de la pérdida de tus comisiones.
-              </p>
-              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, margin: 0 }}>
-                En unos segundos lo descubrirás con tus propios números.
-              </p>
-            </div>
-            <button onClick={lanzarResultado} style={{
-              display: 'block', width: '100%', padding: '18px 24px',
-              background: ROJO, color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer',
-              fontFamily: "'Bebas Neue', sans-serif", fontSize: 20, letterSpacing: '0.1em',
-              boxShadow: `0 4px 28px rgba(232,0,29,0.3)`,
+        <div style={{
+          minHeight: 'calc(100vh - 72px)',
+          display: 'flex', flexDirection: 'column',
+          justifyContent: 'space-between',
+          padding: '48px 24px 56px',
+          animation: 'fadeUp 0.6s ease both',
+        }}>
+          {/* Título arriba — texto con sombra fuerte para leerse sobre la foto */}
+          <div style={{ textAlign: 'center' }}>
+            <h2 style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 'clamp(38px,8vw,68px)',
+              lineHeight: 1.0,
+              color: 'white',
+              margin: 0,
+              letterSpacing: '0.04em',
+              textShadow: '0 2px 4px rgba(0,0,0,0.95), 0 4px 24px rgba(0,0,0,0.85), 0 0 48px rgba(0,0,0,0.7)',
             }}>
-              VER MI DIAGNÓSTICO →
+              ¡ENCONTRAMOS AL <span style={{ color: ROJO, textShadow: '0 2px 4px rgba(0,0,0,0.95), 0 0 32px rgba(232,0,29,0.5)' }}>CULPABLE!</span>
+            </h2>
+          </div>
+
+          {/* Espacio libre — el detective se ve a través del fondo */}
+          <div style={{ flex: 1 }} />
+
+          {/* Botón Cluedo — abajo */}
+          <div style={{ textAlign: 'center' }}>
+            <button
+              onClick={lanzarResultado}
+              style={{
+                display: 'inline-block',
+                padding: '22px 48px',
+                background: 'linear-gradient(180deg, #c8001a 0%, #9a0014 60%, #7a000f 100%)',
+                color: 'white',
+                border: '3px solid rgba(255,255,255,0.18)',
+                borderRadius: 16,
+                cursor: 'pointer',
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: 'clamp(20px,4vw,28px)',
+                letterSpacing: '0.12em',
+                boxShadow: '0 10px 0 #4a0008, 0 14px 32px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18)',
+                transform: 'translateY(0)',
+                transition: 'transform 0.08s ease, box-shadow 0.08s ease',
+                textShadow: '0 1px 3px rgba(0,0,0,0.6)',
+                userSelect: 'none' as const,
+              }}
+              onMouseDown={e => {
+                const t = e.currentTarget
+                t.style.transform = 'translateY(6px)'
+                t.style.boxShadow = '0 4px 0 #4a0008, 0 6px 16px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18)'
+              }}
+              onMouseUp={e => {
+                const t = e.currentTarget
+                t.style.transform = 'translateY(0)'
+                t.style.boxShadow = '0 10px 0 #4a0008, 0 14px 32px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18)'
+              }}
+              onMouseLeave={e => {
+                const t = e.currentTarget
+                t.style.transform = 'translateY(0)'
+                t.style.boxShadow = '0 10px 0 #4a0008, 0 14px 32px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18)'
+              }}
+            >
+              ¡DESCÚBRELO AHORA! →
             </button>
           </div>
         </div>
