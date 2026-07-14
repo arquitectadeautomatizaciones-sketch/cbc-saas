@@ -597,13 +597,10 @@ export default function DiagnosticoPage() {
 
   const progressBar = (
     <div style={{ marginBottom: 28 }}>
-      <div style={{ marginBottom: 10 }}>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
-          {pasoForm === 0 ? 'EN 2 MINUTOS' : ''}
-        </span>
-      </div>
       <div style={{ background: '#1a1a1a', borderRadius: 100, height: 2 }}>
-        <div style={{ width: `${(pasoForm / 5) * 100}%`, height: '100%', background: ROJO, borderRadius: 100, transition: 'width 0.6s ease' }} />
+        {pasoForm > 0 && (
+          <div style={{ width: `${(pasoForm / 5) * 100}%`, height: '100%', background: ROJO, borderRadius: 100, transition: 'width 0.6s ease' }} />
+        )}
       </div>
     </div>
   )
@@ -758,6 +755,10 @@ export default function DiagnosticoPage() {
               </div>
             ))}
           </div>
+
+        {/* Franja precaución inferior */}
+        <div style={{ height: 4, background: 'repeating-linear-gradient(-45deg, #F5C400 0px, #F5C400 5px, #080808 5px, #080808 10px)' }} />
+
         </div>
 
         {/* Barra de navegación */}
@@ -779,8 +780,8 @@ export default function DiagnosticoPage() {
           <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, fontWeight: 600, color: '#888', letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 32 }}>
             DIAGNÓSTICO COMERCIAL · CBC™
           </div>
-          <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(52px,10vw,96px)', lineHeight: 0.9, color: 'white', margin: '0 0 32px', letterSpacing: '0.02em' }}>
-            EN 2 MINUTOS<br />SABES QUIÉN TE<br />ESTÁ <span style={{ fontFamily: "'Alex Brush', cursive", color: ROJO, fontSize: 'clamp(64px,12.5vw,118px)', lineHeight: 0.80, display: 'inline-block', verticalAlign: 'middle', marginTop: '-2px' }}>Robando</span><br />TUS COMISIONES.
+          <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(52px,10vw,96px)', lineHeight: 0.9, color: 'white', margin: '0 0 48px', letterSpacing: '0.02em', overflow: 'visible' }}>
+            EN 2 MINUTOS<br />SABES QUIÉN TE<br />ESTÁ <span style={{ fontFamily: "'Alex Brush', cursive", color: ROJO, fontSize: 'clamp(64px,12.5vw,118px)', lineHeight: 1.1, display: 'inline-block', verticalAlign: 'middle' }}>Robando</span><br />TUS COMISIONES.
           </h1>
           <div style={{ textAlign: 'left', maxWidth: 520, margin: '0 auto 36px' }}>
             <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.90)', lineHeight: 1.8, margin: '0 0 20px' }}>
