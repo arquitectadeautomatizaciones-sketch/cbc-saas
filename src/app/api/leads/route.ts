@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
 }
 
 function emailDiagnostico(appUrl: string, nombre: string | null): string {
-  const registerUrl = `${appUrl}/register`
+  const registerUrl = `${appUrl}/subscribe`
   const saludo = nombre ? `Hola ${nombre},` : 'Hola,'
 
   return `<!DOCTYPE html>
