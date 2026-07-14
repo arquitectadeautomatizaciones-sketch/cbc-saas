@@ -890,7 +890,7 @@ export default function DiagnosticoPage() {
     <div style={{
       minHeight: '100vh', fontFamily: "'General Sans', system-ui, sans-serif", color: 'white', overflowX: 'hidden',
       background: NEGRO,
-      backgroundImage: fase === 'suspense' ? bgActual : fase === 'dictamen_preliminar' ? `linear-gradient(rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.75) 100%), ${bgActual}` : (fase === 'form' || fase === 'razonando') ? `linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 100%), ${bgActual}` : 'none',
+      backgroundImage: fase === 'suspense' ? 'none' : fase === 'dictamen_preliminar' ? `linear-gradient(rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.75) 100%), ${bgActual}` : (fase === 'form' || fase === 'razonando') ? `linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 100%), ${bgActual}` : 'none',
       backgroundSize: 'cover', backgroundPosition: 'center top', backgroundAttachment: 'fixed',
       transition: 'background-image 0.6s ease',
     }}>
@@ -1241,69 +1241,66 @@ export default function DiagnosticoPage() {
       {fase === 'suspense' && (
         <div style={{
           minHeight: 'calc(100vh - 72px)',
-          display: 'flex', flexDirection: 'column',
-          justifyContent: 'space-between',
-          padding: '48px 24px 56px',
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+          padding: '40px 24px 48px', gap: 32,
           animation: 'fadeUp 0.6s ease both',
         }}>
-          {/* Título arriba — texto con sombra fuerte para leerse sobre la foto */}
-          <div style={{ textAlign: 'center' }}>
-            <h2 style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 'clamp(38px,8vw,68px)',
-              lineHeight: 1.0,
-              color: 'white',
-              margin: 0,
-              letterSpacing: '0.04em',
-              textShadow: '0 2px 4px rgba(0,0,0,0.95), 0 4px 24px rgba(0,0,0,0.85), 0 0 48px rgba(0,0,0,0.7)',
-            }}>
-              ¡ENCONTRAMOS AL <span style={{ color: ROJO, textShadow: '0 2px 4px rgba(0,0,0,0.95), 0 0 32px rgba(232,0,29,0.5)' }}>CULPABLE!</span>
-            </h2>
-          </div>
+          {/* Título arriba */}
+          <h2 style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: 'clamp(34px,7vw,62px)',
+            lineHeight: 1.0,
+            color: 'white',
+            margin: 0,
+            letterSpacing: '0.04em',
+            textAlign: 'center',
+          }}>
+            ¡ENCONTRAMOS AL <span style={{ color: ROJO }}>CULPABLE!</span>
+          </h2>
 
-          {/* Espacio libre — el detective se ve a través del fondo */}
-          <div style={{ flex: 1 }} />
-
-          {/* Botón Cluedo — abajo */}
-          <div style={{ textAlign: 'center' }}>
-            <button
-              onClick={lanzarResultado}
+          {/* Imagen completa — contain, sin recortar */}
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: 480 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/bg-detective.jpg"
+              alt="Detective"
               style={{
-                display: 'inline-block',
-                padding: '22px 48px',
-                background: 'linear-gradient(180deg, #c8001a 0%, #9a0014 60%, #7a000f 100%)',
-                color: 'white',
-                border: '3px solid rgba(255,255,255,0.18)',
-                borderRadius: 16,
-                cursor: 'pointer',
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: 'clamp(20px,4vw,28px)',
-                letterSpacing: '0.12em',
-                boxShadow: '0 10px 0 #4a0008, 0 14px 32px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18)',
-                transform: 'translateY(0)',
-                transition: 'transform 0.08s ease, box-shadow 0.08s ease',
-                textShadow: '0 1px 3px rgba(0,0,0,0.6)',
-                userSelect: 'none' as const,
+                width: '100%',
+                height: '100%',
+                maxHeight: 'calc(100vh - 280px)',
+                objectFit: 'contain',
+                objectPosition: 'center',
+                display: 'block',
+                borderRadius: 12,
               }}
-              onMouseDown={e => {
-                const t = e.currentTarget
-                t.style.transform = 'translateY(6px)'
-                t.style.boxShadow = '0 4px 0 #4a0008, 0 6px 16px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18)'
-              }}
-              onMouseUp={e => {
-                const t = e.currentTarget
-                t.style.transform = 'translateY(0)'
-                t.style.boxShadow = '0 10px 0 #4a0008, 0 14px 32px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18)'
-              }}
-              onMouseLeave={e => {
-                const t = e.currentTarget
-                t.style.transform = 'translateY(0)'
-                t.style.boxShadow = '0 10px 0 #4a0008, 0 14px 32px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18)'
-              }}
-            >
-              ¡DESCÚBRELO AHORA! →
-            </button>
+            />
           </div>
+
+          {/* Botón Cluedo — debajo de la imagen */}
+          <button
+            onClick={lanzarResultado}
+            style={{
+              padding: '22px 48px',
+              background: 'linear-gradient(180deg, #c8001a 0%, #9a0014 60%, #7a000f 100%)',
+              color: 'white',
+              border: '3px solid rgba(255,255,255,0.18)',
+              borderRadius: 16,
+              cursor: 'pointer',
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 'clamp(20px,4vw,26px)',
+              letterSpacing: '0.12em',
+              boxShadow: '0 10px 0 #4a0008, 0 14px 32px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18)',
+              transition: 'transform 0.08s ease, box-shadow 0.08s ease',
+              textShadow: '0 1px 3px rgba(0,0,0,0.6)',
+              userSelect: 'none' as const,
+              flexShrink: 0,
+            }}
+            onMouseDown={e => { e.currentTarget.style.transform = 'translateY(6px)'; e.currentTarget.style.boxShadow = '0 4px 0 #4a0008, 0 6px 16px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18)' }}
+            onMouseUp={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 0 #4a0008, 0 14px 32px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 0 #4a0008, 0 14px 32px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18)' }}
+          >
+            ¡DESCÚBRELO AHORA! →
+          </button>
         </div>
       )}
 
