@@ -524,11 +524,10 @@ function DictamenPreliminar({ r, nombre, sel, onContinue }: {
             onClick={() => setDetalleAbierto(d => !d)}
             style={{
               background: 'none', border: 'none', cursor: 'pointer',
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 11, color: 'rgba(255,255,255,0.55)',
-              letterSpacing: '0.08em', textDecoration: 'underline',
-              textUnderlineOffset: 3,
-              padding: '8px 0',
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 15, color: TEAL_R,
+              letterSpacing: '0.12em',
+              padding: '10px 0',
             }}
           >
             {detalleAbierto ? 'Ocultar detalle ↑' : 'Ver el detalle completo de mi diagnóstico ↓'}
