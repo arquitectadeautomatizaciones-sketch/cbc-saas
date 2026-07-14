@@ -456,9 +456,9 @@ function DictamenPreliminar({ r, nombre, sel, onContinue }: {
             padding: '16px 12px', display: 'inline-flex', flexDirection: 'column', gap: 12,
             boxShadow: '0 12px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)',
           }}>
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esRojo ? '#e8001d' : '#1c0000', border: esRojo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a0000', boxShadow: esRojo && glowOn ? undefined : 'inset 0 2px 6px rgba(0,0,0,0.8)', animation: esRojo && glowOn ? 'semPulseR 2.4s ease-in-out infinite' : undefined }} />
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esAmarillo ? '#f5c400' : '#1a1200', border: esAmarillo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a2000', boxShadow: esAmarillo && glowOn ? undefined : 'inset 0 2px 6px rgba(0,0,0,0.8)', animation: esAmarillo && glowOn ? 'semPulseY 2.4s ease-in-out infinite' : undefined }} />
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esVerde ? '#00C853' : '#001808', border: esVerde ? '2px solid rgba(255,255,255,0.12)' : '1px solid #002010', boxShadow: esVerde && glowOn ? undefined : 'inset 0 2px 6px rgba(0,0,0,0.8)', animation: esVerde && glowOn ? 'semPulseG 2.4s ease-in-out infinite' : undefined }} />
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esRojo ? '#e8001d' : '#5a1010', border: '1px solid rgba(255,255,255,0.08)', boxShadow: esRojo && glowOn ? undefined : 'inset 0 3px 8px rgba(0,0,0,0.6)', animation: esRojo && glowOn ? 'semPulseR 2.4s ease-in-out infinite' : undefined, opacity: esRojo ? 1 : 0.35 }} />
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esAmarillo ? '#f5c400' : '#5a4a00', border: '1px solid rgba(255,255,255,0.08)', boxShadow: esAmarillo && glowOn ? undefined : 'inset 0 3px 8px rgba(0,0,0,0.6)', animation: esAmarillo && glowOn ? 'semPulseY 2.4s ease-in-out infinite' : undefined, opacity: esAmarillo ? 1 : 0.35 }} />
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esVerde ? '#00C853' : '#004020', border: '1px solid rgba(255,255,255,0.08)', boxShadow: esVerde && glowOn ? undefined : 'inset 0 3px 8px rgba(0,0,0,0.6)', animation: esVerde && glowOn ? 'semPulseG 2.4s ease-in-out infinite' : undefined, opacity: esVerde ? 1 : 0.35 }} />
           </div>
         </div>
 
@@ -516,7 +516,7 @@ function DictamenPreliminar({ r, nombre, sel, onContinue }: {
         </div>
 
         {/* ── 4. CTA PRINCIPAL ── */}
-        <CluedoBtn label="VER EL PLAN COMPLETO →" onClick={onContinue} />
+        <CluedoBtn label="QUIERO RECUPERAR MIS COMISIONES →" onClick={onContinue} />
 
         {/* ── 5. LINK DISCRETO EXPANDIR ── */}
         <div style={{ textAlign: 'center', marginTop: 18 }}>
