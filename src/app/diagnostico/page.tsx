@@ -410,91 +410,62 @@ function RazonamientoPanel({ paso, sel, nombre, onContinue }: {
 }
 
 // ── DictamenPreliminar ────────────────────────────────────
-function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof calcular>; nombre: string; onContinue: () => void }) {
-  const [detailOpen, setDetailOpen] = useState(false)
+function DictamenPreliminar({ r, nombre, sel, onContinue }: {
+  r: ReturnType<typeof calcular>; nombre: string; sel: Selecciones; onContinue: () => void
+}) {
+  const [detalleAbierto, setDetalleAbierto] = useState(false)
   const [glowOn, setGlowOn] = useState(false)
   useEffect(() => { const t = setTimeout(() => setGlowOn(true), 300); return () => clearTimeout(t) }, [])
 
   const primerNombre = nombre.split(' ')[0] || nombre
-  const score = r.total
-
-  const esRojo     = score < 40
-  const esAmarillo = score >= 40 && score <= 70
-  const esVerde    = score > 70
-
-  const semColor   = esRojo ? '#e8001d' : esAmarillo ? '#f5c400' : '#00C853'
-  const palabra    = esRojo ? 'Crítico.' : esAmarillo ? 'Ajustable.' : 'Sólido.'
+  const score        = r.total
+  const esRojo       = score < 40
+  const esAmarillo   = score >= 40 && score <= 70
+  const esVerde      = score > 70
+  const semColor     = esRojo ? '#e8001d' : esAmarillo ? '#f5c400' : '#00C853'
+  const palabra      = esRojo ? 'Crítico.' : esAmarillo ? 'Ajustable.' : 'Sólido.'
+  const fmt          = (n: number) => '$' + n.toLocaleString('en-US')
 
   const glow = (c: string) => glowOn
     ? `0 0 24px ${c}99, 0 0 48px ${c}55, 0 0 8px ${c}dd`
     : 'none'
 
   const parrafo = esRojo
-    ? `No es un problema de esfuerzo — es un punto específico del proceso donde las ventas se pierden antes de que puedas cerrarlas. Con el sistema correcto, eso se corrige.`
+    ? 'No es un problema de esfuerzo — es un punto específico del proceso donde las ventas se pierden antes de que puedas cerrarlas. Con el sistema correcto, eso se corrige.'
     : esAmarillo
-    ? `Tu proceso tiene base sólida, pero hay una fuga activa que drena comisiones de forma silenciosa. Un ajuste puntual cambia el resultado.`
-    : `Tu sistema funciona mejor que el 70% de los vendedores B2B. Aún así, hay una fuga específica que te está costando dinero sin que lo notes.`
+    ? 'Tu proceso tiene base sólida, pero hay una fuga activa que drena comisiones de forma silenciosa. Un ajuste puntual cambia el resultado.'
+    : 'Tu sistema funciona mejor que el 70% de los vendedores B2B. Aún así, hay una fuga específica que te está costando dinero sin que lo notes.'
 
-  // Opacidades usadas en esta pantalla (para auditoría):
-  // Texto principal títulos:  'white' = rgba(255,255,255,1.00) → 100%
-  // Texto secundario label:   rgba(255,255,255,0.90) → 90%
-  // Texto párrafo/detalle:    rgba(255,255,255,0.85) → 85%
-  // Footer label:             rgba(255,255,255,0.80) → 80%
-  // Contraste mínimo en fondo oscuro #111 → todos superan WCAG AA (4.5:1)
+  const bullets90 = calcular90dias(sel, r.perdidaMensual)
+
+  // Causas Cluedo para el detalle
+  const H_NAMES   = ['Falta de contactos nuevos', 'Proceso con pasos perdidos', 'Mercado saturado']
+  const hipFinal  = getHipValsCurr(5, sel)
+  const hipAntes  = getHipValsPrev(5, sel)
 
   return (
-    <div style={{ padding: '48px 16px 80px', animation: 'fadeUp 0.5s ease both' }}>
-      <div style={{ maxWidth: 500, margin: '0 auto' }}>
+    <div style={{ padding: '32px 16px 80px', animation: 'fadeUp 0.5s ease both' }}>
+      <div style={{ maxWidth: 460, margin: '0 auto' }}>
 
-        {/* ── SEMÁFORO ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 28 }}>
+        {/* ── 1. SEMÁFORO ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 20 }}>
           <div style={{
-            background: 'rgba(10,10,10,0.92)',
-            border: '2px solid #2a2a2a',
-            borderRadius: 64,
-            padding: '18px 14px',
-            display: 'inline-flex',
-            flexDirection: 'column',
-            gap: 14,
+            background: 'rgba(10,10,10,0.92)', border: '2px solid #2a2a2a', borderRadius: 64,
+            padding: '16px 12px', display: 'inline-flex', flexDirection: 'column', gap: 12,
             boxShadow: '0 12px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)',
-            transition: 'all 0.5s ease',
           }}>
-            {/* Rojo */}
-            <div style={{
-              width: 58, height: 58, borderRadius: '50%',
-              background: esRojo ? '#e8001d' : '#1c0000',
-              boxShadow: esRojo ? glow('#e8001d') : 'inset 0 2px 6px rgba(0,0,0,0.8)',
-              transition: 'all 0.6s cubic-bezier(0.34,1.56,0.64,1)',
-              border: esRojo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a0000',
-            }} />
-            {/* Amarillo */}
-            <div style={{
-              width: 58, height: 58, borderRadius: '50%',
-              background: esAmarillo ? '#f5c400' : '#1a1200',
-              boxShadow: esAmarillo ? glow('#f5c400') : 'inset 0 2px 6px rgba(0,0,0,0.8)',
-              transition: 'all 0.6s cubic-bezier(0.34,1.56,0.64,1)',
-              border: esAmarillo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a2000',
-            }} />
-            {/* Verde */}
-            <div style={{
-              width: 58, height: 58, borderRadius: '50%',
-              background: esVerde ? '#00C853' : '#001808',
-              boxShadow: esVerde ? glow('#00C853') : 'inset 0 2px 6px rgba(0,0,0,0.8)',
-              transition: 'all 0.6s cubic-bezier(0.34,1.56,0.64,1)',
-              border: esVerde ? '2px solid rgba(255,255,255,0.12)' : '1px solid #002010',
-            }} />
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esRojo ? '#e8001d' : '#1c0000', boxShadow: esRojo ? glow('#e8001d') : 'inset 0 2px 6px rgba(0,0,0,0.8)', transition: 'all 0.6s cubic-bezier(0.34,1.56,0.64,1)', border: esRojo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a0000' }} />
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esAmarillo ? '#f5c400' : '#1a1200', boxShadow: esAmarillo ? glow('#f5c400') : 'inset 0 2px 6px rgba(0,0,0,0.8)', transition: 'all 0.6s cubic-bezier(0.34,1.56,0.64,1)', border: esAmarillo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a2000' }} />
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esVerde ? '#00C853' : '#001808', boxShadow: esVerde ? glow('#00C853') : 'inset 0 2px 6px rgba(0,0,0,0.8)', transition: 'all 0.6s cubic-bezier(0.34,1.56,0.64,1)', border: esVerde ? '2px solid rgba(255,255,255,0.12)' : '1px solid #002010' }} />
           </div>
         </div>
 
-        {/* ── PALABRA DE IMPACTO ── */}
-        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+        {/* ── 2. PALABRA DE IMPACTO ── */}
+        <div style={{ textAlign: 'center', marginBottom: 24 }}>
           <span style={{
             fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: 'clamp(58px,14vw,82px)',
-            color: semColor,
-            lineHeight: 1,
-            display: 'block',
-            letterSpacing: '0.04em',
+            fontSize: 'clamp(52px,13vw,76px)',
+            color: semColor, lineHeight: 1, display: 'block', letterSpacing: '0.04em',
             filter: glowOn ? `drop-shadow(0 0 24px ${semColor}66)` : 'none',
             transition: 'filter 0.8s ease',
           }}>
@@ -502,129 +473,118 @@ function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof ca
           </span>
         </div>
 
-        {/* ── GOLPE DE TEXTO DIRECTO ── */}
+        {/* ── 3. TRES LÍNEAS DIRECTAS ── */}
         <div style={{
-          background: 'rgba(8,8,8,0.88)',
-          backdropFilter: 'blur(12px)',
-          border: `1px solid ${semColor}44`,
-          borderRadius: 14,
-          padding: '28px 28px 24px',
-          marginBottom: 20,
-          textAlign: 'center',
+          background: 'rgba(8,8,8,0.88)', backdropFilter: 'blur(12px)',
+          border: `1px solid ${semColor}33`, borderRadius: 14,
+          padding: '22px 24px', marginBottom: 20,
+          display: 'flex', flexDirection: 'column', gap: 14,
         }}>
-          {/* Nombre + cuello */}
-          <p style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: 'clamp(20px,4.5vw,28px)',
-            color: 'white',
-            lineHeight: 1.25,
-            margin: '0 0 22px',
-            letterSpacing: '0.03em',
-          }}>
-            {primerNombre}, ya identificamos al ladrón:
-            <br />
-            <span style={{ color: semColor }}>{r.cuelloLabel}</span>
-          </p>
-
-          {/* Label cifra */}
-          <div style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 10,
-            color: 'rgba(255,255,255,0.90)',
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            marginBottom: 10,
-          }}>
-            EN 90 DÍAS ESTO TE VA A COSTAR
-          </div>
-
-          {/* Cifra real */}
-          <div style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: 'clamp(52px,12vw,76px)',
-            color: semColor,
-            letterSpacing: '0.02em',
-            lineHeight: 1,
-            marginBottom: 20,
-            filter: glowOn ? `drop-shadow(0 0 18px ${semColor}55)` : 'none',
-            transition: 'filter 0.8s ease',
-          }}>
-            {r.perdida90 > 0 ? ('$' + r.perdida90.toLocaleString('en-US')) : r.perdidaMensual > 0 ? ('$' + r.perdidaMensual.toLocaleString('en-US')) : 'CALCULANDO...'}
-          </div>
-
-          {/* Párrafo unificado: cuello + buena noticia */}
+          {/* Línea consecuencia */}
           <p style={{
             fontFamily: "'General Sans', system-ui, sans-serif",
-            fontSize: 15,
-            color: 'rgba(255,255,255,0.85)',
-            lineHeight: 1.75,
-            margin: 0,
-            textAlign: 'left',
+            fontSize: 'clamp(15px,3.5vw,17px)',
+            color: 'rgba(255,255,255,0.90)',
+            lineHeight: 1.5, margin: 0,
           }}>
-            {parrafo}
+            {primerNombre}, esto va a pasar en 90 días si no cambias nada.
+          </p>
+
+          {/* Cifra mensual — sin ocultar */}
+          <div style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: 'clamp(42px,10vw,64px)',
+            color: semColor, letterSpacing: '0.02em', lineHeight: 1,
+            filter: glowOn ? `drop-shadow(0 0 16px ${semColor}55)` : 'none',
+            transition: 'filter 0.8s ease',
+          }}>
+            {r.perdidaMensual > 0 ? `${fmt(r.perdidaMensual)}/mes` : 'CALCULANDO...'}
+          </div>
+
+          {/* Cuello de botella */}
+          <p style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 'clamp(11px,2.5vw,13px)',
+            color: 'rgba(255,255,255,0.88)',
+            letterSpacing: '0.06em', lineHeight: 1.5, margin: 0,
+          }}>
+            Tu cuello de botella:{' '}
+            <span style={{ color: semColor, fontWeight: 700 }}>{r.cuelloLabel.toLowerCase()}</span>.
           </p>
         </div>
 
-        {/* ── DETALLE COLAPSABLE ── */}
-        <div style={{ marginBottom: 28 }}>
+        {/* ── 4. CTA PRINCIPAL ── */}
+        <CluedoBtn label="VER EL PLAN COMPLETO →" onClick={onContinue} />
+
+        {/* ── 5. LINK DISCRETO EXPANDIR ── */}
+        <div style={{ textAlign: 'center', marginTop: 18 }}>
           <button
-            onClick={() => setDetailOpen(d => !d)}
+            onClick={() => setDetalleAbierto(d => !d)}
             style={{
-              display: 'flex', width: '100%', padding: '13px 20px',
-              justifyContent: 'space-between', alignItems: 'center',
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.12)',
-              borderRadius: 8,
-              color: 'rgba(255,255,255,0.90)',
+              background: 'none', border: 'none', cursor: 'pointer',
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase',
-              cursor: 'pointer',
+              fontSize: 11, color: 'rgba(255,255,255,0.55)',
+              letterSpacing: '0.08em', textDecoration: 'underline',
+              textUnderlineOffset: 3,
+              padding: '8px 0',
             }}
           >
-            <span>Ver análisis detallado</span>
-            <span style={{ fontSize: 13, color: semColor }}>{detailOpen ? '▲' : '▼'}</span>
+            {detalleAbierto ? 'Ocultar detalle ↑' : 'Ver el detalle completo de mi diagnóstico ↓'}
           </button>
+        </div>
 
-          {detailOpen && (
-            <div style={{
-              marginTop: 10,
-              background: 'rgba(8,8,8,0.88)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.10)',
-              borderRadius: 10,
-              padding: '22px 24px',
-              animation: 'fadeUp 0.3s ease',
-            }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.90)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 18 }}>
-                TU PROCESO POR ÁREA
+        {/* ── SECCIÓN EXPANDIBLE ── */}
+        {detalleAbierto && (
+          <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 16, animation: 'fadeUp 0.35s ease both' }}>
+
+            {/* Bloque: Por qué — contexto */}
+            <div style={{ background: 'rgba(8,8,8,0.80)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '20px 22px' }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>LA BUENA NOTICIA</div>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 14, color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, margin: 0 }}>
+                {parrafo}
+              </p>
+            </div>
+
+            {/* Bloque: Lo que pasa en 90 días */}
+            {bullets90.length > 0 && (
+              <div style={{ background: 'rgba(8,8,8,0.80)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '20px 22px' }}>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>AJUSTE EN EL ANÁLISIS</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {bullets90.map((b, i) => (
+                    <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: semColor, flexShrink: 0, marginTop: 2, letterSpacing: '0.08em' }}>0{i + 1}</span>
+                      <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 14, color: 'rgba(255,255,255,0.82)', lineHeight: 1.65, margin: 0 }}>{b}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
+            )}
+
+            {/* Bloque: Causas evaluadas (Cluedo) */}
+            <div style={{ background: 'rgba(8,8,8,0.80)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '20px 22px' }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>CAUSAS EVALUADAS</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {H_NAMES.map((n, i) => (
+                  <CausaCard key={i} nombre={n} colorIdx={i as 0|1|2} from={hipAntes[i]} to={hipFinal[i]} delay={i * 200} />
+                ))}
+              </div>
+            </div>
+
+            {/* Bloque: Tu proceso por área */}
+            <div style={{ background: 'rgba(8,8,8,0.80)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '20px 22px' }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 16 }}>TUS RESPUESTAS · PROCESO POR ÁREA</div>
               <SubBar label="Seguimiento" score={r.sub.seguimiento} delay={0} />
               <SubBar label="Priorización" score={r.sub.priorizacion} delay={100} />
               <SubBar label="Preparación de cierre" score={r.sub.preparacion} delay={200} />
               <SubBar label="Visibilidad del proceso" score={r.sub.reporte} delay={300} />
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 16, marginTop: 8 }}>
-                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.90)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                  Salud general
-                </span>
-                <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 30, color: semColor, letterSpacing: '0.04em', lineHeight: 1 }}>
-                  {r.total}/100
-                </span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 14, marginTop: 10 }}>
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.75)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Salud general</span>
+                <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 28, color: semColor, letterSpacing: '0.04em', lineHeight: 1 }}>{r.total}/100</span>
               </div>
             </div>
-          )}
-        </div>
 
-        {/* ── CTA ── */}
-        <CluedoBtn label="VER MI RESULTADO COMPLETO →" onClick={onContinue} />
-
-        <p style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          margin: '16px 0 0', fontSize: 10,
-          color: 'rgba(255,255,255,0.80)',
-          letterSpacing: '0.12em', textTransform: 'uppercase', textAlign: 'center',
-        }}>
-          {primerNombre} · Tu diagnóstico personalizado te espera
-        </p>
+          </div>
+        )}
 
       </div>
     </div>
@@ -1438,7 +1398,7 @@ export default function DiagnosticoPage() {
           DICTAMEN PRELIMINAR
       ════════════════════════════════════════ */}
       {fase === 'dictamen_preliminar' && r && (
-        <DictamenPreliminar r={r} nombre={nombreTrimmed} onContinue={() => { setFase('expediente'); window.scrollTo({ top: 0, behavior: 'smooth' }) }} />
+        <DictamenPreliminar r={r} nombre={nombreTrimmed} sel={sel} onContinue={() => { setFase('expediente'); window.scrollTo({ top: 0, behavior: 'smooth' }) }} />
       )}
 
       {/* ════════════════════════════════════════
