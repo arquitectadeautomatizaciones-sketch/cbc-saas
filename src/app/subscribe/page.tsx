@@ -91,25 +91,33 @@ function SubscribeContent() {
     }
   }
 
-  function BtnCTA({ label = 'Probar CBC™ gratis →', full = false }: { label?: string; full?: boolean }) {
+  function BtnCTA({ label = 'PROBAR CBC™ GRATIS →', full = false }: { label?: string; full?: boolean }) {
+    const shadow = '0 8px 0 #4a0008, 0 12px 28px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15)'
+    const shadowPressed = '0 3px 0 #4a0008, 0 5px 12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12)'
     return (
       <button
         onClick={handleCheckout}
         disabled={loading}
         style={{
-          background: TEAL, color: VERDE,
-          fontFamily: SANS, fontSize: 17, fontWeight: 700,
+          background: loading ? '#1a1a1a' : 'linear-gradient(180deg, #c8001a 0%, #9a0014 60%, #7a000f 100%)',
+          color: loading ? 'rgba(255,255,255,0.25)' : 'white',
+          fontFamily: BEBAS, fontSize: 20,
           padding: '18px 40px',
-          border: 'none', borderRadius: 8,
+          border: loading ? 'none' : '3px solid rgba(255,255,255,0.15)',
+          borderRadius: 14,
           cursor: loading ? 'wait' : 'pointer',
-          opacity: loading ? 0.7 : 1,
           display: full ? 'block' : 'inline-block',
           width: full ? '100%' : undefined,
-          transition: 'opacity 0.2s',
-          letterSpacing: '-0.01em',
+          boxShadow: loading ? 'none' : shadow,
+          textShadow: loading ? 'none' : '0 1px 3px rgba(0,0,0,0.5)',
+          letterSpacing: '0.10em',
+          transition: 'transform 0.08s ease, box-shadow 0.08s ease',
         }}
+        onMouseDown={e => { if (!loading) { e.currentTarget.style.transform = 'translateY(5px)'; e.currentTarget.style.boxShadow = shadowPressed }}}
+        onMouseUp={e => { if (!loading) { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = shadow }}}
+        onMouseLeave={e => { if (!loading) { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = shadow }}}
       >
-        {loading ? 'Iniciando...' : label}
+        {loading ? 'INICIANDO...' : label}
       </button>
     )
   }
@@ -141,9 +149,9 @@ function SubscribeContent() {
       {/* ════════════════════════════════════════════════════════════
           SECCIÓN 01 — HERO
       ════════════════════════════════════════════════════════════ */}
-      <section style={{ background: NEGRO, padding: '80px 24px 72px', position: 'relative', overflow: 'hidden' }}>
-        {/* Gradiente de profundidad — igual que hero del diagnóstico */}
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 60% at 50% 0%, rgba(78,205,196,0.06), transparent 65%)', pointerEvents: 'none' }} />
+      <section style={{ padding: '80px 24px 72px', position: 'relative', overflow: 'hidden', backgroundImage: "linear-gradient(to right, rgba(8,8,8,0.94) 0%, rgba(8,8,8,0.78) 55%, rgba(8,8,8,0.30) 100%), url('/bg-detective.jpg')", backgroundSize: 'cover', backgroundPosition: '78% 18%', backgroundAttachment: 'fixed' }}>
+        {/* Gradiente de profundidad */}
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 60% at 50% 0%, rgba(78,205,196,0.04), transparent 65%)', pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: 720, margin: '0 auto', position: 'relative' }}>
 
@@ -160,7 +168,7 @@ function SubscribeContent() {
           {/* Tagline con Alex Brush */}
           <p className="fade-up-2" style={{ fontFamily: SANS, fontSize: 'clamp(18px,3vw,22px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.5, margin: '20px 0 36px', maxWidth: 540 }}>
             El sistema que trabaja mientras tú{' '}
-            <span style={{ fontFamily: SCRIPT, color: TEAL, fontSize: 'clamp(24px,4vw,32px)', lineHeight: 0.9, display: 'inline-block', verticalAlign: 'middle' }}>vendes.</span>
+            <span style={{ fontFamily: BEBAS, color: TEAL, fontSize: 'clamp(28px,4.5vw,38px)', letterSpacing: '0.06em', display: 'inline-block', verticalAlign: 'middle' }}>VENDES.</span>
           </p>
 
           {/* Descripción — Sofía */}
@@ -331,7 +339,7 @@ function SubscribeContent() {
             TODO LO QUE
           </h2>
           <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,60px)', color: 'white', lineHeight: 1, margin: '0 0 48px', letterSpacing: '0.02em' }}>
-            <span style={{ fontFamily: SCRIPT, color: TEAL, fontSize: 'clamp(52px,8.5vw,80px)', lineHeight: 0.85, display: 'inline-block', verticalAlign: 'middle' }}>Sofía</span>{' '}HACE POR TI:
+            <span style={{ fontFamily: BEBAS, color: TEAL, fontSize: 'clamp(52px,8.5vw,80px)', letterSpacing: '0.06em', display: 'inline-block', verticalAlign: 'middle' }}>SOFÍA</span>{' '}HACE POR TI:
           </h2>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 2 }}>
@@ -559,7 +567,7 @@ function SubscribeContent() {
           </h2>
           <h3 style={{ fontFamily: BEBAS, fontSize: 'clamp(22px,4vw,38px)', color: 'rgba(255,255,255,0.38)', lineHeight: 1, margin: '0 0 40px', letterSpacing: '0.02em', fontWeight: 400 }}>
             SIGUES IMPROVISANDO — O DEJAS QUE{' '}
-            <span style={{ fontFamily: SCRIPT, color: TEAL, fontSize: 'clamp(30px,5.5vw,52px)', lineHeight: 0.85, display: 'inline-block', verticalAlign: 'middle' }}>Sofía</span>{' '}TRABAJE POR TI.
+            <span style={{ fontFamily: BEBAS, color: TEAL, fontSize: 'clamp(30px,5.5vw,52px)', letterSpacing: '0.06em', display: 'inline-block', verticalAlign: 'middle' }}>SOFÍA</span>{' '}TRABAJE POR TI.
           </h3>
 
           <BtnCTA label="Probar CBC™ gratis — 7 días →" />

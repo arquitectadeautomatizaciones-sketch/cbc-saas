@@ -76,6 +76,38 @@ function SubBar({ label, score, delay = 0 }: { label: string; score: number; del
   )
 }
 
+// ── CluedoBtn — botón 3D estilo tablero ─────────────────
+function CluedoBtn({ label, onClick, disabled = false, full = true, fontSize = 20 }: { label: string; onClick: () => void; disabled?: boolean; full?: boolean; fontSize?: number }) {
+  const shadow = '0 8px 0 #4a0008, 0 12px 28px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15)'
+  const shadowPressed = '0 3px 0 #4a0008, 0 5px 12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12)'
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      style={{
+        display: full ? 'block' : 'inline-block',
+        width: full ? '100%' : undefined,
+        padding: '18px 32px',
+        background: disabled ? '#1a1a1a' : 'linear-gradient(180deg, #c8001a 0%, #9a0014 60%, #7a000f 100%)',
+        color: disabled ? 'rgba(255,255,255,0.25)' : 'white',
+        border: disabled ? 'none' : '3px solid rgba(255,255,255,0.15)',
+        borderRadius: 14,
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        fontFamily: "'Bebas Neue', sans-serif",
+        fontSize, letterSpacing: '0.10em',
+        boxShadow: disabled ? 'none' : shadow,
+        textShadow: disabled ? 'none' : '0 1px 3px rgba(0,0,0,0.5)',
+        transition: 'transform 0.08s ease, box-shadow 0.08s ease',
+      }}
+      onMouseDown={e => { if (!disabled) { e.currentTarget.style.transform = 'translateY(5px)'; e.currentTarget.style.boxShadow = shadowPressed } }}
+      onMouseUp={e => { if (!disabled) { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = shadow } }}
+      onMouseLeave={e => { if (!disabled) { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = shadow } }}
+    >
+      {label}
+    </button>
+  )
+}
+
 // ── TogBtn ────────────────────────────────────────────────
 function TogBtn({ label, selected, variant, onClick }: { label: string; selected: boolean; variant: 'yes' | 'no'; onClick: () => void }) {
   const selColor = variant === 'yes' ? VERDE_S : ROJO
@@ -296,14 +328,7 @@ function RazonamientoPanel({ paso, sel, nombre, onContinue }: {
             <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.1em', marginBottom: 24, lineHeight: 1.9, textTransform: 'uppercase' }}>
               {b2}
             </div>
-            <button onClick={onContinue} style={{
-              display: 'block', width: '100%', padding: '16px 24px', borderRadius: 8, border: 'none',
-              background: '#e8001d', color: 'white',
-              fontFamily: "'Bebas Neue', sans-serif", fontSize: 18, letterSpacing: '0.08em',
-              cursor: 'pointer', boxShadow: '0 4px 28px rgba(232,0,29,0.28)',
-            }}>
-              {paso < 5 ? 'Siguiente pregunta →' : 'Ver mi resultado →'}
-            </button>
+            <CluedoBtn label={paso < 5 ? 'Siguiente pregunta →' : 'Ver mi resultado →'} onClick={onContinue} fontSize={18} />
           </div>
         )}
       </div>
@@ -391,11 +416,12 @@ function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof ca
         {/* ── PALABRA DE IMPACTO ── */}
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
           <span style={{
-            fontFamily: "'Alex Brush', cursive",
+            fontFamily: "'Bebas Neue', sans-serif",
             fontSize: 'clamp(58px,14vw,82px)',
             color: semColor,
             lineHeight: 1,
             display: 'block',
+            letterSpacing: '0.04em',
             filter: glowOn ? `drop-shadow(0 0 24px ${semColor}66)` : 'none',
             transition: 'filter 0.8s ease',
           }}>
@@ -516,14 +542,7 @@ function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof ca
         </div>
 
         {/* ── CTA ── */}
-        <button onClick={onContinue} style={{
-          display: 'block', width: '100%', padding: '18px 24px',
-          background: ROJO, color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer',
-          fontFamily: "'Bebas Neue', sans-serif", fontSize: 20, letterSpacing: '0.1em',
-          boxShadow: '0 4px 28px rgba(232,0,29,0.38)',
-        }}>
-          VER MI RESULTADO COMPLETO →
-        </button>
+        <CluedoBtn label="VER MI RESULTADO COMPLETO →" onClick={onContinue} />
 
         <p style={{
           fontFamily: "'JetBrains Mono', monospace",
@@ -639,14 +658,7 @@ function VeredictoReveal({ r, nombre, sel, onContinue }: { r: ReturnType<typeof 
                 ))}
               </div>
             )}
-            <button onClick={onContinue} style={{
-              display: 'block', width: '100%', padding: '18px 24px',
-              background: ROJO, color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer',
-              fontFamily: "'Bebas Neue', sans-serif", fontSize: 20, letterSpacing: '0.1em',
-              boxShadow: `0 4px 28px rgba(232,0,29,0.3)`,
-            }}>
-              VER CÓMO RECUPERARLO →
-            </button>
+            <CluedoBtn label="VER CÓMO RECUPERARLO →" onClick={onContinue} />
             <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', marginTop: 14 }}>
               {primerNombre}, tu reporte incluye los pasos concretos para recuperar ese dinero.
             </p>
@@ -798,17 +810,9 @@ export default function DiagnosticoPage() {
   )
 
   const nextBtn = (label: string) => (
-    <button onClick={avanzar} disabled={!puedeAvanzar()} style={{
-      display: 'block', width: '100%', maxWidth: 560, margin: '16px auto 0',
-      padding: '17px 24px', borderRadius: 8, border: 'none',
-      background: puedeAvanzar() ? ROJO : '#1a1a1a',
-      color: puedeAvanzar() ? 'white' : 'rgba(255,255,255,0.25)',
-      fontFamily: "'Barlow Condensed', sans-serif",
-      fontSize: 20, fontWeight: 900, letterSpacing: '0.06em', textTransform: 'uppercase',
-      cursor: puedeAvanzar() ? 'pointer' : 'not-allowed',
-      boxShadow: puedeAvanzar() ? `0 4px 28px rgba(232,0,29,0.35)` : 'none',
-      transition: 'background 0.2s, box-shadow 0.2s',
-    }}>{label}</button>
+    <div style={{ maxWidth: 560, margin: '16px auto 0' }}>
+      <CluedoBtn label={label} onClick={avanzar} disabled={!puedeAvanzar()} />
+    </div>
   )
 
   const MSGS = [
@@ -847,16 +851,27 @@ export default function DiagnosticoPage() {
     <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '0 0 24px', fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75 }}>{text}</p>
   )
 
+  // Todas las pantallas del diagnóstico usan la misma imagen — fragmentos distintos por posición
   const bgMap: Record<number, string> = {
-    0: 'url(/bg-q0.jpg)',
-    1: 'url(/bg-q1.jpg)',
-    2: 'url(/bg-q2.jpg)',
-    3: 'url(/bg-q3.jpg)',
-    4: 'url(/bg-q4.jpg)',
-    5: 'url(/bg-q5.jpg)',
+    0: 'url(/bg-detective.jpg)',
+    1: 'url(/bg-detective.jpg)',
+    2: 'url(/bg-detective.jpg)',
+    3: 'url(/bg-detective.jpg)',
+    4: 'url(/bg-detective.jpg)',
+    5: 'url(/bg-detective.jpg)',
+  }
+  // Cada pantalla "corta" un fragmento distinto de la imagen (atmósfera, no el detective en primer plano)
+  const bgPosMap: Record<number, string> = {
+    0: 'center 4%',   // cielo nocturno / niebla superior
+    1: '78% 18%',     // zona de letreros de neón (derecha alta)
+    2: 'center 88%',  // adoquines mojados / suelo con reflejos
+    3: '22% 42%',     // sombra azul lateral izquierda
+    4: '74% 38%',     // atmósfera media-derecha
+    5: 'center 62%',  // escena media — ambiente general
   }
   const bgKey    = fase === 'razonando' ? razonandoPaso : pasoForm
-  const bgActual = (fase === 'suspense' || fase === 'dictamen_preliminar') ? 'url(/bg-detective.jpg)' : (bgMap[bgKey] ?? 'url(/bg-diagnostico.jpg)')
+  const bgActual = 'url(/bg-detective.jpg)'
+  const bgPosition = (fase === 'suspense' || fase === 'dictamen_preliminar') ? 'center 30%' : (bgPosMap[bgKey] ?? 'center top')
 
   // Contenido personalizado por cuello de botella — Pantalla 9
   const accionPorCuello: Record<string, { ref: string; texto: string }[]> = {
@@ -891,7 +906,7 @@ export default function DiagnosticoPage() {
       minHeight: '100vh', fontFamily: "'General Sans', system-ui, sans-serif", color: 'white', overflowX: 'hidden',
       background: NEGRO,
       backgroundImage: fase === 'suspense' ? 'none' : fase === 'dictamen_preliminar' ? `linear-gradient(rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.75) 100%), ${bgActual}` : (fase === 'form' || fase === 'razonando') ? `linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 100%), ${bgActual}` : 'none',
-      backgroundSize: 'cover', backgroundPosition: 'center top', backgroundAttachment: 'fixed',
+      backgroundSize: 'cover', backgroundPosition: bgPosition, backgroundAttachment: 'fixed',
       transition: 'background-image 0.6s ease',
     }}>
       <style>{`
@@ -957,7 +972,7 @@ export default function DiagnosticoPage() {
             DIAGNÓSTICO COMERCIAL · CBC™
           </div>
           <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(52px,10vw,96px)', lineHeight: 0.9, color: 'white', margin: '0 0 48px', letterSpacing: '0.02em', overflow: 'visible' }}>
-            EN 2 MINUTOS<br />SABES QUIÉN TE<br />ESTÁ <span style={{ fontFamily: "'Alex Brush', cursive", color: ROJO, fontSize: 'clamp(64px,12.5vw,118px)', lineHeight: 1.1, display: 'inline-block', verticalAlign: 'middle' }}>Robando</span><br />TUS COMISIONES.
+            EN 2 MINUTOS<br />SABES QUIÉN TE<br />ESTÁ <span style={{ color: ROJO }}>ROBANDO</span><br />TUS COMISIONES.
           </h1>
           <div style={{ textAlign: 'left', maxWidth: 520, margin: '0 auto 36px' }}>
             <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.90)', lineHeight: 1.8, margin: '0 0 20px' }}>
@@ -1483,14 +1498,7 @@ export default function DiagnosticoPage() {
               <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.16em', textTransform: 'uppercase', textAlign: 'center', marginBottom: 16 }}>
                 Tus datos están calculados. El resultado final está listo.
               </div>
-              <button onClick={() => { setFase('veredicto'); window.scrollTo({ top: 0, behavior: 'smooth' }) }} style={{
-                display: 'block', width: '100%', padding: '18px 24px',
-                background: ROJO, color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer',
-                fontFamily: "'Bebas Neue', sans-serif", fontSize: 20, letterSpacing: '0.1em',
-                boxShadow: `0 4px 28px rgba(232,0,29,0.3)`,
-              }}>
-                VER MI RESULTADO COMPLETO →
-              </button>
+              <CluedoBtn label="VER MI RESULTADO COMPLETO →" onClick={() => { setFase('veredicto'); window.scrollTo({ top: 0, behavior: 'smooth' }) }} />
             </div>
 
           </div>
@@ -1575,7 +1583,7 @@ export default function DiagnosticoPage() {
                   PLAN ENVIADO
                 </div>
                 <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", margin: '0 0 20px', fontSize: 'clamp(36px,7vw,56px)', color: 'white', letterSpacing: '0.01em', lineHeight: 0.95 }}>
-                  LISTO,<br /><span style={{ fontFamily: "'Alex Brush', cursive", color: VERDE_S, fontSize: 'clamp(44px,8.5vw,68px)', lineHeight: 0.88, display: 'inline-block' }}>{nombreTrimmed.split(' ')[0] || nombreTrimmed}.</span>
+                  LISTO, <span style={{ color: VERDE_S }}>{(nombreTrimmed.split(' ')[0] || nombreTrimmed).toUpperCase()}.</span>
                 </h3>
                 <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '0 0 12px', fontSize: 15, color: 'rgba(255,255,255,0.88)', lineHeight: 1.75 }}>
                   Tu plan de acción ya está en camino a tu correo.
