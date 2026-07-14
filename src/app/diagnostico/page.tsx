@@ -557,8 +557,14 @@ export default function DiagnosticoPage() {
       return
     }
     setRazonandoPaso(pasoForm)
-    setFase('razonando')
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    // Panel de razonamiento eliminado — ir directo a siguiente pregunta o resultado
+    if (pasoForm < 5) {
+      setPasoForm(pasoForm + 1)
+      setTimeout(() => cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60)
+    } else {
+      setFase('suspense')
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
   }
 
   async function desbloquear() {
