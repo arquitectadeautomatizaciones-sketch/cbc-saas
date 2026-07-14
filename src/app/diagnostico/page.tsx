@@ -668,7 +668,7 @@ export default function DiagnosticoPage() {
   const fmt = (n: number) => '$' + n.toLocaleString('en-US')
 
   const qTitle = (text: string) => (
-    <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(26px,5vw,38px)', lineHeight: 1.05, color: ROJO, marginBottom: 10, letterSpacing: '0.01em' }}>
+    <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(26px,5vw,38px)', lineHeight: 1.05, color: ROJO, marginBottom: 10, letterSpacing: '0.01em', textAlign: 'center' }}>
       {text}
     </div>
   )
@@ -838,7 +838,7 @@ export default function DiagnosticoPage() {
 
                   {/* E1 */}
                   {pasoForm === 1 && <>
-                    <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(26px,5vw,38px)', lineHeight: 1.05, marginBottom: 10, letterSpacing: '0.01em' }}>
+                    <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(26px,5vw,38px)', lineHeight: 1.05, marginBottom: 10, letterSpacing: '0.01em', textAlign: 'center' }}>
                       <span style={{ color: 'white' }}>{nombreTrimmed.split(' ')[0] || nombreTrimmed}, </span>
                       <span style={{ color: ROJO }}>¿Estás list@ para identificar al ladrón de tus comisiones?</span>
                     </div>
@@ -865,7 +865,7 @@ export default function DiagnosticoPage() {
 
                   {/* E3 */}
                   {pasoForm === 3 && <>
-                    <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(26px,5vw,38px)', lineHeight: 1.05, marginBottom: 10, letterSpacing: '0.01em' }}>
+                    <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(26px,5vw,38px)', lineHeight: 1.05, marginBottom: 10, letterSpacing: '0.01em', textAlign: 'center' }}>
                       <span style={{ color: 'white' }}>Cuando un cliente te dice &apos;lo pienso&apos; — </span>
                       <span style={{ color: ROJO }}>¿qué haces?</span>
                     </div>
@@ -967,7 +967,7 @@ export default function DiagnosticoPage() {
                     ]
                     return (
                       <>
-                        <div style={{ marginBottom: 18 }}>
+                        <div style={{ marginBottom: 18, textAlign: 'center' }}>
                           <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.40)', letterSpacing: '0.20em', textTransform: 'uppercase', margin: '0 0 10px' }}>
                             ÚLTIMA PREGUNTA
                           </p>
@@ -982,10 +982,10 @@ export default function DiagnosticoPage() {
                           }}>
                             ¿Cuál es el motivo por el que te levantas cada mañana?
                           </h2>
-                          <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.60)', margin: '0 0 3px', fontStyle: 'italic' }}>
+                          <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 14, color: ROJO, margin: '0 0 4px', fontStyle: 'italic', fontWeight: 600 }}>
                             Soñar no cuesta nada. Hacerlo realidad sí.
                           </p>
-                          <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.50)', margin: '0 0 0' }}>
+                          <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.55)', margin: '0 0 0' }}>
                             ¿Cuál es ese sueño que llevas más tiempo esperando o postergando?
                           </p>
                         </div>
@@ -1003,7 +1003,7 @@ export default function DiagnosticoPage() {
                                   border: `1.5px solid ${isSelected ? opt.border : 'rgba(255,255,255,0.10)'}`,
                                   borderRadius: 10,
                                   padding: '13px 12px 11px',
-                                  textAlign: 'left',
+                                  textAlign: 'center',
                                   cursor: 'pointer',
                                   opacity: anySelected && !isSelected ? 0.42 : 1,
                                   transform: isSelected ? 'scale(1.025)' : 'scale(1)',
@@ -1017,10 +1017,10 @@ export default function DiagnosticoPage() {
                                 <span style={{ color: isSelected ? colorFull : 'rgba(255,255,255,0.45)', display: 'flex' }}>
                                   {opt.icon}
                                 </span>
-                                <span style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 11.5, fontWeight: 600, color: 'rgba(255,255,255,0.90)', lineHeight: 1.30, display: 'block' }}>
+                                <span style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 11.5, fontWeight: 700, color: ROJO, lineHeight: 1.30, display: 'block' }}>
                                   {opt.label}
                                 </span>
-                                <span style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 10, color: isSelected ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.42)', lineHeight: 1.45, display: 'block' }}>
+                                <span style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 10, color: 'white', lineHeight: 1.45, display: 'block' }}>
                                   {opt.sub}
                                 </span>
                               </button>
