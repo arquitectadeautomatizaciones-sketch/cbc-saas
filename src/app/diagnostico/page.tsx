@@ -1,6 +1,7 @@
 'use client'
 // v2-fase-c
 import { useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   type Selecciones,
   calcular, calcular90dias,
@@ -735,7 +736,7 @@ function maskRange(perdida: number): string {
 }
 
 // ── Page ──────────────────────────────────────────────────
-type Fase = 'form' | 'razonando' | 'suspense' | 'cargando' | 'dictamen_preliminar' | 'veredicto' | 'accion' | 'desbloqueado'
+type Fase = 'form' | 'razonando' | 'suspense' | 'cargando' | 'dictamen_preliminar' | 'veredicto' | 'accion' | 'redirigiendo'
 
 export default function DiagnosticoPage() {
   const [fase, setFase] = useState<Fase>('form')
@@ -747,6 +748,7 @@ export default function DiagnosticoPage() {
   const [emailError, setEmailError] = useState('')
   const [guardando, setGuardando] = useState(false)
   const [msgIdx, setMsgIdx] = useState(0)
+  const router = useRouter()
   const cardRef   = useRef<HTMLDivElement>(null)
 
   const nombreTrimmed = nombre.trim()
@@ -795,7 +797,7 @@ export default function DiagnosticoPage() {
     setEmailError('')
     setGuardando(true)
     const r = calcular(sel)
-    await fetch('/api/leads', {
+    fetch('/api/leads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -808,7 +810,8 @@ export default function DiagnosticoPage() {
       }),
     })
     setGuardando(false)
-    setFase('desbloqueado')
+    setFase('redirigiendo')
+    setTimeout(() => router.push('/subscribe'), 1500)
   }
 
   function lanzarResultado() {
@@ -822,7 +825,7 @@ export default function DiagnosticoPage() {
     }, 4200)
   }
 
-  const r = (fase === 'dictamen_preliminar' || fase === 'veredicto' || fase === 'accion' || fase === 'desbloqueado') ? calcular(sel) : null
+  const r = (fase === 'dictamen_preliminar' || fase === 'veredicto' || fase === 'accion' || fase === 'redirigiendo') ? calcular(sel) : null
 
   const progressBar = (
     <div style={{ marginBottom: 28 }}>
@@ -1001,7 +1004,7 @@ export default function DiagnosticoPage() {
           <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 18, color: 'white', letterSpacing: '0.12em' }}>CBC™</span>
           <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.15em', textTransform: 'uppercase', transition: 'color 0.4s' }}>
             {statusText}
-            <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: fase === 'veredicto' || fase === 'accion' || fase === 'desbloqueado' ? '#22C55E' : '#E53935', marginLeft: 8, animation: 'blink 1.4s ease-in-out infinite', verticalAlign: 'middle' }} />
+            <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: fase === 'veredicto' || fase === 'accion' || fase === 'redirigiendo' ? '#22C55E' : '#E53935', marginLeft: 8, animation: 'blink 1.4s ease-in-out infinite', verticalAlign: 'middle' }} />
           </span>
         </div>
         </div>
@@ -1403,7 +1406,7 @@ export default function DiagnosticoPage() {
       {/* ════════════════════════════════════════
           ACCIÓN
       ════════════════════════════════════════ */}
-      {(fase === 'accion' || fase === 'desbloqueado') && r && (
+      {(fase === 'accion' || fase === 'redirigiendo') && r && (
         <div style={{ padding: '48px 16px 80px', animation: 'fadeUp 0.5s ease both' }}>
           <div style={{ maxWidth: 500, margin: '0 auto' }}>
 
@@ -1465,20 +1468,11 @@ export default function DiagnosticoPage() {
               </>
             )}
 
-            {fase === 'desbloqueado' && (
-              <div style={{ textAlign: 'center', animation: 'fadeUp 0.5s ease both' }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#22C55E', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 32 }}>
-                  PLAN ENVIADO
+            {fase === 'redirigiendo' && (
+              <div style={{ textAlign: 'center', animation: 'fadeUp 0.4s ease both', padding: '40px 0' }}>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: VERDE_S, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+                  Enviando tu plan...
                 </div>
-                <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", margin: '0 0 20px', fontSize: 'clamp(36px,7vw,56px)', color: 'white', letterSpacing: '0.01em', lineHeight: 0.95 }}>
-                  LISTO, <span style={{ color: VERDE_S }}>{(nombreTrimmed.split(' ')[0] || nombreTrimmed).toUpperCase()}.</span>
-                </h3>
-                <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '0 0 12px', fontSize: 15, color: 'rgba(255,255,255,0.88)', lineHeight: 1.75 }}>
-                  Tu plan de acción ya está en camino a tu correo.
-                </p>
-                <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: 0, fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65 }}>
-                  Revísalo en los próximos minutos — ahí están las 3 acciones que más impacto van a tener en tu semana.
-                </p>
               </div>
             )}
 
