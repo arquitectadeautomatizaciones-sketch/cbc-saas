@@ -821,7 +821,7 @@ export default function DiagnosticoPage() {
     <div style={{
       minHeight: '100vh', fontFamily: "'General Sans', system-ui, sans-serif", color: 'white', overflowX: 'hidden',
       background: NEGRO,
-      backgroundImage: (fase === 'form' || fase === 'suspense' || fase === 'razonando' || fase === 'dictamen_preliminar') ? `linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 100%), ${bgActual}` : 'none',
+      backgroundImage: (fase === 'form' || fase === 'suspense' || fase === 'razonando') ? `linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 100%), ${bgActual}` : 'none',
       backgroundSize: 'cover', backgroundPosition: 'center top', backgroundAttachment: 'fixed',
       transition: 'background-image 0.6s ease',
     }}>
