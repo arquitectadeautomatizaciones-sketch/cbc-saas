@@ -646,11 +646,11 @@ export default function DiagnosticoPage() {
   const statusText =
     fase === 'form'
       ? pasoForm === 0 ? 'DIAGNÓSTICO · EN ESPERA'
-      : pasoForm === 1 ? 'PREGUNTA 1 DE 5 · ANALIZANDO'
-      : pasoForm === 2 ? 'PREGUNTA 2 DE 5 · CALCULANDO'
-      : pasoForm === 3 ? 'PREGUNTA 3 DE 5 · AVANZANDO'
-      : pasoForm === 4 ? 'PREGUNTA 4 DE 5 · CASI LISTO'
-      : 'PREGUNTA 5 DE 5 · ÚLTIMA RESPUESTA'
+      : pasoForm === 1 ? 'IDENTIFICANDO LA FUGA'
+      : pasoForm === 2 ? 'CALCULANDO PÉRDIDAS'
+      : pasoForm === 3 ? 'CONFIRMANDO PATRÓN'
+      : pasoForm === 4 ? 'ÚLTIMA VERIFICACIÓN'
+      : 'ANÁLISIS COMPLETO'
     : fase === 'razonando'           ? 'ANALIZANDO TUS RESPUESTAS...'
     : fase === 'suspense'            ? 'ANÁLISIS COMPLETO · PREPARANDO RESULTADO'
     : fase === 'cargando'            ? 'CALCULANDO TU RESULTADO...'
@@ -735,30 +735,37 @@ export default function DiagnosticoPage() {
         input::placeholder { color: #333; }
       `}</style>
 
-      {/* Cinta animada */}
-      <div style={{ overflow: 'hidden', background: ROJO, height: 28, display: 'flex', alignItems: 'center' }}>
-        <div style={{ display: 'flex', animation: 'ticker 18s linear infinite', whiteSpace: 'nowrap', willChange: 'transform' }}>
-          {[...Array(2)].map((_, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
-              {['DIAGNÓSTICO COMERCIAL', 'CIERRE BAJO CONTROL™', '¿QUIÉN TE ESTÁ ROBANDO?', 'DESCÚBRELO EN 2 MINUTOS'].map((item, j) => (
-                <span key={j} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '0 32px', fontFamily: "'JetBrains Mono', monospace", fontSize: 10, fontWeight: 700, color: 'white', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-                  <span style={{ animation: 'iconPulse 2.2s ease-in-out infinite', animationDelay: `${j * 0.5}s` }}>⚡</span>
-                  {item}
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* Header completo sticky — hazard + cinta + nav */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 50 }}>
 
-      {/* Barra superior */}
-      <div style={{ borderBottom: '1px solid #1a1a1a', background: 'rgba(8,8,8,0.96)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 50 }}>
+        {/* Franja precaución amarillo/negro */}
+        <div style={{ height: 4, background: 'repeating-linear-gradient(-45deg, #F5C400 0px, #F5C400 5px, #080808 5px, #080808 10px)' }} />
+
+        {/* Cinta animada roja */}
+        <div style={{ overflow: 'hidden', background: ROJO, height: 28, display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', animation: 'ticker 18s linear infinite', whiteSpace: 'nowrap', willChange: 'transform' }}>
+            {[...Array(2)].map((_, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
+                {['BUSCANDO AL LADRÓN', '¿QUIÉN TE ESTÁ ROBANDO?', 'EL SOSPECHOSO ESTÁ CERCA', 'CADA RESPUESTA ES UNA PISTA', '2 MINUTOS PARA DESCUBRIRLO'].map((item, j) => (
+                  <span key={j} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '0 28px', fontFamily: "'JetBrains Mono', monospace", fontSize: 10, fontWeight: 700, color: 'white', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+                    <span style={{ animation: 'iconPulse 2.2s ease-in-out infinite', animationDelay: `${j * 0.5}s` }}>⚡</span>
+                    {item}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Barra de navegación */}
+        <div style={{ borderBottom: '1px solid #1a1a1a', background: 'rgba(8,8,8,0.96)', backdropFilter: 'blur(12px)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 24px', maxWidth: 1100, margin: '0 auto' }}>
           <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 18, color: 'white', letterSpacing: '0.12em' }}>CBC™</span>
           <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#555', letterSpacing: '0.15em', textTransform: 'uppercase', transition: 'color 0.4s' }}>
             {statusText}
             <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: fase === 'veredicto' || fase === 'accion' || fase === 'desbloqueado' ? '#22C55E' : '#E53935', marginLeft: 8, animation: 'blink 1.4s ease-in-out infinite', verticalAlign: 'middle' }} />
           </span>
+        </div>
         </div>
       </div>
 
