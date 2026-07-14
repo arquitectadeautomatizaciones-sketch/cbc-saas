@@ -967,7 +967,7 @@ export default function DiagnosticoPage() {
         input[type=number]::-webkit-outer-spin-button,
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
         input[type=number] { -moz-appearance: textfield; }
-        input::placeholder { color: #333; }
+        input::placeholder { color: rgba(255,255,255,0.68); }
       `}</style>
 
       {/* Header completo sticky — hazard + cinta + nav */}
@@ -1447,7 +1447,7 @@ export default function DiagnosticoPage() {
                 </div>
 
                 <input
-                  type="email" placeholder="correo@dominio.com" value={email}
+                  type="email" placeholder="Tu correo para enviarte el plan de acción" value={email}
                   onChange={e => { setEmail(e.target.value); setEmailError('') }}
                   onKeyDown={e => e.key === 'Enter' && desbloquear()}
                   style={{ display: 'block', width: '100%', padding: '14px 18px', borderRadius: 8, background: '#0a0a0a', border: emailError ? `1px solid ${ROJO}` : '1px solid #222', color: 'white', fontSize: 15, marginBottom: emailError ? 6 : 14, outline: 'none', fontFamily: "'General Sans', system-ui, sans-serif", letterSpacing: '0.01em' }}
