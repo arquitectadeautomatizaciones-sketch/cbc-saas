@@ -312,12 +312,35 @@ function SubscribeContent() {
         <div style={{ maxWidth: 760, margin: '0 auto', position: 'relative' }}>
           <div style={{ fontFamily: MONO, fontSize: 10, color: `${TEAL}70`, letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>SOFÍA™ · IA</div>
           <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 4px', letterSpacing: '0.02em', color: 'white' }}>SOFÍA YA LEYÓ</h2>
-          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 28px', letterSpacing: '0.02em' }}>
+          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 32px', letterSpacing: '0.02em' }}>
             <span style={{ color: ROJO }}>TU DIAGNÓSTICO.</span>
           </h2>
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.8, margin: '0 0 24px', maxWidth: 520 }}>
-            Sabe exactamente dónde se te escapan las comisiones — y calibra cada recomendación a tu caso específico, no a un genérico.
-          </p>
+
+          {/* Presentación en primera persona */}
+          <div style={{ background: 'rgba(8,8,8,0.65)', backdropFilter: 'blur(12px)', border: `1px solid ${TEAL}22`, borderRadius: 14, padding: '28px 28px 24px', marginBottom: 28, maxWidth: 540 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
+              <div style={{ width: 42, height: 42, borderRadius: '50%', background: `linear-gradient(135deg, ${TEAL}30, ${TEAL}08)`, border: `1.5px solid ${TEAL}50`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span style={{ fontSize: 18 }}>🤝</span>
+              </div>
+              <div>
+                <div style={{ fontFamily: BEBAS, fontSize: 18, color: TEAL, letterSpacing: '0.08em' }}>SOFÍA™</div>
+                <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.38)', letterSpacing: '0.14em' }}>PARTE DEL EQUIPO CBC™</div>
+              </div>
+            </div>
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.90)', lineHeight: 1.8, margin: '0 0 14px', fontStyle: 'italic' }}>
+              "Hola, soy Sofía. 👋
+            </p>
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.8, margin: '0 0 14px' }}>
+              Soy parte del equipo de CBC™ — la que revisa tu pipeline cada mañana, te dice exactamente a quién llamar hoy, y te prepara para que entres a cada reunión sabiendo qué decir.
+            </p>
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.8, margin: '0 0 14px' }}>
+              Ya leí tu diagnóstico. Sé exactamente dónde se te está escapando el dinero. Solo necesito que entres — y lo resolvemos juntos."
+            </p>
+            <div style={{ paddingTop: 14, borderTop: `1px solid ${TEAL}18` }}>
+              <span style={{ fontFamily: MONO, fontSize: 9, color: `${TEAL}70`, letterSpacing: '0.12em' }}>— SOFÍA™ · ASISTENTE COMERCIAL CBC™</span>
+            </div>
+          </div>
+
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 500 }}>
             {['Cada mañana te dice a quién llamar.', 'Cada seguimiento, ya redactado.', 'Cada semana, tu reporte, listo.'].map((txt, i) => (
               <div key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
@@ -345,7 +368,10 @@ function SubscribeContent() {
               <div>
                 <div style={{ fontFamily: SANS, fontWeight: 700, color: AMARILLO, fontSize: 15 }}>Tatiana Panadero</div>
                 <div style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(255,255,255,0.50)', marginTop: 2 }}>Ejecutiva Comercial Senior · Bogotá, Colombia</div>
-                <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.28)', letterSpacing: '0.1em', marginTop: 4 }}>CASO DOCUMENTADO · 15 MAY 2026</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
+                  <span style={{ color: AMARILLO, fontSize: 14, letterSpacing: '0.05em' }}>★★★★★</span>
+                  <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.28)', letterSpacing: '0.1em' }}>CASO DOCUMENTADO · 15 MAY 2026</span>
+                </div>
               </div>
             </div>
             <blockquote style={{ fontFamily: SANS, fontSize: 'clamp(14px,2vw,16px)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.8, margin: '0 0 20px', padding: 0, borderLeft: 'none', fontStyle: 'italic', position: 'relative' }}>
@@ -359,6 +385,18 @@ function SubscribeContent() {
             <div style={{ paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
               <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.12em' }}>TESTIMONIO DOCUMENTADO · 15 MAY 2026 · BOGOTÁ, COLOMBIA</span>
             </div>
+          </div>
+
+          {/* CTA "Dejar testimonio" */}
+          <div style={{ marginTop: 20, textAlign: 'center' }}>
+            <a
+              href="mailto:hola@arquitectadeautomatizaciones.com?subject=Mi testimonio de CBC™"
+              style={{ fontFamily: SANS, fontSize: 14, color: 'rgba(255,255,255,0.42)', textDecoration: 'none', borderBottom: '1px solid rgba(255,255,255,0.15)', paddingBottom: 2, transition: 'color 0.15s' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.42)')}
+            >
+              ¿Quieres ser el próximo caso documentado? Cuéntanos tu experiencia →
+            </a>
           </div>
         </div>
       </section>
@@ -413,10 +451,26 @@ function SubscribeContent() {
           <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.8, margin: '28px 0 28px', maxWidth: 560 }}>
             Carga tus prospectos. Deja que Sofía te diga a quién llamar. Prepara una llamada real con Mi Llamada Perfecta™.
           </p>
-          <div style={{ padding: '24px 28px', border: `1px solid rgba(78,205,196,0.22)`, borderRadius: 10, background: 'rgba(78,205,196,0.04)' }}>
-            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, margin: 0 }}>
-              Si no sientes más claridad y más control — cancelas, sin costo, sin preguntas.
-            </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'flex-start' }}>
+            <div style={{ padding: '24px 28px', border: `1px solid rgba(78,205,196,0.22)`, borderRadius: 10, background: 'rgba(78,205,196,0.04)', maxWidth: 560 }}>
+              <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, margin: 0 }}>
+                Si no sientes más claridad y más control — cancelas, sin costo, sin preguntas.
+              </p>
+            </div>
+
+            {/* Sello de garantía */}
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 18, padding: '16px 22px', border: `2px dashed ${VERDE_S}44`, borderRadius: 12, background: `${VERDE_S}06`, position: 'relative' }}>
+              <div style={{ width: 58, height: 58, borderRadius: '50%', border: `2px solid ${VERDE_S}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: `${VERDE_S}0d` }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontFamily: BEBAS, fontSize: 11, color: VERDE_S, lineHeight: 1.1, letterSpacing: '0.04em' }}>7</div>
+                  <div style={{ fontFamily: MONO, fontSize: 6, color: VERDE_S, lineHeight: 1.1, letterSpacing: '0.06em' }}>DÍAS</div>
+                </div>
+              </div>
+              <div>
+                <div style={{ fontFamily: BEBAS, fontSize: 18, color: VERDE_S, letterSpacing: '0.06em', lineHeight: 1.1 }}>GARANTÍA SIN RIESGO</div>
+                <div style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.5, marginTop: 3 }}>7 días gratis · Sin tarjeta · Sin preguntas si cancelas</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -467,7 +521,25 @@ function SubscribeContent() {
       </section>
 
       {/* ── Footer ── */}
-      <footer style={{ background: '#060606', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '24px', textAlign: 'center' }}>
+      <footer style={{ background: '#060606', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '32px 24px', textAlign: 'center' }}>
+        {/* Redes sociales */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 20, marginBottom: 20 }}>
+          {[
+            { href: 'https://www.instagram.com/dianagarcia_automatizanegocios/', label: 'Instagram', color: '#E1306C', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg> },
+            { href: 'https://www.tiktok.com/@arquitectautomatizacion', label: 'TikTok', color: '#69C9D0', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg> },
+            { href: 'https://www.youtube.com/@ArquitectadeAutomatizaciones', label: 'YouTube', color: '#FF0000', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 1.96C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg> },
+            { href: 'https://www.linkedin.com/in/diana-garcia-arquitecta-de-automatizaciones', label: 'LinkedIn', color: '#0A66C2', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg> },
+            { href: 'https://www.facebook.com/Arquitectadeautomatizaciones', label: 'Facebook', color: '#1877F2', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> },
+          ].map(({ href, label, color, icon }) => (
+            <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
+              title={label}
+              style={{ color: 'rgba(255,255,255,0.28)', transition: 'color 0.15s', display: 'flex', alignItems: 'center' }}
+              onMouseEnter={e => (e.currentTarget.style.color = color)}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.28)')}>
+              {icon}
+            </a>
+          ))}
+        </div>
         <p style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.18)', letterSpacing: '0.12em', margin: 0 }}>
           © 2026 DIANA GARCÍA · ARQUITECTA DE AUTOMATIZACIONES · HAGO FÁCIL LO DIFÍCIL.
         </p>
