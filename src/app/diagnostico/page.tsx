@@ -605,95 +605,111 @@ function VeredictoReveal({ r, nombre, sel, onContinue }: { r: ReturnType<typeof 
 
   const primerNombre = nombre.split(' ')[0] || nombre
   const fmt = (n: number) => '$' + n.toLocaleString('en-US')
+  const semColor = r.nivelColor
 
   return (
     <div style={{ padding: '48px 16px 64px', animation: 'fadeUp 0.5s ease both' }}>
       <div style={{ maxWidth: 500, margin: '0 auto' }}>
 
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 40, textAlign: 'center' }}>
-          RESULTADO FINAL · DIAGNÓSTICO DE {nombre.toUpperCase()}
-        </div>
-
+        {/* ── 1. ENCABEZADO: CASO RESUELTO ── */}
         {beat >= 1 && (
-          <div style={{ animation: 'fadeUp 0.5s ease both', marginBottom: 32, textAlign: 'center' }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 12 }}>
-              AQUÍ ESTÁ TU FUGA PRINCIPAL
-            </div>
-            <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(44px,10vw,82px)', lineHeight: 0.92, color: 'white', margin: '0 0 10px', letterSpacing: '0.01em' }}>
-              {r.cuelloLabel.toUpperCase()}
+          <div style={{ animation: 'fadeUp 0.5s ease both', marginBottom: 32 }}>
+            <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(52px,13vw,82px)', lineHeight: 0.92, margin: '0 0 8px', letterSpacing: '0.01em' }}>
+              <span style={{ color: 'white' }}>CASO </span><span style={{ color: ROJO }}>RESUELTO.</span>
             </h2>
+            <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(22px,5vw,32px)', lineHeight: 1, color: 'white', margin: '0 0 18px', letterSpacing: '0.02em' }}>
+              {primerNombre}, AQUÍ ESTÁ TU FUGA.
+            </h3>
             <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, margin: 0 }}>
               {r.cuelloTexto}
             </p>
           </div>
         )}
 
+        {/* ── 2. LAS 3 CIFRAS — JERARQUÍA ── */}
         {beat >= 2 && r.perdidaMensual > 0 && (
-          <div style={{ animation: 'fadeUp 0.5s ease both', background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px', marginBottom: 28 }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>CUÁNTO ESTÁS PERDIENDO · POR MES</div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
-              <div>
-                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(24px,5vw,38px)', color: ROJO, letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdidaMensual)}</div>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>por mes</div>
+          <div style={{ animation: 'fadeUp 0.5s ease both', background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: `1px solid ${semColor}33`, borderRadius: 12, padding: '24px', marginBottom: 28 }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 16 }}>CUÁNTO ESTÁS PERDIENDO</div>
+
+            {/* Cifra principal — mensual */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+              <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(64px,15vw,96px)', color: semColor, letterSpacing: '0.02em', lineHeight: 1 }}>
+                {fmt(r.perdidaMensual)}
               </div>
-              <div>
-                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(24px,5vw,38px)', color: AMARILLO, letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdida90)}</div>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>en 90 días</div>
-              </div>
-              <div>
-                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(24px,5vw,38px)', color: 'rgba(255,255,255,0.65)', letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdidaAnual)}</div>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>al año</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: semColor, letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.9 }}>● CONFIRMADO</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>por mes</div>
               </div>
             </div>
-            {r.perdidaMensual > 0 && (sel.v1 ?? 0) > 0 && (
-              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '14px 0 0', fontSize: 12, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, borderTop: '1px solid #1a0000', paddingTop: 12 }}>
-                Hoy dejaste escapar el equivalente a {Math.max(1, Math.round(r.perdida90 / (sel.v1 ?? 1)))} ventas. Si nada cambia, en 90 días habrás dejado escapar {fmt(r.perdida90)} — eso equivale a clientes que ya casi tenías cerrados.
+
+            {/* Cifras secundarias — 90 días y anual */}
+            <div style={{ display: 'flex', gap: 24, paddingTop: 12, borderTop: `1px solid ${semColor}22` }}>
+              <div>
+                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(20px,4vw,28px)', color: 'rgba(255,255,255,0.55)', letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdida90)}</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: 'rgba(255,255,255,0.40)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 3 }}>en 90 días</div>
+              </div>
+              <div>
+                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(20px,4vw,28px)', color: 'rgba(255,255,255,0.55)', letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdidaAnual)}</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: 'rgba(255,255,255,0.40)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 3 }}>al año</div>
+              </div>
+            </div>
+
+            {(sel.v1 ?? 0) > 0 && (
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '14px 0 0', fontSize: 12, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65, borderTop: '1px solid #1a0000', paddingTop: 12 }}>
+                Hoy dejaste escapar el equivalente a {Math.max(1, Math.round(r.perdida90 / (sel.v1 ?? 1)))} ventas. Si nada cambia, en 90 días habrás dejado escapar {fmt(r.perdida90)} — clientes que ya casi tenías cerrados.
               </p>
             )}
           </div>
         )}
 
+        {/* ── 3. SECCIÓN DEL SUEÑO ── */}
         {beat >= 3 && r.suenoTextos && sel.sueno && (
           <div style={{ animation: 'fadeUp 0.5s ease both', marginBottom: 32 }}>
-            <div style={{ background: '#0a0800', border: '1px solid rgba(245,196,0,0.1)', borderRadius: 10, padding: '18px 22px' }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>
+            <div style={{ background: '#0a0800', border: '1px solid rgba(245,196,0,0.15)', borderRadius: 10, padding: '20px 22px' }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>
                 Y ESE SUEÑO TUYO...
               </div>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 20, color: AMARILLO, letterSpacing: '0.04em', margin: '0 0 14px' }}>
+              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(28px,6vw,38px)', color: AMARILLO, letterSpacing: '0.04em', lineHeight: 1.05, margin: '0 0 16px' }}>
                 {SUENO_LABELS[sel.sueno]?.toUpperCase()}
               </p>
-              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.8, margin: '0 0 10px' }}>
-                No necesita que trabajes más horas. Necesita un sistema que siga vendiendo cuando tú estás con tu familia, durmiendo, o disfrutando de un fin de semana.
-              </p>
-              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, margin: 0 }}>
-                Cada seguimiento que depende de tu memoria pone un límite al crecimiento de tu negocio.
-              </p>
+              {r.suenoTextos.map((linea, i) => (
+                <p key={i} style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: i === 0 ? 'rgba(255,255,255,0.80)' : 'rgba(255,255,255,0.60)', lineHeight: 1.8, margin: i < r.suenoTextos!.length - 1 ? '0 0 10px' : 0 }}>
+                  {linea}
+                </p>
+              ))}
             </div>
           </div>
         )}
 
+        {/* ── 4. CITA DE MAXWELL — evidencia final ── */}
         {beat >= 4 && (
           <div style={{ animation: 'fadeUp 0.5s ease both' }}>
-            <div style={{ borderLeft: '2px solid #222', paddingLeft: 16, marginBottom: 24 }}>
-              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.8, margin: '0 0 8px', fontStyle: 'italic' }}>
-                "Si llevas 10 años haciendo lo mismo, no tienes 10 años de experiencia. Tienes 1 año repetido 10 veces."
+            <div style={{ position: 'relative', borderLeft: `4px solid ${semColor}`, background: `${semColor}0a`, borderRadius: '0 8px 8px 0', padding: '18px 20px 18px 24px', marginBottom: 24, overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: -8, left: 10, fontFamily: "'Bebas Neue', sans-serif", fontSize: 64, color: semColor, opacity: 0.18, lineHeight: 1, userSelect: 'none' }}>"</div>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.82)', lineHeight: 1.8, margin: '0 0 10px', fontStyle: 'italic', position: 'relative' }}>
+                {r.maxwell}
               </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.1em' }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.50)', letterSpacing: '0.1em', margin: 0, position: 'relative' }}>
                 Atribuida a John C. Maxwell
               </p>
             </div>
+
+            {/* ── 5. LO QUE YA HACES BIEN ── */}
             {r.fortalezas.length >= 2 && (
               <div style={{ background: '#0a0a0a', border: '1px solid #1a1a1a', borderRadius: 10, padding: '16px 20px', marginBottom: 24 }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 12 }}>LO QUE YA HACES BIEN</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 12 }}>LO QUE YA HACES BIEN</div>
                 {r.fortalezas.slice(0, 2).map((f, i) => (
-                  <p key={i} style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, margin: i === 0 ? '0 0 8px' : 0 }}>
-                    – {f.texto}
-                  </p>
+                  <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: i === 0 ? 10 : 0 }}>
+                    <span style={{ color: VERDE_S, flexShrink: 0, fontSize: 14, marginTop: 1 }}>✓</span>
+                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, margin: 0 }}>{f.texto}</p>
+                  </div>
                 ))}
               </div>
             )}
-            <CluedoBtn label="VER CÓMO RECUPERARLO →" onClick={onContinue} />
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', marginTop: 14 }}>
+
+            {/* ── 6. BOTÓN FINAL ── */}
+            <CluedoBtn label="¡QUIERO RECUPERAR MIS COMISIONES!" onClick={onContinue} />
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.88)', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', marginTop: 14 }}>
               {primerNombre}, tu reporte incluye los pasos concretos para recuperar ese dinero.
             </p>
           </div>
