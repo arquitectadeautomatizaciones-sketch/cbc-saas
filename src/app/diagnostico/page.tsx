@@ -222,16 +222,16 @@ function HipotesisBar({ nombre, from: f, to: t, delay }: { nombre: string; from:
   const [val, setVal] = useState(f)
   useEffect(() => { const id = setTimeout(() => setVal(t), delay); return () => clearTimeout(id) }, [t, delay])
   const estado = t < 12 ? 'Descartada' : t >= 75 ? 'Causa principal' : t > f ? 'Fortaleciéndose ↑' : t < f ? 'Debilitada ↓' : 'Sin cambios'
-  const color  = t < 12 ? '#2a2a2a' : t >= 75 ? '#22C55E' : t > f ? '#f59e0b' : '#e53935'
-  const txtCol = t < 12 ? '#2a2a2a' : t >= 75 ? '#22C55E' : t > f ? '#f59e0b' : '#e53935'
+  const barColor  = t < 12 ? '#1a1a1a' : t >= 75 ? '#22C55E' : t > f ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.25)'
+  const txtColor  = t < 12 ? '#2a2a2a' : t >= 75 ? '#22C55E' : t > f ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.45)'
   return (
     <div style={{ marginBottom: 16 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: t < 12 ? '#2a2a2a' : '#444', letterSpacing: '0.06em', textDecoration: t < 12 ? 'line-through' : 'none', textTransform: 'uppercase' }}>{nombre}</span>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: txtCol, letterSpacing: '0.05em' }}>{estado}</span>
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: t < 12 ? '#2a2a2a' : 'rgba(255,255,255,0.65)', letterSpacing: '0.06em', textDecoration: t < 12 ? 'line-through' : 'none', textTransform: 'uppercase' }}>{nombre}</span>
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: txtColor, letterSpacing: '0.05em' }}>{estado}</span>
       </div>
       <div style={{ background: '#111', borderRadius: 2, height: 2 }}>
-        <div style={{ height: '100%', borderRadius: 2, background: color, width: `${val}%`, transition: 'width 1.6s cubic-bezier(0.25,0.46,0.45,0.94), background 0.8s' }} />
+        <div style={{ height: '100%', borderRadius: 2, background: barColor, width: `${val}%`, transition: 'width 1.6s cubic-bezier(0.25,0.46,0.45,0.94), background 0.8s' }} />
       </div>
     </div>
   )
@@ -271,7 +271,7 @@ function RazonamientoPanel({ paso, sel, nombre, onContinue }: {
   return (
     <div style={{ padding: '32px 16px 64px', animation: 'up 0.4s ease' }}>
       <div style={{ maxWidth: 480, margin: '0 auto' }}>
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#333', letterSpacing: '0.14em', marginBottom: 32, textTransform: 'uppercase', animation: 'up 0.3s ease' }}>
+        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.14em', marginBottom: 32, textTransform: 'uppercase', animation: 'up 0.3s ease' }}>
           {b0}
         </div>
 
@@ -283,14 +283,17 @@ function RazonamientoPanel({ paso, sel, nombre, onContinue }: {
 
         {beat >= 2 && (
           <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '20px 24px', marginBottom: 14, animation: 'up 0.5s ease' }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>POSIBLES CAUSAS</div>
+            <div style={{ marginBottom: 14 }}>
+              <span style={{ fontFamily: "'Alex Brush', cursive", fontSize: 28, color: '#e8001d', lineHeight: 1 }}>Rastro.</span>
+            </div>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>POSIBLES CAUSAS</div>
             {H_NAMES.map((n, i) => <HipotesisBar key={i} nombre={n} from={prev[i]} to={curr[i]} delay={i * 300} />)}
           </div>
         )}
 
         {beat >= 3 && (
           <div style={{ animation: 'up 0.5s ease' }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#444', letterSpacing: '0.1em', marginBottom: 24, lineHeight: 1.9, textTransform: 'uppercase' }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.1em', marginBottom: 24, lineHeight: 1.9, textTransform: 'uppercase' }}>
               {b2}
             </div>
             <button onClick={onContinue} style={{
@@ -317,7 +320,7 @@ function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof ca
     <div style={{ padding: '48px 16px 80px', animation: 'fadeUp 0.5s ease both' }}>
       <div style={{ maxWidth: 520, margin: '0 auto' }}>
 
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>
+        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>
           ANÁLISIS EN CURSO · CALCULANDO IMPACTO
         </div>
 
@@ -326,7 +329,7 @@ function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof ca
         </h2>
 
         <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px 28px', marginBottom: 20 }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>LO QUE ESTÁS PERDIENDO · POR MES</div>
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>LO QUE ESTÁS PERDIENDO · POR MES</div>
           <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(38px,8vw,60px)', color: AMARILLO, letterSpacing: '0.02em', lineHeight: 1 }}>
             {maskRange(r.perdidaMensual)}
           </div>
@@ -383,13 +386,13 @@ function VeredictoReveal({ r, nombre, sel, onContinue }: { r: ReturnType<typeof 
     <div style={{ padding: '48px 16px 64px', animation: 'fadeUp 0.5s ease both' }}>
       <div style={{ maxWidth: 500, margin: '0 auto' }}>
 
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 40, textAlign: 'center' }}>
+        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 40, textAlign: 'center' }}>
           RESULTADO FINAL · DIAGNÓSTICO DE {nombre.toUpperCase()}
         </div>
 
         {beat >= 1 && (
           <div style={{ animation: 'fadeUp 0.5s ease both', marginBottom: 32, textAlign: 'center' }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#555', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 12 }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 12 }}>
               AQUÍ ESTÁ TU FUGA PRINCIPAL
             </div>
             <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(44px,10vw,82px)', lineHeight: 0.92, color: 'white', margin: '0 0 10px', letterSpacing: '0.01em' }}>
@@ -403,23 +406,23 @@ function VeredictoReveal({ r, nombre, sel, onContinue }: { r: ReturnType<typeof 
 
         {beat >= 2 && r.perdidaMensual > 0 && (
           <div style={{ animation: 'fadeUp 0.5s ease both', background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px', marginBottom: 28 }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>CUÁNTO ESTÁS PERDIENDO · POR MES</div>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>CUÁNTO ESTÁS PERDIENDO · POR MES</div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
               <div>
                 <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(24px,5vw,38px)', color: ROJO, letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdidaMensual)}</div>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>por mes</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>por mes</div>
               </div>
               <div>
                 <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(24px,5vw,38px)', color: AMARILLO, letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdida90)}</div>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>en 90 días</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>en 90 días</div>
               </div>
               <div>
-                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(24px,5vw,38px)', color: '#555', letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdidaAnual)}</div>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#444', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>al año</div>
+                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(24px,5vw,38px)', color: 'rgba(255,255,255,0.65)', letterSpacing: '0.02em', lineHeight: 1 }}>{fmt(r.perdidaAnual)}</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>al año</div>
               </div>
             </div>
             {r.perdidaMensual > 0 && (sel.v1 ?? 0) > 0 && (
-              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '14px 0 0', fontSize: 12, color: '#444', lineHeight: 1.65, borderTop: '1px solid #1a0000', paddingTop: 12 }}>
+              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '14px 0 0', fontSize: 12, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, borderTop: '1px solid #1a0000', paddingTop: 12 }}>
                 Hoy dejaste escapar el equivalente a {Math.max(1, Math.round(r.perdida90 / (sel.v1 ?? 1)))} ventas. Si nada cambia, en 90 días habrás dejado escapar {fmt(r.perdida90)} — eso equivale a clientes que ya casi tenías cerrados.
               </p>
             )}
@@ -429,7 +432,7 @@ function VeredictoReveal({ r, nombre, sel, onContinue }: { r: ReturnType<typeof 
         {beat >= 3 && r.suenoTextos && sel.sueno && (
           <div style={{ animation: 'fadeUp 0.5s ease both', marginBottom: 32 }}>
             <div style={{ background: '#0a0800', border: '1px solid rgba(245,196,0,0.1)', borderRadius: 10, padding: '18px 22px' }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#555', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>
                 Y ESE SUEÑO TUYO...
               </div>
               <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 20, color: AMARILLO, letterSpacing: '0.04em', margin: '0 0 14px' }}>
@@ -451,13 +454,13 @@ function VeredictoReveal({ r, nombre, sel, onContinue }: { r: ReturnType<typeof 
               <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.8, margin: '0 0 8px', fontStyle: 'italic' }}>
                 "Si llevas 10 años haciendo lo mismo, no tienes 10 años de experiencia. Tienes 1 año repetido 10 veces."
               </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.1em' }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.1em' }}>
                 Atribuida a John C. Maxwell
               </p>
             </div>
             {r.fortalezas.length >= 2 && (
               <div style={{ background: '#0a0a0a', border: '1px solid #1a1a1a', borderRadius: 10, padding: '16px 20px', marginBottom: 24 }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 12 }}>LO QUE YA HACES BIEN</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 12 }}>LO QUE YA HACES BIEN</div>
                 {r.fortalezas.slice(0, 2).map((f, i) => (
                   <p key={i} style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, margin: i === 0 ? '0 0 8px' : 0 }}>
                     – {f.texto}
@@ -473,7 +476,7 @@ function VeredictoReveal({ r, nombre, sel, onContinue }: { r: ReturnType<typeof 
             }}>
               VER CÓMO RECUPERARLO →
             </button>
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', marginTop: 14 }}>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', marginTop: 14 }}>
               {primerNombre}, tu reporte incluye los pasos concretos para recuperar ese dinero.
             </p>
           </div>
@@ -625,7 +628,7 @@ export default function DiagnosticoPage() {
       display: 'block', width: '100%', maxWidth: 560, margin: '16px auto 0',
       padding: '17px 24px', borderRadius: 8, border: 'none',
       background: puedeAvanzar() ? ROJO : '#1a1a1a',
-      color: puedeAvanzar() ? 'white' : '#333',
+      color: puedeAvanzar() ? 'white' : 'rgba(255,255,255,0.25)',
       fontFamily: "'Barlow Condensed', sans-serif",
       fontSize: 20, fontWeight: 900, letterSpacing: '0.06em', textTransform: 'uppercase',
       cursor: puedeAvanzar() ? 'pointer' : 'not-allowed',
@@ -761,7 +764,7 @@ export default function DiagnosticoPage() {
         <div style={{ borderBottom: '1px solid #1a1a1a', background: 'rgba(8,8,8,0.96)', backdropFilter: 'blur(12px)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 24px', maxWidth: 1100, margin: '0 auto' }}>
           <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 18, color: 'white', letterSpacing: '0.12em' }}>CBC™</span>
-          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#555', letterSpacing: '0.15em', textTransform: 'uppercase', transition: 'color 0.4s' }}>
+          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.15em', textTransform: 'uppercase', transition: 'color 0.4s' }}>
             {statusText}
             <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: fase === 'veredicto' || fase === 'accion' || fase === 'desbloqueado' ? '#22C55E' : '#E53935', marginLeft: 8, animation: 'blink 1.4s ease-in-out infinite', verticalAlign: 'middle' }} />
           </span>
@@ -832,11 +835,11 @@ export default function DiagnosticoPage() {
                     {qTitle(`¿Estás list@ para identificar al ladrón de tus comisiones?`)}
                     {qSub('¿Cuánto es tu comisión por cada venta que cierras?')}
                     <div style={{ position: 'relative', marginBottom: 8 }}>
-                      <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontFamily: "'JetBrains Mono', monospace", fontSize: 18, color: '#444', pointerEvents: 'none', zIndex: 1 }}>$</span>
+                      <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontFamily: "'JetBrains Mono', monospace", fontSize: 18, color: 'rgba(255,255,255,0.65)', pointerEvents: 'none', zIndex: 1 }}>$</span>
                       <input type="number" min={0} placeholder="0" value={sel.v1 ?? ''} onChange={e => { const v = Number(e.target.value); setSel(s => ({ ...s, v1: v > 0 ? v : null })) }} onKeyDown={e => e.key === 'Enter' && avanzar()} autoFocus
                         style={{ width: '100%', background: '#0c0c0c', border: `1px solid ${(sel.v1 ?? 0) > 0 ? ROJO : '#222'}`, borderRadius: 8, padding: '14px 16px 14px 40px', color: 'white', fontFamily: "'JetBrains Mono', monospace", fontSize: 28, fontWeight: 700, outline: 'none', transition: 'border-color 0.2s', letterSpacing: '0.04em' }} />
                     </div>
-                    <p style={{ fontFamily: "'JetBrains Mono', monospace", margin: 0, fontSize: 10, color: '#444', letterSpacing: '0.08em' }}>VALOR EN USD · SOLO TÚ VES ESTE CAMPO</p>
+                    <p style={{ fontFamily: "'JetBrains Mono', monospace", margin: 0, fontSize: 10, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.08em' }}>VALOR EN USD · SOLO TÚ VES ESTE CAMPO</p>
                   </>}
 
                   {/* E2 */}
@@ -844,11 +847,11 @@ export default function DiagnosticoPage() {
                     {qTitle('¿Cuántos prospectos llevan más de 7 días sin seguimiento?')}
                     {qSub('Los que están en tu lista esperando. Ahora mismo. Sé honesto — nadie más va a ver tu respuesta.')}
                     <div style={{ position: 'relative', marginBottom: 8 }}>
-                      <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontFamily: "'JetBrains Mono', monospace", fontSize: 16, color: '#444', pointerEvents: 'none', zIndex: 1 }}>#</span>
+                      <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontFamily: "'JetBrains Mono', monospace", fontSize: 16, color: 'rgba(255,255,255,0.65)', pointerEvents: 'none', zIndex: 1 }}>#</span>
                       <input type="number" min={0} placeholder="0" value={sel.v2 ?? ''} onChange={e => { const v = Number(e.target.value); setSel(s => ({ ...s, v2: e.target.value === '' ? null : v >= 0 ? v : 0 })) }} onKeyDown={e => e.key === 'Enter' && avanzar()} autoFocus
                         style={{ width: '100%', background: '#0c0c0c', border: `1px solid ${sel.v2 !== null ? ROJO : '#222'}`, borderRadius: 8, padding: '14px 16px 14px 40px', color: 'white', fontFamily: "'JetBrains Mono', monospace", fontSize: 28, fontWeight: 700, outline: 'none', transition: 'border-color 0.2s', letterSpacing: '0.04em' }} />
                     </div>
-                    <p style={{ fontFamily: "'JetBrains Mono', monospace", margin: 0, fontSize: 10, color: '#444', letterSpacing: '0.08em' }}>NÚMERO DE PROSPECTOS · SÉ PRECISO</p>
+                    <p style={{ fontFamily: "'JetBrains Mono', monospace", margin: 0, fontSize: 10, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.08em' }}>NÚMERO DE PROSPECTOS · SÉ PRECISO</p>
                   </>}
 
                   {/* E3 */}
@@ -875,7 +878,7 @@ export default function DiagnosticoPage() {
                   {pasoForm === 5 && <>
                     {qTitle('Soñar no cuesta nada. Hacerlo realidad sí.')}
                     {qSub('¿Cuál es ese sueño que llevas más tiempo esperando o postergando?')}
-                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '-16px 0 16px', fontSize: 12, color: '#444', lineHeight: 1.6, fontStyle: 'italic' }}>
+                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '-16px 0 16px', fontSize: 12, color: 'rgba(255,255,255,0.65)', lineHeight: 1.6, fontStyle: 'italic' }}>
                       El que piensas cuando dices "cuando me vaya mejor..."
                     </p>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -891,7 +894,7 @@ export default function DiagnosticoPage() {
                         <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 14, color: '#888', lineHeight: 1.75, margin: '0 0 6px', textAlign: 'center' }}>
                           En menos de 60 segundos vas a saber quién es el verdadero ladrón de tus comisiones...
                         </p>
-                        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', margin: 0 }}>
+                        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', margin: 0 }}>
                           ¿Tienes en mente algún sospechoso?
                         </p>
                       </div>
@@ -927,7 +930,7 @@ export default function DiagnosticoPage() {
       {fase === 'suspense' && (
         <div style={{ padding: '48px 16px 80px', animation: 'fadeUp 0.5s ease both' }}>
           <div style={{ maxWidth: 520, margin: '0 auto', textAlign: 'center' }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 36 }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 36 }}>
               DIAGNÓSTICO CBC™ · EN PREPARACIÓN
             </div>
             <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(44px,9vw,76px)', lineHeight: 0.94, color: 'white', margin: '0 0 36px', letterSpacing: '0.01em' }}>
@@ -959,7 +962,7 @@ export default function DiagnosticoPage() {
       {fase === 'cargando' && (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px 80px' }}>
           <div style={{ maxWidth: 480, width: '100%' }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 32, textAlign: 'center' }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 32, textAlign: 'center' }}>
               CALCULANDO TU RESULTADO...
             </div>
             <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(36px,7vw,58px)', color: 'white', letterSpacing: '0.01em', lineHeight: 0.95, margin: '0 0 40px', textAlign: 'center' }}>
@@ -991,7 +994,7 @@ export default function DiagnosticoPage() {
           <div style={{ maxWidth: 560, margin: '0 auto' }}>
 
             <div style={{ marginBottom: 40 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>
                 TU DIAGNÓSTICO · {nombreTrimmed.toUpperCase()}
               </div>
               <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(38px,8vw,64px)', lineHeight: 0.92, color: 'white', margin: '0 0 16px', letterSpacing: '0.01em' }}>
@@ -1004,7 +1007,7 @@ export default function DiagnosticoPage() {
 
             {/* Sección 1: Tus respuestas */}
             <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px', marginBottom: 12 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#555', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>TUS RESPUESTAS</div>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>TUS RESPUESTAS</div>
               {[
                 { ref: 'E01', label: 'Valor de operación', val: sel.v1 ? fmt(sel.v1) : '—' },
                 { ref: 'E02', label: 'Prospectos sin seguimiento +7 días', val: `${sel.v2 ?? 0} activos` },
@@ -1014,7 +1017,7 @@ export default function DiagnosticoPage() {
               ].map(({ ref: eRef, label, val }) => (
                 <div key={eRef} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', padding: '10px 0', borderBottom: '1px solid #141414' }}>
                   <div style={{ flexShrink: 0 }}>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: '#444', letterSpacing: '0.12em', marginRight: 10 }}>{eRef}</span>
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.12em', marginRight: 10 }}>{eRef}</span>
                     <span style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 14, color: 'rgba(255,255,255,0.65)' }}>{label}</span>
                   </div>
                   <span style={{ fontFamily: eRef === 'E05' ? "'General Sans', system-ui, sans-serif" : "'JetBrains Mono', monospace", fontSize: eRef === 'E05' ? 13 : 12, color: 'rgba(255,255,255,0.72)', letterSpacing: '0.02em', flexShrink: 1, marginLeft: 12, textAlign: 'right', maxWidth: '55%', lineHeight: 1.4 }}>{val}</span>
@@ -1024,7 +1027,7 @@ export default function DiagnosticoPage() {
 
             {/* Sección 2: Causas evaluadas */}
             <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px', marginBottom: 12 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>CAUSAS EVALUADAS</div>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>CAUSAS EVALUADAS</div>
               {(['Falta de contactos nuevos', 'Proceso con pasos perdidos', 'Mercado saturado'] as const).map((h, i) => {
                 const vals = getHipValsCurr(5, sel)
                 const v = vals[i]
@@ -1046,7 +1049,7 @@ export default function DiagnosticoPage() {
               <div style={{ background: '#0a0800', border: '1px solid rgba(245,196,0,0.15)', borderRadius: 12, padding: '20px 24px', marginBottom: 12 }}>
                 {sel.q3 === true ? (
                   <>
-                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#444', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>AJUSTE EN EL ANÁLISIS · PREGUNTA 3</div>
+                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>AJUSTE EN EL ANÁLISIS · PREGUNTA 3</div>
                     <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, margin: '0 0 8px' }}>
                       Tu respuesta anterior apuntaba a la falta de protocolo como causa principal.
                     </p>
@@ -1056,7 +1059,7 @@ export default function DiagnosticoPage() {
                   </>
                 ) : (
                   <>
-                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#555', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>CONFIRMACIÓN EN EL ANÁLISIS · PREGUNTA 3</div>
+                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>CONFIRMACIÓN EN EL ANÁLISIS · PREGUNTA 3</div>
                     <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, margin: '0 0 8px' }}>
                       Tus respuestas anteriores mostraban un patrón de prospectos sin contacto.
                     </p>
@@ -1095,11 +1098,11 @@ export default function DiagnosticoPage() {
             {/* Sección 5: Lo que estás perdiendo */}
             {r.perdidaMensual > 0 && (
               <div style={{ background: '#0d0000', border: '1px solid #2a0000', borderRadius: 12, padding: '22px 24px', marginBottom: 12 }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>LO QUE ESTÁS PERDIENDO · POR MES</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>LO QUE ESTÁS PERDIENDO · POR MES</div>
                 <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(28px,6vw,44px)', color: ROJO, letterSpacing: '0.02em', lineHeight: 1, marginBottom: 8 }}>
                   {calibratedRange(r.perdidaMensual)}
                 </div>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: '#333', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 14 }}>mensual · calculado con tus propios datos</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 14 }}>mensual · calculado con tus propios datos</div>
                 {(sel.v1 ?? 0) > 0 && (
                   <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: 0, fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65 }}>
                     Hoy dejaste escapar el equivalente a {Math.max(1, Math.round(r.perdida90 / (sel.v1 ?? 1)))} ventas. Si nada cambia, en 90 días habrás dejado escapar clientes que ya casi tenías cerrados.
@@ -1115,7 +1118,7 @@ export default function DiagnosticoPage() {
 
             {/* Sección 6: Lo que pasa en 90 días */}
             <div style={{ background: '#0a0800', border: `1px solid rgba(245,196,0,0.1)`, borderRadius: 12, padding: '22px 24px', marginBottom: 12 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>ESTO ES LO QUE PASA EN 90 DÍAS SI NO CAMBIAS NADA</div>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>ESTO ES LO QUE PASA EN 90 DÍAS SI NO CAMBIAS NADA</div>
               <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.7, margin: '0 0 14px' }}>
                 Estás dejando escapar ventas que ya habías conseguido. Tus clientes no desaparecen — se enfrían.
               </p>
@@ -1129,7 +1132,7 @@ export default function DiagnosticoPage() {
 
             {/* CTA hacia resultado final */}
             <div style={{ marginTop: 36 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.16em', textTransform: 'uppercase', textAlign: 'center', marginBottom: 16 }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.16em', textTransform: 'uppercase', textAlign: 'center', marginBottom: 16 }}>
                 Tus datos están calculados. El resultado final está listo.
               </div>
               <button onClick={() => { setFase('veredicto'); window.scrollTo({ top: 0, behavior: 'smooth' }) }} style={{
@@ -1162,7 +1165,7 @@ export default function DiagnosticoPage() {
 
             {fase === 'accion' && (
               <>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 32, textAlign: 'center' }}>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 32, textAlign: 'center' }}>
                   TU PLAN DE ACCIÓN · {nombreTrimmed.toUpperCase()}
                 </div>
                 <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(38px,8vw,62px)', lineHeight: 0.92, color: 'white', margin: '0 0 24px', letterSpacing: '0.01em' }}>
@@ -1187,7 +1190,7 @@ export default function DiagnosticoPage() {
                     ))}
                   </div>
                   <div style={{ borderTop: '1px solid #1a1a1a', paddingTop: 16 }}>
-                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#333', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>
+                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>
                       Tu reporte personalizado · {r.cuello}
                     </div>
                     {(accionPorCuello[r.cuello] ?? accionPorCuello['seguimiento']).map(({ ref: aRef, texto }, i) => (
@@ -1239,7 +1242,7 @@ export default function DiagnosticoPage() {
         </div>
       )}
 
-      <footer style={{ textAlign: 'center', padding: '24px', fontFamily: "'Barlow', sans-serif", fontSize: 12, color: '#333', borderTop: '1px solid #111' }}>
+      <footer style={{ textAlign: 'center', padding: '24px', fontFamily: "'Barlow', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.65)', borderTop: '1px solid #111' }}>
         © 2026 Diana García · Arquitecta de Automatizaciones · <em>Hago fácil lo difícil.</em>
       </footer>
     </div>
