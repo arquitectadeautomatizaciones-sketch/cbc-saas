@@ -313,58 +313,225 @@ function RazonamientoPanel({ paso, sel, nombre, onContinue }: {
 
 // ── DictamenPreliminar ────────────────────────────────────
 function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof calcular>; nombre: string; onContinue: () => void }) {
-  const ROJO = '#e8001d'
-  const AMARILLO = '#f5c400'
+  const [detailOpen, setDetailOpen] = useState(false)
+  const [glowOn, setGlowOn] = useState(false)
+  useEffect(() => { const t = setTimeout(() => setGlowOn(true), 300); return () => clearTimeout(t) }, [])
+
+  const primerNombre = nombre.split(' ')[0] || nombre
+  const score = r.total
+
+  const esRojo     = score < 40
+  const esAmarillo = score >= 40 && score <= 70
+  const esVerde    = score > 70
+
+  const semColor   = esRojo ? '#e8001d' : esAmarillo ? '#f5c400' : '#00C853'
+  const palabra    = esRojo ? 'Crítico.' : esAmarillo ? 'Ajustable.' : 'Sólido.'
+
+  const glow = (c: string) => glowOn
+    ? `0 0 24px ${c}99, 0 0 48px ${c}55, 0 0 8px ${c}dd`
+    : 'none'
+
+  const parrafo = esRojo
+    ? `No es un problema de esfuerzo — es un punto específico del proceso donde las ventas se pierden antes de que puedas cerrarlas. Con el sistema correcto, eso se corrige.`
+    : esAmarillo
+    ? `Tu proceso tiene base sólida, pero hay una fuga activa que drena comisiones de forma silenciosa. Un ajuste puntual cambia el resultado.`
+    : `Tu sistema funciona mejor que el 70% de los vendedores B2B. Aún así, hay una fuga específica que te está costando dinero sin que lo notes.`
+
+  // Opacidades usadas en esta pantalla (para auditoría):
+  // Texto principal títulos:  'white' = rgba(255,255,255,1.00) → 100%
+  // Texto secundario label:   rgba(255,255,255,0.90) → 90%
+  // Texto párrafo/detalle:    rgba(255,255,255,0.85) → 85%
+  // Footer label:             rgba(255,255,255,0.80) → 80%
+  // Contraste mínimo en fondo oscuro #111 → todos superan WCAG AA (4.5:1)
 
   return (
     <div style={{ padding: '48px 16px 80px', animation: 'fadeUp 0.5s ease both' }}>
-      <div style={{ maxWidth: 520, margin: '0 auto' }}>
+      <div style={{ maxWidth: 500, margin: '0 auto' }}>
 
-        {/* Encabezado pequeño rojo */}
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: ROJO, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 14, fontWeight: 700, textAlign: 'center' }}>
-          LO HEMOS ENCONTRADO
-        </div>
-
-        {/* Título principal */}
-        <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(36px,8vw,62px)', lineHeight: 0.95, color: 'white', margin: '0 0 28px', letterSpacing: '0.01em', textAlign: 'center' }}>
-          Ya identificamos al ladrón.<br />
-          Ahora sabrás cuánto te ha{' '}
-          <span style={{ fontFamily: "'Alex Brush', cursive", color: ROJO, fontSize: 'clamp(46px,10vw,78px)', lineHeight: 1.1, display: 'inline-block', verticalAlign: 'middle' }}>Robado.</span>
-        </h2>
-
-        <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px 28px', marginBottom: 20 }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>LO QUE ESTÁS PERDIENDO · POR MES</div>
-          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(38px,8vw,60px)', color: AMARILLO, letterSpacing: '0.02em', lineHeight: 1 }}>
-            {r.perdidaMensual > 0 ? ('$' + r.perdidaMensual.toLocaleString('en-US')) : 'CALCULANDO...'}
+        {/* ── SEMÁFORO ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 28 }}>
+          <div style={{
+            background: 'rgba(10,10,10,0.92)',
+            border: '2px solid #2a2a2a',
+            borderRadius: 64,
+            padding: '18px 14px',
+            display: 'inline-flex',
+            flexDirection: 'column',
+            gap: 14,
+            boxShadow: '0 12px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)',
+            transition: 'all 0.5s ease',
+          }}>
+            {/* Rojo */}
+            <div style={{
+              width: 58, height: 58, borderRadius: '50%',
+              background: esRojo ? '#e8001d' : '#1c0000',
+              boxShadow: esRojo ? glow('#e8001d') : 'inset 0 2px 6px rgba(0,0,0,0.8)',
+              transition: 'all 0.6s cubic-bezier(0.34,1.56,0.64,1)',
+              border: esRojo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a0000',
+            }} />
+            {/* Amarillo */}
+            <div style={{
+              width: 58, height: 58, borderRadius: '50%',
+              background: esAmarillo ? '#f5c400' : '#1a1200',
+              boxShadow: esAmarillo ? glow('#f5c400') : 'inset 0 2px 6px rgba(0,0,0,0.8)',
+              transition: 'all 0.6s cubic-bezier(0.34,1.56,0.64,1)',
+              border: esAmarillo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a2000',
+            }} />
+            {/* Verde */}
+            <div style={{
+              width: 58, height: 58, borderRadius: '50%',
+              background: esVerde ? '#00C853' : '#001808',
+              boxShadow: esVerde ? glow('#00C853') : 'inset 0 2px 6px rgba(0,0,0,0.8)',
+              transition: 'all 0.6s cubic-bezier(0.34,1.56,0.64,1)',
+              border: esVerde ? '2px solid rgba(255,255,255,0.12)' : '1px solid #002010',
+            }} />
           </div>
-          <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '12px 0 0', fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65 }}>
-            Encontramos el patrón exacto que está frenando tus comisiones.
+        </div>
+
+        {/* ── PALABRA DE IMPACTO ── */}
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+          <span style={{
+            fontFamily: "'Alex Brush', cursive",
+            fontSize: 'clamp(58px,14vw,82px)',
+            color: semColor,
+            lineHeight: 1,
+            display: 'block',
+            filter: glowOn ? `drop-shadow(0 0 24px ${semColor}66)` : 'none',
+            transition: 'filter 0.8s ease',
+          }}>
+            {palabra}
+          </span>
+        </div>
+
+        {/* ── GOLPE DE TEXTO DIRECTO ── */}
+        <div style={{
+          background: 'rgba(8,8,8,0.88)',
+          backdropFilter: 'blur(12px)',
+          border: `1px solid ${semColor}44`,
+          borderRadius: 14,
+          padding: '28px 28px 24px',
+          marginBottom: 20,
+          textAlign: 'center',
+        }}>
+          {/* Nombre + cuello */}
+          <p style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: 'clamp(20px,4.5vw,28px)',
+            color: 'white',
+            lineHeight: 1.25,
+            margin: '0 0 22px',
+            letterSpacing: '0.03em',
+          }}>
+            {primerNombre}, ya identificamos al ladrón:
+            <br />
+            <span style={{ color: semColor }}>{r.cuelloLabel}</span>
+          </p>
+
+          {/* Label cifra */}
+          <div style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 10,
+            color: 'rgba(255,255,255,0.90)',
+            letterSpacing: '0.22em',
+            textTransform: 'uppercase',
+            marginBottom: 10,
+          }}>
+            EN 90 DÍAS ESTO TE VA A COSTAR
+          </div>
+
+          {/* Cifra real */}
+          <div style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: 'clamp(52px,12vw,76px)',
+            color: semColor,
+            letterSpacing: '0.02em',
+            lineHeight: 1,
+            marginBottom: 20,
+            filter: glowOn ? `drop-shadow(0 0 18px ${semColor}55)` : 'none',
+            transition: 'filter 0.8s ease',
+          }}>
+            {r.perdida90 > 0 ? ('$' + r.perdida90.toLocaleString('en-US')) : r.perdidaMensual > 0 ? ('$' + r.perdidaMensual.toLocaleString('en-US')) : 'CALCULANDO...'}
+          </div>
+
+          {/* Párrafo unificado: cuello + buena noticia */}
+          <p style={{
+            fontFamily: "'General Sans', system-ui, sans-serif",
+            fontSize: 15,
+            color: 'rgba(255,255,255,0.85)',
+            lineHeight: 1.75,
+            margin: 0,
+            textAlign: 'left',
+          }}>
+            {parrafo}
           </p>
         </div>
 
-        <div style={{ background: '#0a0800', border: `1px solid rgba(245,196,0,0.1)`, borderRadius: 10, padding: '18px 22px', marginBottom: 32 }}>
-          <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '0 0 10px', fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75 }}>
-            Encontramos el patrón exacto que está frenando tus comisiones.
-          </p>
-          <p style={{ fontFamily: "'Bebas Neue', sans-serif", margin: 0, fontSize: 22, color: 'white', letterSpacing: '0.04em' }}>
-            {r.cuelloLabel.toUpperCase()}
-          </p>
-          <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '8px 0 0', fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65 }}>
-            El detalle completo de tu diagnóstico incluye las causas descartadas y tus pasos concretos a seguir.
-          </p>
+        {/* ── DETALLE COLAPSABLE ── */}
+        <div style={{ marginBottom: 28 }}>
+          <button
+            onClick={() => setDetailOpen(d => !d)}
+            style={{
+              display: 'flex', width: '100%', padding: '13px 20px',
+              justifyContent: 'space-between', alignItems: 'center',
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              borderRadius: 8,
+              color: 'rgba(255,255,255,0.90)',
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase',
+              cursor: 'pointer',
+            }}
+          >
+            <span>Ver análisis detallado</span>
+            <span style={{ fontSize: 13, color: semColor }}>{detailOpen ? '▲' : '▼'}</span>
+          </button>
+
+          {detailOpen && (
+            <div style={{
+              marginTop: 10,
+              background: 'rgba(8,8,8,0.88)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.10)',
+              borderRadius: 10,
+              padding: '22px 24px',
+              animation: 'fadeUp 0.3s ease',
+            }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.90)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 18 }}>
+                TU PROCESO POR ÁREA
+              </div>
+              <SubBar label="Seguimiento" score={r.sub.seguimiento} delay={0} />
+              <SubBar label="Priorización" score={r.sub.priorizacion} delay={100} />
+              <SubBar label="Preparación de cierre" score={r.sub.preparacion} delay={200} />
+              <SubBar label="Visibilidad del proceso" score={r.sub.reporte} delay={300} />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 16, marginTop: 8 }}>
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.90)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                  Salud general
+                </span>
+                <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 30, color: semColor, letterSpacing: '0.04em', lineHeight: 1 }}>
+                  {r.total}/100
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
+        {/* ── CTA ── */}
         <button onClick={onContinue} style={{
           display: 'block', width: '100%', padding: '18px 24px',
           background: ROJO, color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer',
           fontFamily: "'Bebas Neue', sans-serif", fontSize: 20, letterSpacing: '0.1em',
-          boxShadow: `0 4px 28px rgba(232,0,29,0.3)`,
+          boxShadow: '0 4px 28px rgba(232,0,29,0.38)',
         }}>
           VER MI RESULTADO COMPLETO →
         </button>
 
-        <p style={{ fontFamily: "'JetBrains Mono', monospace", margin: '16px 0 0', fontSize: 9, color: '#2a2a2a', letterSpacing: '0.12em', textTransform: 'uppercase', textAlign: 'center' }}>
-          El detalle completo de tu diagnóstico · {nombre.split(' ')[0].toUpperCase() || nombre.toUpperCase()}
+        <p style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          margin: '16px 0 0', fontSize: 10,
+          color: 'rgba(255,255,255,0.80)',
+          letterSpacing: '0.12em', textTransform: 'uppercase', textAlign: 'center',
+        }}>
+          {primerNombre} · Tu diagnóstico personalizado te espera
         </p>
 
       </div>
