@@ -188,83 +188,155 @@ function getRazTexts(paso: number, sel: Selecciones, nombre: string): [string, s
     if (v1 >= 3000) return [
       'Analizando tu respuesta...',
       `Con ${v1s} por venta, la falta de contactos nuevos queda descartada como la causa principal. Quien trabaja en este nivel tiene acceso a prospectos. El problema está en otro punto del proceso.`,
-      'Una causa bajó en el análisis. Siguiente pregunta.',
+      'Una pista eliminada. El caso se estrecha.',
     ]
     if (v1 >= 1000) return [
       'Analizando tu respuesta...',
       `Con ${v1s} por venta, ya tenemos el número real con el que trabajamos. El análisis tiene ahora una base concreta.`,
-      'El cálculo se ajustó con este dato. Siguiente pregunta.',
+      'El análisis tiene base. Siguiente pista.',
     ]
     return [
       'Analizando tu respuesta...',
       `Con ${v1s} por venta, el volumen de prospectos necesario para llegar a tu meta es alto. Evaluamos si la falta de contactos nuevos está operando como factor.`,
-      'Una posible causa ganó relevancia. Siguiente pregunta.',
+      'Un sospechoso gana terreno. Siguiente pregunta.',
     ]
   }
   if (paso === 2) {
     if (v2 >= 5) return [
       'Cruzando con tu respuesta anterior...',
       `Con ${v2} prospectos sin seguimiento y comisiones de ${v1s}, la falta de contactos nuevos no explica este patrón. La descartamos.`,
-      'Una causa descartada. El análisis se concentra.',
+      'El volumen no era el problema. Un sospechoso menos.',
     ]
     if (v2 >= 2) return [
       'Cruzando con tu respuesta anterior...',
       `Al cruzar ${v2} prospectos sin contacto con ${v1s} por venta, el nivel de exposición queda definido. El patrón empieza a ser visible.`,
-      'El análisis necesita una respuesta más para confirmar la dirección.',
+      'El rastro se hace visible. Siguiente pregunta.',
     ]
     return [
       'Evaluando tu respuesta...',
       `${v2 === 0 ? 'Ningún' : v2} prospecto${v2 === 1 ? '' : 's'} sin seguimiento con comisiones de ${v1s}. Combinación poco común. Evaluamos una causa alternativa.`,
-      'La dirección del análisis acaba de cambiar.',
+      'La dirección acaba de cambiar.',
     ]
   }
   if (paso === 3) {
     if (sel.q3 === false) return [
       'Recalculando...',
       'Confirmado. La ausencia de un protocolo claro ante el "lo pienso" es el punto exacto donde las ventas desaparecen. El análisis tiene ahora un origen específico.',
-      'Causa principal identificada. Siguiente pregunta.',
+      'El sospechoso principal se activa.',
     ]
     return [
       'Recalculando...',
       `Corrección. Tener un protocolo para el "lo pienso" descarta esa como la causa principal. El problema está en otro punto del proceso.`,
-      'Una causa descartada. Nueva dirección confirmada.',
+      'Una pista eliminada. Nueva dirección confirmada.',
     ]
   }
   if (paso === 4) {
     if (sel.q4 === false) return [
       'Incorporando último dato...',
       `Sin la tasa de cierre documentada, la naturaleza de las fugas queda establecida. Hay un patrón que opera en un punto específico y repetible del proceso de ${fn}.`,
-      'La causa principal se confirma.',
+      'El culpable se confirma.',
     ]
     return [
       'Incorporando último dato...',
       'Tener la tasa de cierre documentada descarta una de las posibles causas. El origen apunta a un punto del proceso que opera fuera del control actual.',
-      'El análisis se concentra en la causa que mejor describe el patrón.',
+      'Una pista más eliminada. Queda uno.',
     ]
   }
   return [
     'Última respuesta registrada.',
     `El análisis está completo, ${fn}. El impacto puede expresarse en términos concretos — calculados con tus propios datos.`,
-    'Todas las causas evaluadas. Una sola sobrevive.',
+    'Todas las pistas evaluadas. Un solo culpable.',
   ]
 }
 
-// ── HipotesisBar ──────────────────────────────────────────
-function HipotesisBar({ nombre, from: f, to: t, delay }: { nombre: string; from: number; to: number; delay: number }) {
-  const [val, setVal] = useState(f)
-  useEffect(() => { const id = setTimeout(() => setVal(t), delay); return () => clearTimeout(id) }, [t, delay])
-  const estado = t < 12 ? 'Descartada' : t >= 75 ? 'Causa principal' : t > f ? 'Fortaleciéndose ↑' : t < f ? 'Debilitada ↓' : 'Sin cambios'
-  const barColor  = t < 12 ? '#1a1a1a' : t >= 75 ? '#22C55E' : t > f ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.25)'
-  const txtColor  = t < 12 ? '#2a2a2a' : t >= 75 ? '#22C55E' : t > f ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.45)'
+// ── Colores fijos por causa (sistema Cluedo) ─────────────
+const CAUSA_COLORS = ['#e8001d', '#f5c400', '#00C853'] as const
+
+// ── CausaCard — caja estilo Cluedo con sello y glow ──────
+function CausaCard({ nombre, colorIdx, from: f, to: t, delay }: {
+  nombre: string; colorIdx: 0 | 1 | 2; from: number; to: number; delay: number
+}) {
+  const [active, setActive] = useState(false)
+  useEffect(() => { const id = setTimeout(() => setActive(true), delay); return () => clearTimeout(id) }, [delay])
+
+  const color       = CAUSA_COLORS[colorIdx]
+  const descartada  = t < 12
+  const fortalecida = t >= 75 || (t > f && t >= 50)
+
+  const bgAlpha     = descartada ? '0.04' : fortalecida ? '0.12' : '0.07'
+  const borderColor = descartada ? `${color}44` : fortalecida ? color : `${color}88`
+  const glowShadow  = fortalecida && active
+    ? `0 0 18px 3px ${color}59, 0 0 6px 1px ${color}44, inset 0 0 8px ${color}26`
+    : 'none'
+
+  // texto legibilidad: siempre ≥ 88%
+  const textOpacity = descartada ? 0.45 : 1
+
   return (
-    <div style={{ marginBottom: 16 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: t < 12 ? '#2a2a2a' : 'rgba(255,255,255,0.65)', letterSpacing: '0.06em', textDecoration: t < 12 ? 'line-through' : 'none', textTransform: 'uppercase' }}>{nombre}</span>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: txtColor, letterSpacing: '0.05em' }}>{estado}</span>
+    <div style={{
+      position: 'relative',
+      border: `1.5px solid ${borderColor}`,
+      borderRadius: 10,
+      padding: '14px 16px',
+      background: `rgba(${colorIdx === 0 ? '232,0,29' : colorIdx === 1 ? '245,196,0' : '0,200,83'},${bgAlpha})`,
+      boxShadow: active ? glowShadow : 'none',
+      transition: 'box-shadow 0.4s ease, opacity 0.4s ease',
+      opacity: active && descartada ? 0.48 : 1,
+      overflow: 'hidden',
+    }}>
+      {/* Dot de color */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+        <div style={{
+          width: 8, height: 8, borderRadius: '50%',
+          background: color,
+          boxShadow: fortalecida && active ? `0 0 6px 2px ${color}88` : 'none',
+          flexShrink: 0,
+        }} />
+        <span style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase',
+          color: fortalecida && active ? color : `rgba(255,255,255,0.65)`,
+          transition: 'color 0.4s',
+        }}>
+          {descartada ? 'DESCARTADA' : fortalecida ? 'CAUSA PRINCIPAL ↑' : 'EN ANÁLISIS'}
+        </span>
       </div>
-      <div style={{ background: '#111', borderRadius: 2, height: 2 }}>
-        <div style={{ height: '100%', borderRadius: 2, background: barColor, width: `${val}%`, transition: 'width 1.6s cubic-bezier(0.25,0.46,0.45,0.94), background 0.8s' }} />
-      </div>
+
+      <span style={{
+        fontFamily: "'General Sans', system-ui, sans-serif",
+        fontSize: fortalecida && active ? 15 : 14,
+        fontWeight: fortalecida && active ? 600 : 400,
+        color: `rgba(255,255,255,${textOpacity})`,
+        lineHeight: 1.4,
+        transition: 'font-size 0.3s, font-weight 0.3s, color 0.4s',
+        display: 'block',
+      }}>
+        {nombre}
+      </span>
+
+      {/* Sello DESCARTADA */}
+      {descartada && active && (
+        <div style={{
+          position: 'absolute', inset: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          pointerEvents: 'none',
+        }}>
+          <div style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: 22, letterSpacing: '0.18em',
+            color: color,
+            border: `2.5px solid ${color}`,
+            borderRadius: 4,
+            padding: '2px 10px',
+            transform: 'rotate(-18deg)',
+            opacity: 0.82,
+            animation: 'stampIn 0.28s cubic-bezier(0.25,0.46,0.45,0.94) both',
+            textShadow: `0 0 8px ${color}66`,
+          }}>
+            DESCARTADA
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -315,11 +387,12 @@ function RazonamientoPanel({ paso, sel, nombre, onContinue }: {
 
         {beat >= 2 && (
           <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '20px 24px', marginBottom: 14, animation: 'up 0.5s ease' }}>
-            <div style={{ marginBottom: 14 }}>
-              <span style={{ fontFamily: "'Alex Brush', cursive", fontSize: 28, color: '#e8001d', lineHeight: 1 }}>Rastro.</span>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>SOSPECHOSOS</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {H_NAMES.map((n, i) => (
+                <CausaCard key={i} nombre={n} colorIdx={i as 0|1|2} from={prev[i]} to={curr[i]} delay={300 + i * 280} />
+              ))}
             </div>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>POSIBLES CAUSAS</div>
-            {H_NAMES.map((n, i) => <HipotesisBar key={i} nombre={n} from={prev[i]} to={curr[i]} delay={i * 300} />)}
           </div>
         )}
 
@@ -918,6 +991,7 @@ export default function DiagnosticoPage() {
         @keyframes pulse   { 0%,100% { opacity:1; } 50% { opacity:0.35; } }
         @keyframes fadeUp  { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
         @keyframes up      { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes stampIn { from { opacity:0; transform:rotate(-25deg) scale(1.4); } to { opacity:0.82; transform:rotate(-18deg) scale(1); } }
         @keyframes blink   { 0%,100% { opacity:1; } 50% { opacity:0; } }
         @keyframes ticker  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes iconPulse { 0%,100% { opacity:0.9; } 50% { opacity:0.4; } }
