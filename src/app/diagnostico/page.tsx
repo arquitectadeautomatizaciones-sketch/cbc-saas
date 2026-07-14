@@ -718,17 +718,8 @@ function maskRange(perdida: number): string {
   return `${lo} — ${hi}`
 }
 
-// P3: rango calibrado para expediente — magnitud visible, cifra no exacta
-function calibratedRange(perdida: number): string {
-  if (perdida <= 0) return 'Pendiente de cálculo'
-  const f = (n: number) => '$' + Math.round(n).toLocaleString('en-US')
-  const lo = Math.floor(perdida * 0.75 / 1000) * 1000
-  const hi = Math.ceil(perdida * 1.35 / 1000) * 1000
-  return `${f(lo)} — ${f(hi)}`
-}
-
 // ── Page ──────────────────────────────────────────────────
-type Fase = 'form' | 'razonando' | 'suspense' | 'cargando' | 'dictamen_preliminar' | 'expediente' | 'veredicto' | 'accion' | 'desbloqueado'
+type Fase = 'form' | 'razonando' | 'suspense' | 'cargando' | 'dictamen_preliminar' | 'veredicto' | 'accion' | 'desbloqueado'
 
 export default function DiagnosticoPage() {
   const [fase, setFase] = useState<Fase>('form')
@@ -741,7 +732,6 @@ export default function DiagnosticoPage() {
   const [guardando, setGuardando] = useState(false)
   const [msgIdx, setMsgIdx] = useState(0)
   const cardRef   = useRef<HTMLDivElement>(null)
-  const resultRef = useRef<HTMLDivElement>(null)
 
   const nombreTrimmed = nombre.trim()
 
@@ -816,7 +806,7 @@ export default function DiagnosticoPage() {
     }, 4200)
   }
 
-  const r = (fase === 'dictamen_preliminar' || fase === 'expediente' || fase === 'veredicto' || fase === 'accion' || fase === 'desbloqueado') ? calcular(sel) : null
+  const r = (fase === 'dictamen_preliminar' || fase === 'veredicto' || fase === 'accion' || fase === 'desbloqueado') ? calcular(sel) : null
 
   const progressBar = (
     <div style={{ marginBottom: 28 }}>
@@ -870,8 +860,7 @@ export default function DiagnosticoPage() {
     : fase === 'suspense'            ? 'ANÁLISIS COMPLETO · PREPARANDO RESULTADO'
     : fase === 'cargando'            ? 'CALCULANDO TU RESULTADO...'
     : fase === 'dictamen_preliminar' ? 'RESULTADO PRELIMINAR · EN CURSO'
-    : fase === 'expediente'          ? `TU DIAGNÓSTICO · ${nombreTrimmed.toUpperCase()}`
-    : fase === 'veredicto'           ? `RESULTADO FINAL · ${nombreTrimmed.toUpperCase()}`
+: fase === 'veredicto'           ? `RESULTADO FINAL · ${nombreTrimmed.toUpperCase()}`
     : `DIAGNÓSTICO COMPLETO · ${nombreTrimmed.toUpperCase()}`
 
   const fmt = (n: number) => '$' + n.toLocaleString('en-US')
@@ -1384,164 +1373,9 @@ export default function DiagnosticoPage() {
           DICTAMEN PRELIMINAR
       ════════════════════════════════════════ */}
       {fase === 'dictamen_preliminar' && r && (
-        <DictamenPreliminar r={r} nombre={nombreTrimmed} sel={sel} onContinue={() => { setFase('expediente'); window.scrollTo({ top: 0, behavior: 'smooth' }) }} />
+        <DictamenPreliminar r={r} nombre={nombreTrimmed} sel={sel} onContinue={() => { setFase('veredicto'); window.scrollTo({ top: 0, behavior: 'smooth' }) }} />
       )}
 
-      {/* ════════════════════════════════════════
-          EXPEDIENTE
-      ════════════════════════════════════════ */}
-      {fase === 'expediente' && r && (
-        <div ref={resultRef} style={{ padding: '48px 16px 80px', animation: 'fadeUp 0.5s ease both' }}>
-          <div style={{ maxWidth: 560, margin: '0 auto' }}>
-
-            <div style={{ marginBottom: 40 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>
-                TU DIAGNÓSTICO · {nombreTrimmed.toUpperCase()}
-              </div>
-              <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(38px,8vw,64px)', lineHeight: 0.92, color: 'white', margin: '0 0 16px', letterSpacing: '0.01em' }}>
-                {nombreTrimmed.split(' ')[0] || nombreTrimmed}, ¿QUÉ VA A PASAR<br />EN 90 DÍAS SI NO<br /><span style={{ color: ROJO }}>CAMBIAS NADA?</span>
-              </h2>
-              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, margin: 0 }}>
-                Encontramos el cuello de botella que está frenando tus comisiones.
-              </p>
-            </div>
-
-            {/* Sección 1: Tus respuestas */}
-            <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px', marginBottom: 12 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>TUS RESPUESTAS</div>
-              {[
-                { ref: 'E01', label: 'Valor de operación', val: sel.v1 ? fmt(sel.v1) : '—' },
-                { ref: 'E02', label: 'Prospectos sin seguimiento +7 días', val: `${sel.v2 ?? 0} activos` },
-                { ref: 'E03', label: 'Protocolo ante el "lo pienso"', val: sel.q3 === true ? 'Definido' : sel.q3 === false ? 'Improvisa' : '—' },
-                { ref: 'E04', label: 'Tasa de cierre documentada', val: sel.q4 === true ? 'Sí' : sel.q4 === false ? 'No' : '—' },
-                { ref: 'E05', label: 'Consecuencia predominante', val: sel.sueno ? SUENO_LABELS[sel.sueno] ?? sel.sueno : '—' },
-              ].map(({ ref: eRef, label, val }) => (
-                <div key={eRef} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', padding: '10px 0', borderBottom: '1px solid #141414' }}>
-                  <div style={{ flexShrink: 0 }}>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.12em', marginRight: 10 }}>{eRef}</span>
-                    <span style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 14, color: 'rgba(255,255,255,0.65)' }}>{label}</span>
-                  </div>
-                  <span style={{ fontFamily: eRef === 'E05' ? "'General Sans', system-ui, sans-serif" : "'JetBrains Mono', monospace", fontSize: eRef === 'E05' ? 13 : 12, color: 'rgba(255,255,255,0.72)', letterSpacing: '0.02em', flexShrink: 1, marginLeft: 12, textAlign: 'right', maxWidth: '55%', lineHeight: 1.4 }}>{val}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Sección 2: Causas evaluadas */}
-            <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px', marginBottom: 12 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>CAUSAS EVALUADAS</div>
-              {(['Falta de contactos nuevos', 'Proceso con pasos perdidos', 'Mercado saturado'] as const).map((h, i) => {
-                const vals = getHipValsCurr(5, sel)
-                const v = vals[i]
-                const descartada = v < 12
-                const dominante = v >= 75
-                return (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < 2 ? '1px solid #141414' : 'none' }}>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: descartada ? '#2a2a2a' : '#444', letterSpacing: '0.06em', textDecoration: descartada ? 'line-through' : 'none', textTransform: 'uppercase', flex: 1 }}>{h}</span>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: descartada ? '#2a2a2a' : dominante ? '#22C55E' : '#555', letterSpacing: '0.08em', marginLeft: 12, flexShrink: 0 }}>
-                      {descartada ? 'DESCARTADA' : dominante ? 'CONFIRMADA' : 'EVALUADA'}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* Sección 3: Corrección controlada — ambas ramas */}
-            {sel.q3 !== null && (
-              <div style={{ background: '#0a0800', border: '1px solid rgba(245,196,0,0.15)', borderRadius: 12, padding: '20px 24px', marginBottom: 12 }}>
-                {sel.q3 === true ? (
-                  <>
-                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>AJUSTE EN EL ANÁLISIS · PREGUNTA 3</div>
-                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, margin: '0 0 8px' }}>
-                      Tu respuesta anterior apuntaba a la falta de protocolo como causa principal.
-                    </p>
-                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: 0 }}>
-                      Pero tener un protocolo claro para el "lo pienso" descarta esa causa. El problema está en otro punto del proceso — el análisis cambió de dirección en ese momento.
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>CONFIRMACIÓN EN EL ANÁLISIS · PREGUNTA 3</div>
-                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, margin: '0 0 8px' }}>
-                      Tus respuestas anteriores mostraban un patrón de prospectos sin contacto.
-                    </p>
-                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: 0 }}>
-                      La pregunta 3 lo confirmó: improvisar ante el "lo pienso" es exactamente donde desaparecen tus ventas. El análisis no cambió de dirección — encontró el punto exacto de origen.
-                    </p>
-                  </>
-                )}
-              </div>
-            )}
-
-            {/* La buena noticia */}
-            <div style={{ background: '#0a1a0a', border: '1px solid rgba(34,197,94,0.12)', borderRadius: 12, padding: '16px 22px', marginBottom: 12 }}>
-              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: '#5cb85c', lineHeight: 1.75, margin: 0 }}>
-                La buena noticia: no necesitas conseguir más clientes. Solo recuperar mejor los que ya tienes.
-              </p>
-            </div>
-
-            {/* Sección 4: Tu cuello de botella */}
-            <div style={{ background: `${r.nivelColor}10`, border: `1px solid ${r.nivelColor}30`, borderRadius: 12, padding: '22px 24px', marginBottom: 12 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: r.nivelColor, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12, opacity: 0.7 }}>TU CUELLO DE BOTELLA</div>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(28px,5vw,38px)', color: 'white', letterSpacing: '0.02em', lineHeight: 1, margin: '0 0 12px' }}>
-                {r.cuelloLabel.toUpperCase()}
-              </p>
-              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.88)', lineHeight: 1.75, margin: '0 0 10px' }}>{r.cuelloTexto}</p>
-              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: AMARILLO, lineHeight: 1.65, margin: 0, fontStyle: 'italic' }}>
-                {{
-                  seguimiento: 'No estás perdiendo clientes por tu pitch. Los estás perdiendo porque nadie los vuelve a contactar en el momento justo.',
-                  priorizacion: 'No estás perdiendo clientes. Estás dejando esperar demasiado a los clientes correctos — y en ventas, tarde es peor que nunca.',
-                  preparacion: 'No estás perdiendo por precio. Estás cediendo ventas porque no tienes una respuesta lista cuando el cliente duda.',
-                  reporte: 'No es que estés trabajando mal. Es que sin medir, no puedes identificar exactamente qué parte del proceso te está costando dinero.',
-                }[r.cuello]}
-              </p>
-            </div>
-
-            {/* Sección 5: Lo que estás perdiendo */}
-            {r.perdidaMensual > 0 && (
-              <div style={{ background: '#0d0000', border: '1px solid #2a0000', borderRadius: 12, padding: '22px 24px', marginBottom: 12 }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>LO QUE ESTÁS PERDIENDO · POR MES</div>
-                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(28px,6vw,44px)', color: ROJO, letterSpacing: '0.02em', lineHeight: 1, marginBottom: 8 }}>
-                  {calibratedRange(r.perdidaMensual)}
-                </div>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 14 }}>mensual · calculado con tus propios datos</div>
-                {(sel.v1 ?? 0) > 0 && (
-                  <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: 0, fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65 }}>
-                    Hoy dejaste escapar el equivalente a {Math.max(1, Math.round(r.perdida90 / (sel.v1 ?? 1)))} ventas. Si nada cambia, en 90 días habrás dejado escapar clientes que ya casi tenías cerrados.
-                  </p>
-                )}
-                <div style={{ borderTop: '1px solid #1a0000', marginTop: 14, paddingTop: 12 }}>
-                  <p style={{ fontFamily: "'JetBrains Mono', monospace", margin: 0, fontSize: 9, color: '#2a2a2a', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                    La cifra exacta aparece en el siguiente paso.
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Sección 6: Lo que pasa en 90 días */}
-            <div style={{ background: '#0a0800', border: `1px solid rgba(245,196,0,0.1)`, borderRadius: 12, padding: '22px 24px', marginBottom: 12 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>ESTO ES LO QUE PASA EN 90 DÍAS SI NO CAMBIAS NADA</div>
-              <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.7, margin: '0 0 14px' }}>
-                Estás dejando escapar ventas que ya habías conseguido. Tus clientes no desaparecen — se enfrían.
-              </p>
-              {calcular90dias(sel, r.perdidaMensual).map((linea, i) => (
-                <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', paddingBottom: 10, marginBottom: 10, borderBottom: i < 2 ? '1px solid rgba(245,196,0,0.06)' : 'none' }}>
-                  <span style={{ color: ROJO, flexShrink: 0, marginTop: 2, fontFamily: "'JetBrains Mono', monospace", fontSize: 10 }}>→</span>
-                  <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: 0, fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.7 }}>{linea}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA hacia resultado final */}
-            <div style={{ marginTop: 36 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.16em', textTransform: 'uppercase', textAlign: 'center', marginBottom: 16 }}>
-                Tus datos están calculados. El resultado final está listo.
-              </div>
-              <CluedoBtn label="VER MI RESULTADO COMPLETO →" onClick={() => { setFase('veredicto'); window.scrollTo({ top: 0, behavior: 'smooth' }) }} />
-            </div>
-
-          </div>
-        </div>
-      )}
 
       {/* ════════════════════════════════════════
           VEREDICTO FINAL
