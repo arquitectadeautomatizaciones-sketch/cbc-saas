@@ -127,7 +127,7 @@ export function calcular(s: Selecciones) {
     total,
     sub,
     cuello,
-    cuelloLabel: cuello.charAt(0).toUpperCase() + cuello.slice(1),
+    cuelloLabel: ({ seguimiento: 'Sin seguimiento activo', priorizacion: 'Sin priorización', preparacion: 'Sin preparación de cierre', reporte: 'Tu reporte completo' } as Record<string,string>)[cuello] ?? cuello,
     cuelloTexto: CUELLO_TEXTO[cuello],
     perdidaMensual,
     perdida90: perdidaMensual * 3,
