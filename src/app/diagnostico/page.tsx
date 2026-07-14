@@ -320,104 +320,6 @@ function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof ca
     <div style={{ padding: '48px 16px 80px', animation: 'fadeUp 0.5s ease both' }}>
       <div style={{ maxWidth: 520, margin: '0 auto' }}>
 
-        {/* Ilustración detective — noir, estilo gráfico */}
-        <div style={{ textAlign: 'center', marginBottom: 28, position: 'relative' }}>
-          {/* Halo de luz de fondo */}
-          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 260, height: 260, background: 'radial-gradient(circle, rgba(232,0,29,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
-          <svg width="240" height="260" viewBox="0 0 240 260" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: 'inline-block', filter: 'drop-shadow(0 8px 32px rgba(232,0,29,0.18))' }}>
-            {/* Sombra del personaje */}
-            <ellipse cx="118" cy="250" rx="72" ry="8" fill="rgba(0,0,0,0.5)"/>
-
-            {/* Gabardina — cuerpo principal */}
-            <path d="M52 260 L60 148 Q68 136 82 132 L118 138 L154 132 Q168 136 176 148 L184 260 Z" fill="#141414"/>
-            {/* Pliegues gabardina */}
-            <path d="M118 138 L118 260" stroke="#1e1e1e" strokeWidth="1.5"/>
-            <path d="M82 132 L70 260" stroke="#1e1e1e" strokeWidth="1"/>
-            <path d="M154 132 L166 260" stroke="#1e1e1e" strokeWidth="1"/>
-            {/* Botones */}
-            <circle cx="118" cy="160" r="2.5" fill="#2a2a2a"/>
-            <circle cx="118" cy="175" r="2.5" fill="#2a2a2a"/>
-            <circle cx="118" cy="190" r="2.5" fill="#2a2a2a"/>
-            {/* Solapa izquierda */}
-            <path d="M118 138 L98 145 L82 132" stroke="#222" strokeWidth="1" fill="none"/>
-            {/* Solapa derecha */}
-            <path d="M118 138 L138 145 L154 132" stroke="#222" strokeWidth="1" fill="none"/>
-
-            {/* Cuello / corbata roja */}
-            <path d="M112 132 L118 148 L124 132" fill={ROJO} opacity="0.9"/>
-            <path d="M115 148 L118 158 L121 148" fill={ROJO} opacity="0.7"/>
-
-            {/* Brazos */}
-            {/* Brazo izquierdo — extendido */}
-            <path d="M82 140 L48 180 L42 178" stroke="#141414" strokeWidth="22" strokeLinecap="round"/>
-            <path d="M48 176 L28 168" stroke="#141414" strokeWidth="18" strokeLinecap="round"/>
-            {/* Mano izquierda con expediente */}
-            <rect x="10" y="154" width="28" height="20" rx="3" fill="#1a1a1a" stroke="#2a2a2a" strokeWidth="1"/>
-            <path d="M13 160 h22M13 165 h16" stroke={AMARILLO} strokeWidth="1.2" opacity="0.6"/>
-
-            {/* Brazo derecho — sosteniendo lupa */}
-            <path d="M154 140 L186 166" stroke="#141414" strokeWidth="22" strokeLinecap="round"/>
-            <path d="M184 164 L196 148" stroke="#141414" strokeWidth="16" strokeLinecap="round"/>
-
-            {/* Lupa — aro exterior */}
-            <circle cx="206" cy="128" r="32" stroke={AMARILLO} strokeWidth="3.5" fill="rgba(245,196,0,0.03)"/>
-            {/* Lupa — aro interior / cristal */}
-            <circle cx="206" cy="128" r="27" fill="rgba(20,20,20,0.85)" stroke="rgba(245,196,0,0.15)" strokeWidth="1"/>
-            {/* Huella dactilar dentro de la lupa */}
-            <circle cx="206" cy="128" r="12" stroke={ROJO} strokeWidth="1.2" fill="none" opacity="0.9"/>
-            <circle cx="206" cy="128" r="8"  stroke={ROJO} strokeWidth="1.2" fill="none" opacity="0.7"/>
-            <circle cx="206" cy="128" r="4"  stroke={ROJO} strokeWidth="1.2" fill="none" opacity="0.5"/>
-            <circle cx="206" cy="128" r="1.5" fill={ROJO}/>
-            {/* Reflejo lupa */}
-            <path d="M194 116 Q198 112 204 114" stroke="rgba(255,255,255,0.35)" strokeWidth="2" strokeLinecap="round"/>
-            {/* Mango lupa */}
-            <line x1="230" y1="152" x2="222" y2="144" stroke="#888" strokeWidth="8" strokeLinecap="round"/>
-            <line x1="236" y1="160" x2="230" y2="152" stroke="#666" strokeWidth="6" strokeLinecap="round"/>
-
-            {/* Cuello */}
-            <rect x="106" y="116" width="24" height="20" rx="4" fill="#c8865a"/>
-
-            {/* Cabeza */}
-            <ellipse cx="118" cy="90" rx="34" ry="36" fill="#c8865a"/>
-            {/* Mandíbula / mejilla sombra */}
-            <ellipse cx="118" cy="108" rx="26" ry="18" fill="#b8764a" opacity="0.5"/>
-
-            {/* Ojos — entrecerrados, concentrados */}
-            <path d="M100 84 Q106 80 112 84" stroke="#4a2a10" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-            <path d="M124 84 Q130 80 136 84" stroke="#4a2a10" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-            <ellipse cx="106" cy="87" rx="5" ry="4" fill="#1a0a00"/>
-            <ellipse cx="130" cy="87" rx="5" ry="4" fill="#1a0a00"/>
-            <circle cx="107" cy="86" r="1.5" fill="white"/>
-            <circle cx="131" cy="86" r="1.5" fill="white"/>
-            {/* Párpados */}
-            <path d="M101 85 Q106 82 111 85" stroke="#8a5a30" strokeWidth="1.5" fill="none"/>
-            <path d="M125 85 Q130 82 135 85" stroke="#8a5a30" strokeWidth="1.5" fill="none"/>
-
-            {/* Nariz */}
-            <path d="M115 96 Q118 102 121 96" stroke="#9a6640" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-
-            {/* Bigote frondoso */}
-            <path d="M102 104 Q110 100 118 104 Q126 100 134 104" stroke="#3a2010" strokeWidth="3" strokeLinecap="round" fill="none"/>
-            <path d="M104 105 Q111 102 118 105 Q125 102 132 105" stroke="#4a2810" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-
-            {/* Boca — expresión tensa / concentrada */}
-            <path d="M110 112 Q118 110 126 112" stroke="#8a5030" strokeWidth="2" strokeLinecap="round" fill="none"/>
-
-            {/* Sombrero — fedora noir */}
-            {/* Ala del sombrero */}
-            <ellipse cx="118" cy="58" rx="58" ry="10" fill="#0e0e0e"/>
-            <ellipse cx="118" cy="57" rx="58" ry="9" fill="#111" stroke="#1a1a1a" strokeWidth="1"/>
-            {/* Copa */}
-            <rect x="74" y="14" width="88" height="46" rx="6" fill="#0c0c0c"/>
-            {/* Banda roja */}
-            <rect x="74" y="44" width="88" height="12" rx="2" fill={ROJO} opacity="0.9"/>
-            {/* Logo CBC en banda */}
-            <text x="118" y="53.5" textAnchor="middle" fontFamily="monospace" fontSize="7" fill="rgba(0,0,0,0.5)" fontWeight="bold">CBC™</text>
-            {/* Pliegue de la copa */}
-            <path d="M74 44 Q118 38 162 44" stroke="#1a1a1a" strokeWidth="1" fill="none"/>
-          </svg>
-        </div>
-
         {/* Encabezado pequeño rojo */}
         <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: ROJO, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 14, fontWeight: 700, textAlign: 'center' }}>
           LO HEMOS ENCONTRADO
@@ -787,7 +689,7 @@ export default function DiagnosticoPage() {
     5: 'url(/bg-q5.jpg)',
   }
   const bgKey    = fase === 'razonando' ? razonandoPaso : pasoForm
-  const bgActual = fase === 'suspense' ? 'url(/bg-diagnostico.jpg)' : fase === 'dictamen_preliminar' ? 'none' : (bgMap[bgKey] ?? 'url(/bg-diagnostico.jpg)')
+  const bgActual = fase === 'suspense' ? 'url(/bg-diagnostico.jpg)' : fase === 'dictamen_preliminar' ? 'url(/bg-detective.jpg)' : (bgMap[bgKey] ?? 'url(/bg-diagnostico.jpg)')
 
   // Contenido personalizado por cuello de botella — Pantalla 9
   const accionPorCuello: Record<string, { ref: string; texto: string }[]> = {
@@ -821,7 +723,7 @@ export default function DiagnosticoPage() {
     <div style={{
       minHeight: '100vh', fontFamily: "'General Sans', system-ui, sans-serif", color: 'white', overflowX: 'hidden',
       background: NEGRO,
-      backgroundImage: (fase === 'form' || fase === 'suspense' || fase === 'razonando') ? `linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 100%), ${bgActual}` : 'none',
+      backgroundImage: (fase === 'form' || fase === 'suspense' || fase === 'razonando' || fase === 'dictamen_preliminar') ? (fase === 'dictamen_preliminar' ? `linear-gradient(rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.75) 100%), ${bgActual}` : `linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 100%), ${bgActual}`) : 'none',
       backgroundSize: 'cover', backgroundPosition: 'center top', backgroundAttachment: 'fixed',
       transition: 'background-image 0.6s ease',
     }}>
