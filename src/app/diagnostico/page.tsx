@@ -865,7 +865,10 @@ export default function DiagnosticoPage() {
 
                   {/* E3 */}
                   {pasoForm === 3 && <>
-                    {qTitle("Cuando un cliente te dice 'lo pienso' — ¿qué haces?")}
+                    <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(26px,5vw,38px)', lineHeight: 1.05, marginBottom: 10, letterSpacing: '0.01em' }}>
+                      <span style={{ color: 'white' }}>Cuando un cliente te dice &apos;lo pienso&apos; — </span>
+                      <span style={{ color: ROJO }}>¿qué haces?</span>
+                    </div>
                     {qSub('Nadie te mira. Di la verdad.')}
                     <div style={{ display: 'flex', gap: 10 }}>
                       <TogBtn label="Tengo un protocolo claro y lo ejecuto siempre" selected={sel.q3 === true}  variant="yes" onClick={() => setSel(s => ({ ...s, q3: true }))} />
