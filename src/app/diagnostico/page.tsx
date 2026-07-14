@@ -456,9 +456,9 @@ function DictamenPreliminar({ r, nombre, sel, onContinue }: {
             padding: '16px 12px', display: 'inline-flex', flexDirection: 'column', gap: 12,
             boxShadow: '0 12px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)',
           }}>
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esRojo ? '#e8001d' : '#1c0000', border: esRojo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a0000', transition: 'background 0.6s', ...(esRojo && glowOn ? { '--sem-c': '#e8001d88', '--sem-c2': '#e8001d33', animation: 'semPulse 2.4s ease-in-out infinite' } as React.CSSProperties : { boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.8)' }) }} />
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esAmarillo ? '#f5c400' : '#1a1200', border: esAmarillo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a2000', transition: 'background 0.6s', ...(esAmarillo && glowOn ? { '--sem-c': '#f5c40088', '--sem-c2': '#f5c40033', animation: 'semPulse 2.4s ease-in-out infinite' } as React.CSSProperties : { boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.8)' }) }} />
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esVerde ? '#00C853' : '#001808', border: esVerde ? '2px solid rgba(255,255,255,0.12)' : '1px solid #002010', transition: 'background 0.6s', ...(esVerde && glowOn ? { '--sem-c': '#00C85388', '--sem-c2': '#00C85333', animation: 'semPulse 2.4s ease-in-out infinite' } as React.CSSProperties : { boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.8)' }) }} />
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esRojo ? '#e8001d' : '#1c0000', border: esRojo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a0000', boxShadow: esRojo && glowOn ? undefined : 'inset 0 2px 6px rgba(0,0,0,0.8)', animation: esRojo && glowOn ? 'semPulseR 2.4s ease-in-out infinite' : undefined }} />
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esAmarillo ? '#f5c400' : '#1a1200', border: esAmarillo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a2000', boxShadow: esAmarillo && glowOn ? undefined : 'inset 0 2px 6px rgba(0,0,0,0.8)', animation: esAmarillo && glowOn ? 'semPulseY 2.4s ease-in-out infinite' : undefined }} />
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esVerde ? '#00C853' : '#001808', border: esVerde ? '2px solid rgba(255,255,255,0.12)' : '1px solid #002010', boxShadow: esVerde && glowOn ? undefined : 'inset 0 2px 6px rgba(0,0,0,0.8)', animation: esVerde && glowOn ? 'semPulseG 2.4s ease-in-out infinite' : undefined }} />
           </div>
         </div>
 
@@ -957,7 +957,9 @@ export default function DiagnosticoPage() {
         @keyframes blink   { 0%,100% { opacity:1; } 50% { opacity:0; } }
         @keyframes ticker  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes iconPulse { 0%,100% { opacity:0.9; } 50% { opacity:0.4; } }
-        @keyframes semPulse  { 0%,100% { box-shadow: 0 0 18px 6px var(--sem-c), 0 0 40px 12px var(--sem-c2); } 50% { box-shadow: 0 0 6px 2px var(--sem-c), 0 0 14px 4px var(--sem-c2); } }
+        @keyframes semPulseR { 0%,100% { box-shadow: 0 0 22px 8px #e8001d99, 0 0 44px 16px #e8001d44; } 50% { box-shadow: 0 0 6px 2px #e8001d55, 0 0 12px 4px #e8001d22; } }
+        @keyframes semPulseY { 0%,100% { box-shadow: 0 0 22px 8px #f5c40099, 0 0 44px 16px #f5c40044; } 50% { box-shadow: 0 0 6px 2px #f5c40055, 0 0 12px 4px #f5c40022; } }
+        @keyframes semPulseG { 0%,100% { box-shadow: 0 0 22px 8px #00C85399, 0 0 44px 16px #00C85344; } 50% { box-shadow: 0 0 6px 2px #00C85355, 0 0 12px 4px #00C85322; } }
         input[type=number]::-webkit-outer-spin-button,
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
         input[type=number] { -moz-appearance: textfield; }
