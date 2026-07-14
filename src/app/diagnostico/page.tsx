@@ -755,11 +755,10 @@ export default function DiagnosticoPage() {
               </div>
             ))}
           </div>
+        </div>
 
         {/* Franja precaución inferior */}
         <div style={{ height: 4, background: 'repeating-linear-gradient(-45deg, #F5C400 0px, #F5C400 5px, #080808 5px, #080808 10px)' }} />
-
-        </div>
 
         {/* Barra de navegación */}
         <div style={{ borderBottom: '1px solid #1a1a1a', background: 'rgba(8,8,8,0.96)', backdropFilter: 'blur(12px)' }}>
@@ -833,7 +832,7 @@ export default function DiagnosticoPage() {
 
                   {/* E1 */}
                   {pasoForm === 1 && <>
-                    {qTitle(`¿Estás list@ para identificar al ladrón de tus comisiones?`)}
+                    {qTitle(`${nombreTrimmed.split(' ')[0] || nombreTrimmed}, ¿Estás list@ para identificar al ladrón de tus comisiones?`)}
                     {qSub('¿Cuánto es tu comisión por cada venta que cierras?')}
                     <div style={{ position: 'relative', marginBottom: 8 }}>
                       <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontFamily: "'JetBrains Mono', monospace", fontSize: 18, color: 'rgba(255,255,255,0.65)', pointerEvents: 'none', zIndex: 1 }}>$</span>
