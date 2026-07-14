@@ -668,7 +668,7 @@ export default function DiagnosticoPage() {
   const fmt = (n: number) => '$' + n.toLocaleString('en-US')
 
   const qTitle = (text: string) => (
-    <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(26px,5vw,38px)', lineHeight: 1.05, color: 'white', marginBottom: 10, letterSpacing: '0.01em' }}>
+    <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(26px,5vw,38px)', lineHeight: 1.05, color: ROJO, marginBottom: 10, letterSpacing: '0.01em' }}>
       {text}
     </div>
   )
@@ -790,7 +790,7 @@ export default function DiagnosticoPage() {
           </h1>
           <div style={{ textAlign: 'left', maxWidth: 520, margin: '0 auto 36px' }}>
             <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.90)', lineHeight: 1.8, margin: '0 0 20px' }}>
-              Existe una fuga. ¿Tienes algún sospechoso en mente?
+              Existe una fuga. <span style={{ color: '#F5C400', fontWeight: 700 }}>¿Tienes algún sospechoso en mente?</span>
             </p>
           </div>
           <div style={{ maxWidth: 520, margin: '0 auto 8px' }}>
@@ -873,7 +873,10 @@ export default function DiagnosticoPage() {
                   {/* E4 */}
                   {pasoForm === 4 && <>
                     {qTitle('¿Sabes exactamente cuál es tu tasa de cierre?')}
-                    {qSub('De cada 10 prospectos que atiendes, ¿cuántos terminan comprando? Si no conoces el número exacto, escribe una aproximación — la mayoría de vendedores no conoce su tasa de cierre real.')}
+                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '0 0 24px', fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75 }}>
+                      De cada 10 prospectos que atiendes, ¿cuántos terminan comprando? Si no conoces el número exacto, escribe una aproximación —{' '}
+                      <span style={{ color: ROJO, fontWeight: 700 }}>la mayoría de vendedores no conoce su tasa de cierre real.</span>
+                    </p>
                     <div style={{ display: 'flex', gap: 10 }}>
                       <TogBtn label="Sí, lo tengo medido y calculado"    selected={sel.q4 === true}  variant="yes" onClick={() => setSel(s => ({ ...s, q4: true }))} />
                       <TogBtn label="No, nunca lo he calculado"           selected={sel.q4 === false} variant="no"  onClick={() => setSel(s => ({ ...s, q4: false }))} />
