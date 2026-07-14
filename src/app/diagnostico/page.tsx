@@ -423,7 +423,9 @@ function DictamenPreliminar({ r, nombre, sel, onContinue }: {
   const esAmarillo   = score >= 40 && score <= 70
   const esVerde      = score > 70
   const semColor     = esRojo ? '#e8001d' : esAmarillo ? '#f5c400' : '#00C853'
+  const semColor2    = esRojo ? '#e8001d44' : esAmarillo ? '#f5c40044' : '#00C85344'
   const palabra      = esRojo ? 'Crítico.' : esAmarillo ? 'Ajustable.' : 'Sólido.'
+  const lineaTalento = esRojo ? 'No es falta de talento. Es falta de sistema.' : esAmarillo ? 'Tienes talento. Te falta sistema.' : 'Tu talento ya casi tiene el sistema que necesita.'
   const fmt          = (n: number) => '$' + n.toLocaleString('en-US')
 
   const glow = (c: string) => glowOn
@@ -454,9 +456,9 @@ function DictamenPreliminar({ r, nombre, sel, onContinue }: {
             padding: '16px 12px', display: 'inline-flex', flexDirection: 'column', gap: 12,
             boxShadow: '0 12px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)',
           }}>
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esRojo ? '#e8001d' : '#1c0000', boxShadow: esRojo ? glow('#e8001d') : 'inset 0 2px 6px rgba(0,0,0,0.8)', transition: 'all 0.6s cubic-bezier(0.34,1.56,0.64,1)', border: esRojo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a0000' }} />
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esAmarillo ? '#f5c400' : '#1a1200', boxShadow: esAmarillo ? glow('#f5c400') : 'inset 0 2px 6px rgba(0,0,0,0.8)', transition: 'all 0.6s cubic-bezier(0.34,1.56,0.64,1)', border: esAmarillo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a2000' }} />
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esVerde ? '#00C853' : '#001808', boxShadow: esVerde ? glow('#00C853') : 'inset 0 2px 6px rgba(0,0,0,0.8)', transition: 'all 0.6s cubic-bezier(0.34,1.56,0.64,1)', border: esVerde ? '2px solid rgba(255,255,255,0.12)' : '1px solid #002010' }} />
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esRojo ? '#e8001d' : '#1c0000', border: esRojo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a0000', transition: 'background 0.6s', ...(esRojo && glowOn ? { '--sem-c': '#e8001d88', '--sem-c2': '#e8001d33', animation: 'semPulse 2.4s ease-in-out infinite' } as React.CSSProperties : { boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.8)' }) }} />
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esAmarillo ? '#f5c400' : '#1a1200', border: esAmarillo ? '2px solid rgba(255,255,255,0.12)' : '1px solid #2a2000', transition: 'background 0.6s', ...(esAmarillo && glowOn ? { '--sem-c': '#f5c40088', '--sem-c2': '#f5c40033', animation: 'semPulse 2.4s ease-in-out infinite' } as React.CSSProperties : { boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.8)' }) }} />
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: esVerde ? '#00C853' : '#001808', border: esVerde ? '2px solid rgba(255,255,255,0.12)' : '1px solid #002010', transition: 'background 0.6s', ...(esVerde && glowOn ? { '--sem-c': '#00C85388', '--sem-c2': '#00C85333', animation: 'semPulse 2.4s ease-in-out infinite' } as React.CSSProperties : { boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.8)' }) }} />
           </div>
         </div>
 
@@ -487,7 +489,7 @@ function DictamenPreliminar({ r, nombre, sel, onContinue }: {
             color: 'rgba(255,255,255,0.90)',
             lineHeight: 1.5, margin: 0,
           }}>
-            {primerNombre}, esto va a pasar en 90 días si no cambias nada.
+            {lineaTalento}
           </p>
 
           {/* Cifra mensual — sin ocultar */}
@@ -955,6 +957,7 @@ export default function DiagnosticoPage() {
         @keyframes blink   { 0%,100% { opacity:1; } 50% { opacity:0; } }
         @keyframes ticker  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes iconPulse { 0%,100% { opacity:0.9; } 50% { opacity:0.4; } }
+        @keyframes semPulse  { 0%,100% { box-shadow: 0 0 18px 6px var(--sem-c), 0 0 40px 12px var(--sem-c2); } 50% { box-shadow: 0 0 6px 2px var(--sem-c), 0 0 14px 4px var(--sem-c2); } }
         input[type=number]::-webkit-outer-spin-button,
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
         input[type=number] { -moz-appearance: textfield; }
