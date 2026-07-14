@@ -597,7 +597,7 @@ export default function DiagnosticoPage() {
   const progressBar = (
     <div style={{ marginBottom: 28 }}>
       <div style={{ marginBottom: 10 }}>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: pasoForm > 0 ? ROJO : '#444', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: pasoForm > 0 ? ROJO : 'rgba(255,255,255,0.65)', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
           {pasoForm > 0 ? PASO_LABELS[pasoForm] : '5 PREGUNTAS · 2 MINUTOS'}
         </span>
       </div>
@@ -729,11 +729,29 @@ export default function DiagnosticoPage() {
         @keyframes fadeUp  { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
         @keyframes up      { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
         @keyframes blink   { 0%,100% { opacity:1; } 50% { opacity:0; } }
+        @keyframes ticker  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes iconPulse { 0%,100% { opacity:0.9; } 50% { opacity:0.4; } }
         input[type=number]::-webkit-outer-spin-button,
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
         input[type=number] { -moz-appearance: textfield; }
         input::placeholder { color: #333; }
       `}</style>
+
+      {/* Cinta animada */}
+      <div style={{ overflow: 'hidden', background: ROJO, height: 28, display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', animation: 'ticker 18s linear infinite', whiteSpace: 'nowrap', willChange: 'transform' }}>
+          {[...Array(2)].map((_, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
+              {['DIAGNÓSTICO COMERCIAL', 'CIERRE BAJO CONTROL™', '¿QUIÉN TE ESTÁ ROBANDO?', 'DESCÚBRELO EN 2 MINUTOS'].map((item, j) => (
+                <span key={j} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '0 32px', fontFamily: "'JetBrains Mono', monospace", fontSize: 10, fontWeight: 700, color: 'white', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+                  <span style={{ animation: 'iconPulse 2.2s ease-in-out infinite', animationDelay: `${j * 0.5}s` }}>⚡</span>
+                  {item}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Barra superior */}
       <div style={{ borderBottom: '1px solid #1a1a1a', background: 'rgba(8,8,8,0.96)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 50 }}>
@@ -766,7 +784,7 @@ export default function DiagnosticoPage() {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'center', maxWidth: 400, margin: '0 auto' }}>
             <div style={{ height: 1, flex: 1, background: '#222' }} />
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#444', letterSpacing: '0.15em' }}>SOLO TÚ VES TUS RESPUESTAS</span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.15em' }}>SOLO TÚ VES TUS RESPUESTAS</span>
             <div style={{ height: 1, flex: 1, background: '#222' }} />
           </div>
         </div>
