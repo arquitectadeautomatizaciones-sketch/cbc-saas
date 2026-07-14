@@ -902,9 +902,8 @@ export default function DiagnosticoPage() {
     4: '74% 38%',     // atmósfera media-derecha
     5: 'center 62%',  // escena media — ambiente general
   }
-  const bgKey    = fase === 'razonando' ? razonandoPaso : pasoForm
-  const bgActual = 'url(/bg-detective.jpg)'
-  const bgPosition = (fase === 'suspense' || fase === 'dictamen_preliminar') ? 'center 30%' : (bgPosMap[bgKey] ?? 'center top')
+  const bgActual   = 'url(/bg-detective.jpg)'
+  const bgPosition = 'center 30%'
 
   // Contenido personalizado por cuello de botella — Pantalla 9
   const accionPorCuello: Record<string, { ref: string; texto: string }[]> = {
@@ -934,18 +933,8 @@ export default function DiagnosticoPage() {
     ],
   }
 
-  // Clases móvil para background-position contextual
-  const bgMobileClass = (() => {
-    if (fase === 'dictamen_preliminar') return 'bg-diag pos-dictamen'
-    if (bgKey === 2) return 'bg-diag pos-suelo'
-    if (bgKey === 3) return 'bg-diag pos-sombra'
-    if (fase === 'form' || fase === 'razonando') return 'bg-diag'
-    return ''
-  })()
-
   return (
     <div
-      className={bgMobileClass}
       style={{
       minHeight: '100vh', fontFamily: "'General Sans', system-ui, sans-serif", color: 'white', overflowX: 'hidden',
       background: NEGRO,
@@ -963,13 +952,6 @@ export default function DiagnosticoPage() {
         @keyframes fadeUp  { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
         @keyframes up      { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
         @keyframes stampIn { from { opacity:0; transform:rotate(-25deg) scale(1.4); } to { opacity:0.82; transform:rotate(-18deg) scale(1); } }
-        /* Fondo atmosférico: posición móvil — prioriza zona neón+sombra azul */
-        @media (max-width: 640px) {
-          .bg-diag { background-position: 72% 22% !important; }
-          .bg-diag.pos-suelo { background-position: center 80% !important; }
-          .bg-diag.pos-sombra { background-position: 35% 40% !important; }
-          .bg-diag.pos-dictamen { background-position: 65% 25% !important; }
-        }
         @keyframes blink   { 0%,100% { opacity:1; } 50% { opacity:0; } }
         @keyframes ticker  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes iconPulse { 0%,100% { opacity:0.9; } 50% { opacity:0.4; } }
