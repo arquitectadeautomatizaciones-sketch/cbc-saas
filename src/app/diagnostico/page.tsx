@@ -579,7 +579,7 @@ function DictamenPreliminar({ r, nombre, sel, onContinue }: {
               <SubBar label="Preparación de cierre" score={r.sub.preparacion} delay={200} />
               <SubBar label="Visibilidad del proceso" score={r.sub.reporte} delay={300} />
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 14, marginTop: 10 }}>
-                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.75)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Salud general</span>
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.75)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Resultado general</span>
                 <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 28, color: semColor, letterSpacing: '0.04em', lineHeight: 1 }}>{r.total}/100</span>
               </div>
             </div>
