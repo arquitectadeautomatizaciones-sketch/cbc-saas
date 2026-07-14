@@ -320,12 +320,63 @@ function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof ca
     <div style={{ padding: '48px 16px 80px', animation: 'fadeUp 0.5s ease both' }}>
       <div style={{ maxWidth: 520, margin: '0 auto' }}>
 
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>
-          ANÁLISIS EN CURSO · CALCULANDO IMPACTO
+        {/* Ilustración detective */}
+        <div style={{ textAlign: 'center', marginBottom: 20 }}>
+          <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: 'inline-block' }}>
+            {/* Sombrero */}
+            <ellipse cx="90" cy="62" rx="46" ry="8" fill="#1a1a1a" stroke="#333" strokeWidth="1"/>
+            <rect x="54" y="28" width="72" height="36" rx="8" fill="#111"/>
+            <rect x="44" y="58" width="92" height="10" rx="5" fill="#1a1a1a"/>
+            {/* Banda del sombrero */}
+            <rect x="54" y="52" width="72" height="8" rx="2" fill={ROJO}/>
+            {/* Cara */}
+            <ellipse cx="90" cy="90" rx="28" ry="26" fill="#d4956a"/>
+            {/* Ojos */}
+            <ellipse cx="80" cy="86" rx="4" ry="4.5" fill="white"/>
+            <ellipse cx="100" cy="86" rx="4" ry="4.5" fill="white"/>
+            <circle cx="81" cy="87" r="2.5" fill="#1a1a1a"/>
+            <circle cx="101" cy="87" r="2.5" fill="#1a1a1a"/>
+            <circle cx="82" cy="86" r="1" fill="white"/>
+            <circle cx="102" cy="86" r="1" fill="white"/>
+            {/* Ceja */}
+            <path d="M76 81 Q80 78 84 81" stroke="#5a3a20" strokeWidth="2" strokeLinecap="round"/>
+            <path d="M96 81 Q100 78 104 81" stroke="#5a3a20" strokeWidth="2" strokeLinecap="round"/>
+            {/* Boca sorprendida */}
+            <ellipse cx="90" cy="99" rx="7" ry="5" fill="#2a1a0a"/>
+            <path d="M83 97 Q90 104 97 97" stroke="#c47a4a" strokeWidth="1.5" fill="none"/>
+            {/* Bigote */}
+            <path d="M83 95 Q87 93 90 95 Q93 93 97 95" stroke="#5a3a20" strokeWidth="2" strokeLinecap="round"/>
+            {/* Cuerpo — gabardina */}
+            <path d="M55 118 Q62 108 75 106 L90 110 L105 106 Q118 108 125 118 L130 155 L50 155 Z" fill="#1c1c1c"/>
+            <path d="M90 110 L90 155" stroke="#2a2a2a" strokeWidth="1"/>
+            <path d="M75 106 L68 155" stroke="#2a2a2a" strokeWidth="0.8"/>
+            <path d="M105 106 L112 155" stroke="#2a2a2a" strokeWidth="0.8"/>
+            {/* Cuello/corbata */}
+            <path d="M86 106 L90 115 L94 106" fill={ROJO}/>
+            {/* Lupa — brazo derecho */}
+            <line x1="112" y1="115" x2="148" y2="148" stroke="#888" strokeWidth="5" strokeLinecap="round"/>
+            <circle cx="135" cy="130" r="18" stroke={AMARILLO} strokeWidth="3" fill="none"/>
+            <circle cx="135" cy="130" r="14" fill="rgba(245,196,0,0.06)" stroke="rgba(245,196,0,0.15)" strokeWidth="1"/>
+            {/* Reflejo en la lupa */}
+            <path d="M126 122 Q129 119 133 120" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" strokeLinecap="round"/>
+            {/* Huella dentro de la lupa */}
+            <path d="M132 126 Q135 123 138 126 Q141 129 138 132 Q135 135 132 132 Q129 129 132 126Z" stroke={ROJO} strokeWidth="1.2" fill="rgba(232,0,29,0.15)"/>
+            {/* Brazo izquierdo */}
+            <path d="M68 118 L52 135" stroke="#1c1c1c" strokeWidth="14" strokeLinecap="round"/>
+            <rect x="44" y="132" width="16" height="10" rx="3" fill="#2a2a2a"/>
+          </svg>
         </div>
 
-        <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(42px,9vw,72px)', lineHeight: 0.9, color: 'white', margin: '0 0 28px', letterSpacing: '0.01em' }}>
-          ALGO SE<br />ESTÁ <span style={{ fontFamily: "'Alex Brush', cursive", color: ROJO, fontSize: 'clamp(52px,11vw,88px)', lineHeight: 0.80, display: 'inline-block', verticalAlign: 'middle' }}>Perdiendo.</span><br />AHORA CALCULAMOS<br />CUÁNTO.
+        {/* Encabezado pequeño rojo */}
+        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: ROJO, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 14, fontWeight: 700 }}>
+          LO HEMOS ENCONTRADO 😱
+        </div>
+
+        {/* Título principal */}
+        <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(38px,8.5vw,66px)', lineHeight: 0.95, color: 'white', margin: '0 0 28px', letterSpacing: '0.01em' }}>
+          Ya identificamos al ladrón.<br />
+          Ahora sabrás cuánto te ha{' '}
+          <span style={{ fontFamily: "'Alex Brush', cursive", color: ROJO, fontSize: 'clamp(48px,10.5vw,82px)', lineHeight: 1.1, display: 'inline-block', verticalAlign: 'middle' }}>Robado.</span>
         </h2>
 
         <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px 28px', marginBottom: 20 }}>
@@ -340,7 +391,7 @@ function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof ca
 
         <div style={{ background: '#0a0800', border: `1px solid rgba(245,196,0,0.1)`, borderRadius: 10, padding: '18px 22px', marginBottom: 32 }}>
           <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '0 0 10px', fontSize: 15, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75 }}>
-            Encontramos el cuello de botella que está frenando tus comisiones.
+            Encontramos el patrón exacto que está frenando tus comisiones.
           </p>
           <p style={{ fontFamily: "'Bebas Neue', sans-serif", margin: 0, fontSize: 22, color: 'white', letterSpacing: '0.04em' }}>
             {r.cuelloLabel.toUpperCase()}
