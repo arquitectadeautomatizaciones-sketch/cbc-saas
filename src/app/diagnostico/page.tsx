@@ -881,31 +881,156 @@ export default function DiagnosticoPage() {
                   </>}
 
                   {/* E5 */}
-                  {pasoForm === 5 && <>
-                    {qTitle('Soñar no cuesta nada. Hacerlo realidad sí.')}
-                    {qSub('¿Cuál es ese sueño que llevas más tiempo esperando o postergando?')}
-                    <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '-16px 0 16px', fontSize: 12, color: 'rgba(255,255,255,0.65)', lineHeight: 1.6, fontStyle: 'italic' }}>
-                      El que piensas cuando dices "cuando me vaya mejor..."
-                    </p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                      <ConseqBtn label="La casa o el arreglo prometido"        selected={sel.sueno === 'casa'}     onClick={() => setSel(s => ({ ...s, sueno: 'casa' }))} />
-                      <ConseqBtn label="Las vacaciones postergadas"             selected={sel.sueno === 'viaje'}    onClick={() => setSel(s => ({ ...s, sueno: 'viaje' }))} />
-                      <ConseqBtn label="Los estudios tuyos o de tus hijos"      selected={sel.sueno === 'estudios'} onClick={() => setSel(s => ({ ...s, sueno: 'estudios' }))} />
-                      <ConseqBtn label="La deuda que no te deja dormir"         selected={sel.sueno === 'deuda'}    onClick={() => setSel(s => ({ ...s, sueno: 'deuda' }))} />
-                      <ConseqBtn label="El carro que prometiste cambiar"        selected={sel.sueno === 'carro'}    onClick={() => setSel(s => ({ ...s, sueno: 'carro' }))} />
-                      <ConseqBtn label="Tiempo libre sin culpa ni estrés"       selected={sel.sueno === 'libertad'} onClick={() => setSel(s => ({ ...s, sueno: 'libertad' }))} />
-                    </div>
-                    {sel.sueno && (
-                      <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid #1a1a1a' }}>
-                        <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 14, color: '#888', lineHeight: 1.75, margin: '0 0 6px', textAlign: 'center' }}>
-                          En menos de 60 segundos vas a saber quién es el verdadero ladrón de tus comisiones...
-                        </p>
-                        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', margin: 0 }}>
-                          ¿Tienes en mente algún sospechoso?
-                        </p>
-                      </div>
-                    )}
-                  </>}
+                  {pasoForm === 5 && (() => {
+                    const suenoOpts: { key: string; label: string; sub: string; tint: string; border: string; icon: React.ReactNode }[] = [
+                      {
+                        key: 'casa',
+                        label: 'La casa o el arreglo prometido',
+                        sub: 'Ese espacio que mereces y que siempre queda para después',
+                        tint: 'rgba(245,196,0,0.08)',
+                        border: 'rgba(245,196,0,0.50)',
+                        icon: (
+                          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M3 13L14 4l11 9" /><path d="M6 11v11h5v-6h6v6h5V11" />
+                          </svg>
+                        ),
+                      },
+                      {
+                        key: 'viaje',
+                        label: 'Las vacaciones postergadas',
+                        sub: '"El año que viene" lleva tres años siendo el año que viene',
+                        tint: 'rgba(78,205,196,0.08)',
+                        border: 'rgba(78,205,196,0.50)',
+                        icon: (
+                          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="14" cy="14" r="10" /><path d="M2 14h24" /><path d="M14 4c-3 4-3 16 0 20M14 4c3 4 3 16 0 20" />
+                          </svg>
+                        ),
+                      },
+                      {
+                        key: 'estudios',
+                        label: 'Los estudios tuyos o de tus hijos',
+                        sub: 'La inversión que cambia el rumbo, pero cuesta lo que no tienes',
+                        tint: 'rgba(139,92,246,0.08)',
+                        border: 'rgba(139,92,246,0.50)',
+                        icon: (
+                          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M4 10l10-6 10 6-10 6-10-6z" /><path d="M4 10v8c0 2 4 4 10 4s10-2 10-4v-8" /><path d="M22 10v6" /><circle cx="22" cy="18" r="1.5" fill="currentColor" stroke="none" />
+                          </svg>
+                        ),
+                      },
+                      {
+                        key: 'deuda',
+                        label: 'La deuda que no te deja dormir',
+                        sub: 'Esa presión que convierte cada logro en alivio, no en alegría',
+                        tint: 'rgba(232,0,29,0.08)',
+                        border: 'rgba(232,0,29,0.50)',
+                        icon: (
+                          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="14" cy="14" r="10" /><path d="M14 9v5l3 3" /><path d="M14 19v1" />
+                          </svg>
+                        ),
+                      },
+                      {
+                        key: 'carro',
+                        label: 'El carro que prometiste cambiar',
+                        sub: 'Símbolo de lo que das pero que aún no puedes darte a ti mismo',
+                        tint: 'rgba(59,130,246,0.08)',
+                        border: 'rgba(59,130,246,0.50)',
+                        icon: (
+                          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M5 17H3v-4l3-6h14l3 6v4h-2" /><circle cx="8" cy="18" r="2.5" /><circle cx="20" cy="18" r="2.5" /><path d="M10.5 18h7" /><path d="M6 11h16" />
+                          </svg>
+                        ),
+                      },
+                      {
+                        key: 'libertad',
+                        label: 'Tiempo libre sin culpa ni estrés',
+                        sub: 'Poder desconectarte sin que el mundo se caiga — y disfrutarlo',
+                        tint: 'rgba(34,197,94,0.08)',
+                        border: 'rgba(34,197,94,0.50)',
+                        icon: (
+                          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M14 3C8 3 4 8 4 14s6 10 12 8" /><path d="M20 6l-2 8 6 2" /><circle cx="14" cy="14" r="2" fill="currentColor" stroke="none" />
+                          </svg>
+                        ),
+                      },
+                    ]
+                    return (
+                      <>
+                        <div style={{ marginBottom: 18 }}>
+                          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.40)', letterSpacing: '0.20em', textTransform: 'uppercase', margin: '0 0 10px' }}>
+                            ÚLTIMA PREGUNTA
+                          </p>
+                          <h2 style={{
+                            fontFamily: "'Bebas Neue', sans-serif",
+                            fontSize: 'clamp(30px, 7.5vw, 50px)',
+                            color: '#F5C400',
+                            margin: '0 0 10px',
+                            letterSpacing: '0.02em',
+                            lineHeight: 1.0,
+                            textShadow: '0 0 40px rgba(245,196,0,0.55), 0 0 14px rgba(245,196,0,0.28), 0 2px 6px rgba(0,0,0,0.90)',
+                          }}>
+                            ¿Cuál es el motivo por el que te levantas cada mañana?
+                          </h2>
+                          <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.60)', margin: '0 0 3px', fontStyle: 'italic' }}>
+                            Soñar no cuesta nada. Hacerlo realidad sí.
+                          </p>
+                          <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.50)', margin: '0 0 0' }}>
+                            ¿Cuál es ese sueño que llevas más tiempo esperando o postergando?
+                          </p>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 9 }}>
+                          {suenoOpts.map(opt => {
+                            const isSelected = sel.sueno === opt.key
+                            const anySelected = !!sel.sueno
+                            const colorFull = opt.border.replace('0.50', '1')
+                            return (
+                              <button
+                                key={opt.key}
+                                onClick={() => setSel(s => ({ ...s, sueno: opt.key }))}
+                                style={{
+                                  background: isSelected ? opt.tint : 'rgba(255,255,255,0.02)',
+                                  border: `1.5px solid ${isSelected ? opt.border : 'rgba(255,255,255,0.10)'}`,
+                                  borderRadius: 10,
+                                  padding: '13px 12px 11px',
+                                  textAlign: 'left',
+                                  cursor: 'pointer',
+                                  opacity: anySelected && !isSelected ? 0.42 : 1,
+                                  transform: isSelected ? 'scale(1.025)' : 'scale(1)',
+                                  transition: 'all 0.20s ease',
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  gap: 7,
+                                  boxShadow: isSelected ? `0 0 20px ${opt.tint.replace('0.08', '0.40')}` : 'none',
+                                }}
+                              >
+                                <span style={{ color: isSelected ? colorFull : 'rgba(255,255,255,0.45)', display: 'flex' }}>
+                                  {opt.icon}
+                                </span>
+                                <span style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 11.5, fontWeight: 600, color: 'rgba(255,255,255,0.90)', lineHeight: 1.30, display: 'block' }}>
+                                  {opt.label}
+                                </span>
+                                <span style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 10, color: isSelected ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.42)', lineHeight: 1.45, display: 'block' }}>
+                                  {opt.sub}
+                                </span>
+                              </button>
+                            )
+                          })}
+                        </div>
+                        {sel.sueno && (
+                          <div style={{ marginTop: 20, paddingTop: 18, borderTop: '1px solid #1a1a1a', textAlign: 'center' }}>
+                            <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, margin: '0 0 4px' }}>
+                              En menos de 60 segundos vas a saber quién es el verdadero ladrón de tus comisiones...
+                            </p>
+                            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(255,255,255,0.40)', letterSpacing: '0.10em', textTransform: 'uppercase', margin: 0 }}>
+                              ¿Tienes en mente algún sospechoso?
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    )
+                  })()}
                 </>
               )}
               {nextBtn(
