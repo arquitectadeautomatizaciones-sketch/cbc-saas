@@ -149,7 +149,7 @@ function SubscribeContent() {
       {/* ════════════════════════════════════════════════════════════
           SECCIÓN 01 — HERO
       ════════════════════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 24px 72px', position: 'relative', overflow: 'hidden', backgroundImage: "linear-gradient(to right, rgba(8,8,8,0.94) 0%, rgba(8,8,8,0.78) 55%, rgba(8,8,8,0.30) 100%), url('/bg-detective.jpg')", backgroundSize: 'cover', backgroundPosition: '78% 18%', backgroundAttachment: 'fixed' }}>
+      <section style={{ padding: '80px 24px 72px', position: 'relative', overflow: 'hidden', backgroundImage: "linear-gradient(to right, rgba(8,8,8,0.94) 0%, rgba(8,8,8,0.78) 55%, rgba(8,8,8,0.30) 100%), url('/bg-detective.jpg')", backgroundSize: 'cover', backgroundPosition: '78% 18%' }}>
         {/* Gradiente de profundidad */}
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 60% at 50% 0%, rgba(78,205,196,0.04), transparent 65%)', pointerEvents: 'none' }} />
 
