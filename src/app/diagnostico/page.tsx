@@ -433,10 +433,10 @@ function DictamenPreliminar({ r, nombre, onContinue }: { r: ReturnType<typeof ca
         <div style={{ background: 'rgba(8,8,8,0.72)', backdropFilter: 'blur(10px)', border: '1px solid #1f1f1f', borderRadius: 12, padding: '24px 28px', marginBottom: 20 }}>
           <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>LO QUE ESTÁS PERDIENDO · POR MES</div>
           <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(38px,8vw,60px)', color: AMARILLO, letterSpacing: '0.02em', lineHeight: 1 }}>
-            {maskRange(r.perdidaMensual)}
+            {r.perdidaMensual > 0 ? ('$' + r.perdidaMensual.toLocaleString('en-US')) : 'CALCULANDO...'}
           </div>
           <p style={{ fontFamily: "'General Sans', system-ui, sans-serif", margin: '12px 0 0', fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65 }}>
-            La cifra exacta aparece en el siguiente paso. Ya encontramos dónde está la fuga.
+            Encontramos el patrón exacto que está frenando tus comisiones.
           </p>
         </div>
 
