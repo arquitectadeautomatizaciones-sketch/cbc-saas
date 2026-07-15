@@ -849,7 +849,7 @@ function SubscribeContent() {
 
           {/* Cuerpo en columnas */}
           <div className="newspaper-body">
-            Conocido bajo múltiples alias — "Esque", "Mañana lo Cierro", "El Mercado Está Difícil" — el sospechoso usaba una excusa distinta para cada víctima. Investigadores confirman que operaba con cómplices que actuaban sigilosamente para no ser detectados: un CRM que nunca avisa, un seguimiento que siempre llega tarde, un reporte armado a último momento con datos de tres sistemas distintos.
+            Conocido bajo múltiples alias — <strong>"Esque"</strong>, "Mañana lo Cierro", alias <strong>"El Mercado Está Difícil"</strong> — el sospechoso usaba una excusa distinta para cada víctima. Investigadores confirman que operaba con cómplices que actuaban sigilosamente para no ser detectados: un CRM que nunca avisa, un seguimiento que siempre llega tarde, un reporte armado a último momento con datos de tres sistemas distintos.
             {' '}Las autoridades señalan que el modus operandi era siempre el mismo: sembrar urgencias administrativas para mantener al vendedor alejado de lo único que realmente importa. "La víctima llega al final del día con la sensación de haber trabajado mucho", declaró una fuente cercana a la investigación. "Pero el pipeline sigue igual."
           </div>
 
