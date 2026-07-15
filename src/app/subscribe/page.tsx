@@ -178,7 +178,7 @@ function SubscribeContent() {
             {cancelled && <p style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(255,255,255,0.50)', margin: 0 }}>Cancelaste el proceso. Puedes iniciarlo cuando quieras.</p>}
             {error && <p style={{ fontFamily: SANS, fontSize: 13, color: ROJO, margin: 0 }}>{error}</p>}
             <p style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.35)', margin: 0, letterSpacing: '0.1em' }}>
-              $9.90/MES · 7 DÍAS GRATIS · CANCELA CUANDO QUIERAS
+              $9.90/MES · 7 DÍAS GRATIS · CANCELA CUANDO QUIERAS · SIN CONTRATO DE PERMANENCIA
             </p>
           </div>
 
@@ -1641,7 +1641,7 @@ function SubscribeContent() {
           </h3>
           <CluedoBtn label="PROBAR CBC™ GRATIS — 7 DÍAS →" onClick={handleCheckout} disabled={loading} full={false} />
           <p style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.25)', margin: '18px 0 0', letterSpacing: '0.1em' }}>
-            $9.90/MES · SIN TARJETA LOS PRIMEROS 7 DÍAS · CANCELA CUANDO QUIERAS
+            $9.90/MES · SIN TARJETA LOS PRIMEROS 7 DÍAS · CANCELA CUANDO QUIERAS · SIN CONTRATO DE PERMANENCIA
           </p>
         </div>
       </section>
