@@ -190,7 +190,7 @@ export default function SofiaLandingChat() {
           {/* CTA trial */}
           <div style={{ padding: '0 14px 8px', flexShrink: 0 }}>
             <a
-              href="#cta"
+              href="/register"
               style={{
                 display: 'block', textAlign: 'center',
                 background: ROJO, color: 'white',

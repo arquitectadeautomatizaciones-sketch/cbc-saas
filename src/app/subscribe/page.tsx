@@ -87,22 +87,8 @@ function SubscribeContent() {
   const primerNombre = nombreParam.split(' ')[0] || ''
   const suenoHero = suenoParam ? (SUENO_HERO[suenoParam] ?? 'ese sueño que llevas tiempo postergando') : 'ese sueño que llevas tiempo postergando'
 
-  async function handleCheckout() {
-    setLoading(true)
-    setError(null)
-    try {
-      const res = await fetch('/api/stripe/checkout', { method: 'POST' })
-      const data = await res.json()
-      if (data.url) {
-        window.location.href = data.url
-      } else {
-        setError(data.error ?? 'No se pudo iniciar el proceso. Intenta de nuevo.')
-        setLoading(false)
-      }
-    } catch {
-      setError('Error de conexión. Verifica tu internet e intenta de nuevo.')
-      setLoading(false)
-    }
+  function handleCheckout() {
+    window.location.href = '/register'
   }
 
   const herramientas = [
@@ -974,6 +960,33 @@ function SubscribeContent() {
               Básicamente, tienes una IA personal que organiza tu día, te dice a quién llamar primero, redacta propuestas en minutos, y hasta te acompaña en vivo durante las reuniones.
             </p>
           </div>
+
+          {/* CTA botón rojo */}
+          <div className="cbc-reveal cbc-reveal-4" style={{ textAlign: 'center', marginBottom: 60 }}>
+            <a
+              href="/register"
+              style={{
+                display: 'inline-block',
+                background: ROJO,
+                color: 'white',
+                fontFamily: BEBAS,
+                fontSize: 'clamp(18px, 2.5vw, 22px)',
+                letterSpacing: '0.12em',
+                padding: '18px 48px',
+                borderRadius: 6,
+                textDecoration: 'none',
+                boxShadow: '0 0 40px rgba(232,0,29,0.30)',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 0 60px rgba(232,0,29,0.50)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 0 40px rgba(232,0,29,0.30)' }}
+            >
+              QUIERO MI PRUEBA GRATIS →
+            </a>
+            <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: 12 }}>
+              7 días gratis · sin tarjeta de crédito
+            </div>
+          </div>
         </div>
 
         {/* ── 3. STATS ─── */}
@@ -1004,6 +1017,47 @@ function SubscribeContent() {
                 <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>{s.sub}</div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* ── SEPARADOR ─── */}
+        <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '0 24px' }} />
+
+        {/* ── QUÉ NO ES CBC ─── */}
+        <div style={{ padding: '80px 24px' }}>
+          <div style={{ maxWidth: 760, margin: '0 auto' }}>
+            <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 16 }}>Para que no haya confusión</div>
+            <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(34px,5.5vw,56px)', lineHeight: 0.95, margin: '0 0 48px', letterSpacing: '0.02em' }}>
+              <span style={{ color: 'white' }}>QUÉ </span>
+              <span style={{ color: ROJO }}>NO ES</span>
+              <span style={{ color: 'white' }}> CBC™.</span>
+            </h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+              {[
+                'No es un CRM — no reemplaza el que ya tienes.',
+                'No cierra por ti — la conversación sigue siendo tuya.',
+                'No es un curso ni una metodología de ventas.',
+                'No reemplaza tu talento ni tu experiencia.',
+                'No requiere capacitación — se usa desde el primer día.',
+              ].map((item, i) => (
+                <div key={i} style={{
+                  display: 'flex', alignItems: 'center', gap: 18,
+                  padding: '20px 0',
+                  borderBottom: '1px solid rgba(255,255,255,0.06)',
+                }}>
+                  <span style={{
+                    flexShrink: 0,
+                    width: 28, height: 28,
+                    borderRadius: '50%',
+                    background: 'rgba(232,0,29,0.12)',
+                    border: `1px solid rgba(232,0,29,0.30)`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: ROJO, fontWeight: 700, fontSize: 14,
+                  }}>✗</span>
+                  <span style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6 }}>{item}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
