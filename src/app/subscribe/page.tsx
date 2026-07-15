@@ -122,7 +122,7 @@ function SubscribeContent() {
 
       <style>{`
         @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&display=swap');
         * { box-sizing: border-box; }
         @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
@@ -744,6 +744,109 @@ function SubscribeContent() {
           ))}
         </div>
       </div>
+
+      {/* ══════════════════════════════════════════════════════
+          03b — PORTADA PERIÓDICO
+      ══════════════════════════════════════════════════════ */}
+      <section style={{ background: NEGRO, padding: '72px 24px' }}>
+        <style>{`
+          .newspaper-wrap {
+            max-width: 780px;
+            margin: 0 auto;
+            background: rgba(245,240,225,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 4px;
+            padding: 48px 52px 40px;
+          }
+          .newspaper-masthead {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 900;
+            font-size: clamp(28px, 5vw, 48px);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.95);
+            text-align: center;
+            line-height: 1;
+            margin: 0 0 12px;
+          }
+          .newspaper-meta {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 11px;
+            letter-spacing: 0.20em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.40);
+            text-align: center;
+            margin: 0 0 20px;
+          }
+          .newspaper-rule { border: none; border-top: 3px double rgba(255,255,255,0.18); margin: 0 0 8px; }
+          .newspaper-rule-thin { border: none; border-top: 1px solid rgba(255,255,255,0.10); margin: 0 0 24px; }
+          .newspaper-headline {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 900;
+            font-size: clamp(24px, 4.5vw, 44px);
+            line-height: 1.1;
+            color: rgba(255,255,255,0.95);
+            text-align: center;
+            margin: 0 0 24px;
+            letter-spacing: 0.01em;
+          }
+          .newspaper-headline span { color: #e8001d; }
+          .newspaper-body {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(14px, 1.8vw, 16px);
+            line-height: 1.85;
+            color: rgba(255,255,255,0.88);
+            column-count: 2;
+            column-gap: 36px;
+            column-rule: 1px solid rgba(255,255,255,0.10);
+            margin: 0 0 28px;
+            text-align: justify;
+          }
+          .newspaper-footer {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 12px;
+            font-style: italic;
+            color: rgba(255,255,255,0.45);
+            text-align: center;
+            letter-spacing: 0.04em;
+          }
+          @media (max-width: 640px) {
+            .newspaper-wrap { padding: 32px 20px 28px; }
+            .newspaper-body { column-count: 1; text-align: left; }
+          }
+        `}</style>
+        <div className="newspaper-wrap">
+
+          {/* Masthead */}
+          <div className="newspaper-masthead">The Commercial Times</div>
+          <div className="newspaper-meta">
+            Martes, 15 de julio de 2025 &nbsp;·&nbsp; Edición Especial &nbsp;·&nbsp; Vol. XXIV, No. 312
+          </div>
+          <hr className="newspaper-rule" />
+          <hr className="newspaper-rule-thin" />
+
+          {/* Titular */}
+          <h2 className="newspaper-headline">
+            Exclusiva: Capturado el <span>ladrón</span> que robaba comisiones<br />a miles de vendedores
+          </h2>
+          <hr className="newspaper-rule-thin" />
+
+          {/* Cuerpo en columnas */}
+          <div className="newspaper-body">
+            Conocido bajo múltiples alias — "Esque", "Mañana lo Cierro", "El Mercado Está Difícil" — el sospechoso usaba una excusa distinta para cada víctima. Investigadores confirman que operaba con cómplices que actuaban sigilosamente para no ser detectados: un CRM que nunca avisa, un seguimiento que siempre llega tarde, un reporte armado a último momento con datos de tres sistemas distintos.
+            {' '}Las autoridades señalan que el modus operandi era siempre el mismo: sembrar urgencias administrativas para mantener al vendedor alejado de lo único que realmente importa. "La víctima llega al final del día con la sensación de haber trabajado mucho", declaró una fuente cercana a la investigación. "Pero el pipeline sigue igual."
+          </div>
+
+          {/* Pie de nota */}
+          <hr className="newspaper-rule-thin" />
+          <p className="newspaper-footer">
+            Sigue leyendo para conocer al sistema detrás de la captura →
+          </p>
+
+        </div>
+      </section>
+
+      <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
 
       {/* ══════════════════════════════════════════════════════
           03 — QUÉ ES
