@@ -210,84 +210,111 @@ function SubscribeContent() {
       ══════════════════════════════════════════════════════ */}
       <section style={{ background: '#0d0d0d', padding: '80px 24px' }}>
         <style>{`
-          .bubble {
-            background: rgba(255,255,255,0.055);
-            border: 1px solid rgba(255,255,255,0.14);
-            border-radius: 14px;
-            padding: 12px 16px;
+          @keyframes bubbleIn {
+            from { opacity: 0; transform: scale(0.82) translateY(6px); }
+            to   { opacity: 1; transform: scale(1)    translateY(0);   }
+          }
+          .tbubble {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            padding: 10px 14px;
             font-family: 'General Sans', system-ui, sans-serif;
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 500;
             color: rgba(255,255,255,0.92);
+            text-align: center;
             line-height: 1.4;
-            position: relative;
-            max-width: 180px;
+            max-width: 148px;
+            animation: bubbleIn 0.4s ease both;
           }
-          .bubble::after {
-            content: '';
-            position: absolute;
-            width: 8px; height: 8px;
+          .tdot {
             border-radius: 50%;
-            background: rgba(255,255,255,0.10);
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.13);
+            flex-shrink: 0;
           }
-          .bubble-tl::after { bottom: -14px; right: 20px; box-shadow: 0 10px 0 -2px rgba(255,255,255,0.06); }
-          .bubble-tr::after { bottom: -14px; left: 20px; box-shadow: 0 10px 0 -2px rgba(255,255,255,0.06); }
-          .bubble-bl::after { top: -14px; right: 20px; box-shadow: 0 -10px 0 -2px rgba(255,255,255,0.06); }
-          .bubble-br::after { top: -14px; left: 20px; box-shadow: 0 -10px 0 -2px rgba(255,255,255,0.06); }
-
-          @media (max-width: 640px) {
-            .elite-layout { flex-direction: column !important; gap: 0 !important; }
-            .elite-bubbles-top { display: grid !important; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-            .elite-bubbles-bottom { display: grid !important; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-            .elite-bubbles-left, .elite-bubbles-right { display: none !important; }
-            .bubble { max-width: 100%; }
-            .bubble-tl::after, .bubble-tr::after { bottom: -10px; }
-            .bubble-bl::after, .bubble-br::after { top: -10px; }
-          }
-          @media (min-width: 641px) {
-            .elite-bubbles-top, .elite-bubbles-bottom { display: none !important; }
+          .bwrap-tl { position: absolute; top: 10%;    left:  -8px; }
+          .bwrap-tr { position: absolute; top: 18%;    right: -8px; }
+          .bwrap-bl { position: absolute; bottom: 24%; left:  -8px; }
+          .bwrap-br { position: absolute; bottom: 17%; right: -8px; }
+          @media (max-width: 500px) {
+            .bwrap-tl { left:  8px; }
+            .bwrap-tr { right: 8px; }
+            .bwrap-bl { left:  8px; }
+            .bwrap-br { right: 8px; }
+            .tbubble  { max-width: 120px; font-size: 12px; }
           }
         `}</style>
 
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
           <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>MENTALIDAD DE ÉLITE</div>
 
-          {/* ── Burbujas móvil ARRIBA ── */}
-          <div className="elite-bubbles-top" style={{ display: 'none' }}>
-            <div className="bubble bubble-tl">"Hoy soy imparable." 🔥</div>
-            <div className="bubble bubble-tr">"El dinero fluye hacia mí." 💰</div>
-          </div>
+          {/* ── Imagen + burbujas superpuestas ── */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
+            <div style={{ position: 'relative', width: '100%', maxWidth: 300, overflow: 'visible' }}>
 
-          {/* ── Layout imagen + burbujas desktop ── */}
-          <div className="elite-layout" style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 40 }}>
-
-            {/* Burbujas izquierda (desktop) */}
-            <div className="elite-bubbles-left" style={{ display: 'flex', flexDirection: 'column', gap: 16, flex: '0 0 auto', width: 190 }}>
-              <div className="bubble bubble-tl" style={{ alignSelf: 'flex-end' }}>"Hoy soy imparable." 🔥</div>
-              <div className="bubble bubble-bl" style={{ alignSelf: 'flex-end' }}>"Cierro todos mis negocios." 🤝</div>
-            </div>
-
-            {/* Imagen central */}
-            <div style={{ flex: '0 0 auto', position: 'relative' }}>
               <img
                 src="/elite-meditacion.jpg"
                 alt="Ejecutiva meditando antes de su jornada comercial"
-                style={{ width: '100%', maxWidth: 280, display: 'block', borderRadius: 16, objectFit: 'cover', aspectRatio: '9/16', maxHeight: 420 }}
+                style={{ width: '100%', display: 'block', borderRadius: 16, objectFit: 'cover', aspectRatio: '9/16', maxHeight: 450 }}
               />
-              {/* Overlay sutil en la parte inferior */}
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '30%', borderRadius: '0 0 16px 16px', background: 'linear-gradient(to top, rgba(13,13,13,0.7), transparent)', pointerEvents: 'none' }} />
-            </div>
 
-            {/* Burbujas derecha (desktop) */}
-            <div className="elite-bubbles-right" style={{ display: 'flex', flexDirection: 'column', gap: 16, flex: '0 0 auto', width: 190 }}>
-              <div className="bubble bubble-tr">"El dinero fluye hacia mí." 💰</div>
-              <div className="bubble bubble-br">"Nada me detiene hoy." ⚡</div>
-            </div>
-          </div>
+              {/* ── TL — "Hoy soy imparable." ── */}
+              <div className="bwrap-tl">
+                <div className="tbubble" style={{ borderRadius: '22px 18px 20px 6px', transform: 'rotate(-2deg)', animationDelay: '0.10s' }}>
+                  "Hoy soy imparable." 🔥
+                </div>
+                {/* Cola → centro (abajo-derecha) */}
+                <div style={{ display: 'flex', gap: 3, justifyContent: 'flex-end', paddingRight: 10, marginTop: 4 }}>
+                  <div className="tdot" style={{ width: 7, height: 7 }} />
+                  <div className="tdot" style={{ width: 5, height: 5, marginTop: 2 }} />
+                  <div className="tdot" style={{ width: 3, height: 3, marginTop: 4 }} />
+                </div>
+              </div>
 
-          {/* ── Burbujas móvil ABAJO ── */}
-          <div className="elite-bubbles-bottom" style={{ display: 'none' }}>
-            <div className="bubble bubble-bl">"Cierro todos mis negocios." 🤝</div>
-            <div className="bubble bubble-br">"Nada me detiene hoy." ⚡</div>
+              {/* ── TR — "El dinero fluye hacia mí." ── */}
+              <div className="bwrap-tr">
+                <div className="tbubble" style={{ borderRadius: '18px 22px 6px 20px', transform: 'rotate(1.5deg)', animationDelay: '0.25s' }}>
+                  "El dinero fluye hacia mí." 💰
+                </div>
+                {/* Cola → centro (abajo-izquierda) */}
+                <div style={{ display: 'flex', gap: 3, justifyContent: 'flex-start', paddingLeft: 10, marginTop: 4 }}>
+                  <div className="tdot" style={{ width: 3, height: 3, marginTop: 4 }} />
+                  <div className="tdot" style={{ width: 5, height: 5, marginTop: 2 }} />
+                  <div className="tdot" style={{ width: 7, height: 7 }} />
+                </div>
+              </div>
+
+              {/* ── BL — "Cierro todos mis negocios." ── */}
+              <div className="bwrap-bl">
+                {/* Cola → centro (arriba-derecha) */}
+                <div style={{ display: 'flex', gap: 3, justifyContent: 'flex-end', paddingRight: 10, marginBottom: 4 }}>
+                  <div className="tdot" style={{ width: 3, height: 3 }} />
+                  <div className="tdot" style={{ width: 5, height: 5 }} />
+                  <div className="tdot" style={{ width: 7, height: 7 }} />
+                </div>
+                <div className="tbubble" style={{ borderRadius: '20px 6px 22px 18px', transform: 'rotate(2.5deg)', animationDelay: '0.40s' }}>
+                  "Cierro todos mis negocios." 🤝
+                </div>
+              </div>
+
+              {/* ── BR — "Nada me detiene hoy." ── */}
+              <div className="bwrap-br">
+                {/* Cola → centro (arriba-izquierda) */}
+                <div style={{ display: 'flex', gap: 3, justifyContent: 'flex-start', paddingLeft: 10, marginBottom: 4 }}>
+                  <div className="tdot" style={{ width: 7, height: 7 }} />
+                  <div className="tdot" style={{ width: 5, height: 5 }} />
+                  <div className="tdot" style={{ width: 3, height: 3 }} />
+                </div>
+                <div className="tbubble" style={{ borderRadius: '6px 20px 18px 22px', transform: 'rotate(-1deg)', animationDelay: '0.55s' }}>
+                  "Nada me detiene hoy." ⚡
+                </div>
+              </div>
+
+            </div>
           </div>
 
           {/* ── Título ── */}
