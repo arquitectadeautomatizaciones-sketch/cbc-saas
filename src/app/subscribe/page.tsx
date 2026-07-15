@@ -1402,7 +1402,7 @@ function SubscribeContent() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div style={{ borderLeft: `4px solid ${ROJO}`, background: 'rgba(232,0,29,0.05)', padding: '18px 20px', borderRadius: '0 8px 8px 0' }}>
-                <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, margin: 0, fontStyle: 'italic' }}>
+                <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: ROJO, lineHeight: 1.7, margin: 0, fontStyle: 'italic', fontWeight: 600 }}>
                   Tu CRM sabe todo. Y no cierra nada.
                 </p>
               </div>
