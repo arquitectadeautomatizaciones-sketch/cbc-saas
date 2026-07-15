@@ -3,6 +3,17 @@ import { stripe } from '@/lib/stripe'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import type Stripe from 'stripe'
 
+const EMAILS_EXENTOS = new Set(['letatianapanadero@gmail.com'])
+
+async function esExenta(customerId: string): Promise<boolean> {
+  const { data } = await supabaseAdmin
+    .from('users')
+    .select('email')
+    .eq('stripe_customer_id', customerId)
+    .single()
+  return !!(data?.email && EMAILS_EXENTOS.has(data.email))
+}
+
 export async function POST(req: NextRequest) {
   const body = await req.text()
   const sig = req.headers.get('stripe-signature')!
@@ -39,6 +50,7 @@ export async function POST(req: NextRequest) {
       case 'customer.subscription.updated': {
         const sub = event.data.object as Stripe.Subscription
         const customerId = sub.customer as string
+        if (await esExenta(customerId)) break
 
         const estado = sub.status === 'active' ? 'activa'
           : sub.status === 'past_due' ? 'suspendida'
@@ -61,19 +73,23 @@ export async function POST(req: NextRequest) {
 
       case 'customer.subscription.deleted': {
         const sub = event.data.object as Stripe.Subscription
+        const customerId = sub.customer as string
+        if (await esExenta(customerId)) break
         await supabaseAdmin
           .from('users')
           .update({ estado_suscripcion: 'cancelada', stripe_subscription_id: null })
-          .eq('stripe_customer_id', sub.customer as string)
+          .eq('stripe_customer_id', customerId)
         break
       }
 
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice
+        const customerId = invoice.customer as string
+        if (await esExenta(customerId)) break
         await supabaseAdmin
           .from('users')
           .update({ estado_suscripcion: 'suspendida' })
-          .eq('stripe_customer_id', invoice.customer as string)
+          .eq('stripe_customer_id', customerId)
         break
       }
     }
