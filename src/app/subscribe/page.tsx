@@ -764,7 +764,7 @@ function SubscribeContent() {
             font-size: clamp(28px, 5vw, 48px);
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.95);
+            color: #080808;
             text-align: center;
             line-height: 1;
             margin: 0 0 12px;
