@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { CluedoBtn } from '@/components/CluedoBtn'
+import SofiaLandingChat from '@/components/SofiaLandingChat'
 
 // ── Paleta ─────────────────────────────────────────────────────────────
 const ROJO   = '#e8001d'
@@ -1245,6 +1246,9 @@ function SubscribeContent() {
 
       {/* ── Barra de notificación flotante ─────────────────── */}
       <SocialProofToast />
+
+      {/* ── Chat Sofía ────────────────────────────────────── */}
+      <SofiaLandingChat />
 
     </div>
   )
