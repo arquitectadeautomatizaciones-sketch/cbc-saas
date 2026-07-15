@@ -1038,6 +1038,7 @@ function SubscribeContent() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
               {[
                 'No es una varita mágica — si no vendes, CBC™ tampoco vende.',
+                'No es una IA genérica — está entrenada exclusivamente para vendedores B2B.',
                 'No es un CRM — no reemplaza el que ya tienes.',
                 'No cierra por ti — la conversación sigue siendo tuya.',
                 'No es un curso ni una metodología de ventas.',
