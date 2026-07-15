@@ -967,23 +967,26 @@ function SubscribeContent() {
               href="/register"
               style={{
                 display: 'inline-block',
-                background: ROJO,
+                background: 'linear-gradient(180deg, #c8001a 0%, #9a0014 60%, #7a000f 100%)',
                 color: 'white',
                 fontFamily: BEBAS,
                 fontSize: 'clamp(18px, 2.5vw, 22px)',
-                letterSpacing: '0.12em',
+                letterSpacing: '0.10em',
                 padding: '18px 48px',
-                borderRadius: 6,
+                borderRadius: 14,
                 textDecoration: 'none',
-                boxShadow: '0 0 40px rgba(232,0,29,0.30)',
-                transition: 'transform 0.2s, box-shadow 0.2s',
+                border: '3px solid rgba(255,255,255,0.15)',
+                boxShadow: '0 8px 0 #4a0008, 0 12px 28px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15)',
+                textShadow: '0 1px 3px rgba(0,0,0,0.5)',
+                transition: 'transform 0.08s ease, box-shadow 0.08s ease',
               }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 0 60px rgba(232,0,29,0.50)' }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 0 40px rgba(232,0,29,0.30)' }}
+              onMouseDown={e => { e.currentTarget.style.transform = 'translateY(5px)'; e.currentTarget.style.boxShadow = '0 3px 0 #4a0008, 0 5px 12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12)' }}
+              onMouseUp={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 8px 0 #4a0008, 0 12px 28px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 8px 0 #4a0008, 0 12px 28px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15)' }}
             >
               QUIERO MI PRUEBA GRATIS →
             </a>
-            <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: 12 }}>
+            <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: 16 }}>
               7 días gratis · sin tarjeta de crédito
             </div>
           </div>
@@ -1034,6 +1037,7 @@ function SubscribeContent() {
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
               {[
+                'No es una varita mágica — si no vendes, CBC™ tampoco vende.',
                 'No es un CRM — no reemplaza el que ya tienes.',
                 'No cierra por ti — la conversación sigue siendo tuya.',
                 'No es un curso ni una metodología de ventas.',

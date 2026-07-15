@@ -193,15 +193,20 @@ export default function SofiaLandingChat() {
               href="/register"
               style={{
                 display: 'block', textAlign: 'center',
-                background: ROJO, color: 'white',
+                background: 'linear-gradient(180deg, #c8001a 0%, #9a0014 60%, #7a000f 100%)',
+                color: 'white',
                 fontFamily: "'Bebas Neue', Impact, sans-serif",
                 fontSize: 15, letterSpacing: '0.10em',
-                padding: '10px 16px', borderRadius: 8,
+                padding: '12px 16px', borderRadius: 14,
                 textDecoration: 'none',
-                transition: 'opacity 0.2s',
+                border: '3px solid rgba(255,255,255,0.15)',
+                boxShadow: '0 6px 0 #4a0008, 0 10px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15)',
+                textShadow: '0 1px 3px rgba(0,0,0,0.5)',
+                transition: 'transform 0.08s ease, box-shadow 0.08s ease',
               }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = '0.88')}
-              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+              onMouseDown={e => { e.currentTarget.style.transform = 'translateY(4px)'; e.currentTarget.style.boxShadow = '0 2px 0 #4a0008, 0 4px 8px rgba(0,0,0,0.5)' }}
+              onMouseUp={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 6px 0 #4a0008, 0 10px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 6px 0 #4a0008, 0 10px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15)' }}
             >
               PROBAR 7 DÍAS GRATIS — SIN TARJETA
             </a>
