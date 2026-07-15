@@ -1226,26 +1226,104 @@ function SubscribeContent() {
         <div style={{ padding: '80px 24px' }}>
           <div style={{ maxWidth: 760, margin: '0 auto' }}>
 
-            {/* Testimonio */}
-            <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 16, borderLeft: `4px solid ${AMARILLO}`, padding: '32px 28px', position: 'relative', overflow: 'hidden', marginBottom: 48 }}>
-              <div style={{ position: 'absolute', top: -10, right: 20, fontFamily: BEBAS, fontSize: 96, color: AMARILLO, opacity: 0.06, lineHeight: 1, userSelect: 'none' }}>"</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 24 }}>
-                <img src={TATIANA_PHOTO} alt="Tatiana Panadero" style={{ width: 56, height: 56, borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', flexShrink: 0, border: `2px solid ${AMARILLO}60` }} />
-                <div>
-                  <div style={{ fontFamily: SANS, fontWeight: 700, color: AMARILLO, fontSize: 15 }}>Tatiana Panadero</div>
-                  <div style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(255,255,255,0.50)', marginTop: 2 }}>Ejecutiva Comercial Senior · Bogotá, Colombia</div>
-                  <div style={{ color: AMARILLO, fontSize: 16, letterSpacing: '0.08em', marginTop: 6 }}>★★★★★</div>
+            {/* Testimonio estilo WhatsApp */}
+            <div style={{ marginBottom: 48 }}>
+              <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20, textAlign: 'center' }}>Lo que dicen nuestros usuarios</div>
+
+              {/* Pantalla de WhatsApp */}
+              <div style={{ maxWidth: 420, margin: '0 auto', borderRadius: 16, overflow: 'hidden', boxShadow: '0 24px 60px rgba(0,0,0,0.7)', border: '1px solid rgba(255,255,255,0.08)' }}>
+
+                {/* Header WhatsApp */}
+                <div style={{ background: '#1f2c34', padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ color: 'rgba(255,255,255,0.55)', fontSize: 18, lineHeight: 1 }}>←</div>
+                  <img src={TATIANA_PHOTO} alt="Tatiana" style={{ width: 38, height: 38, borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', flexShrink: 0 }} />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: 14, color: '#e9edef' }}>Tatiana Panadero</div>
+                    <div style={{ fontFamily: SANS, fontSize: 11, color: '#8696a0' }}>en línea</div>
+                  </div>
+                  <div style={{ display: 'flex', gap: 18, color: '#8696a0', fontSize: 18 }}>
+                    <span>📹</span><span>📞</span><span>⋮</span>
+                  </div>
+                </div>
+
+                {/* Fondo chat */}
+                <div style={{
+                  background: '#0b141a',
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                  padding: '12px 12px 8px',
+                  display: 'flex', flexDirection: 'column', gap: 4,
+                }}>
+                  {/* Fecha */}
+                  <div style={{ textAlign: 'center', marginBottom: 8 }}>
+                    <span style={{ fontFamily: SANS, fontSize: 11, color: '#8696a0', background: 'rgba(11,20,26,0.7)', padding: '4px 10px', borderRadius: 8 }}>15 de mayo de 2026</span>
+                  </div>
+
+                  {/* Burbuja 1 */}
+                  <div style={{ display: 'flex', alignItems: 'flex-end', gap: 6, maxWidth: '88%' }}>
+                    <img src={TATIANA_PHOTO} alt="" style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', flexShrink: 0, marginBottom: 2 }} />
+                    <div style={{ background: '#202c33', borderRadius: '0px 8px 8px 8px', padding: '8px 12px 6px', position: 'relative' }}>
+                      <div style={{ fontFamily: SANS, fontSize: 14, color: '#e9edef', lineHeight: 1.55 }}>
+                        Está buenísimo, de verdad está genial 😍 El semáforo, el script para reportar al jefe… tal cual
+                      </div>
+                      <div style={{ textAlign: 'right', marginTop: 4, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 4 }}>
+                        <span style={{ fontFamily: SANS, fontSize: 10, color: '#8696a0' }}>10:14</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Burbuja 2 */}
+                  <div style={{ display: 'flex', alignItems: 'flex-end', gap: 6, maxWidth: '88%' }}>
+                    <div style={{ width: 24, flexShrink: 0 }} />
+                    <div style={{ background: '#202c33', borderRadius: '8px', padding: '8px 12px 6px' }}>
+                      <div style={{ fontFamily: SANS, fontSize: 14, color: '#e9edef', lineHeight: 1.55 }}>
+                        <strong style={{ color: '#25d366' }}>Eso es sencillo, corto, y es lo que de verdad le importa a los directores a nivel de números.</strong>
+                      </div>
+                      <div style={{ textAlign: 'right', marginTop: 4 }}>
+                        <span style={{ fontFamily: SANS, fontSize: 10, color: '#8696a0' }}>10:15</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Burbuja 3 */}
+                  <div style={{ display: 'flex', alignItems: 'flex-end', gap: 6, maxWidth: '88%' }}>
+                    <div style={{ width: 24, flexShrink: 0 }} />
+                    <div style={{ background: '#202c33', borderRadius: '8px', padding: '8px 12px 6px' }}>
+                      <div style={{ fontFamily: SANS, fontSize: 14, color: '#e9edef', lineHeight: 1.55 }}>
+                        Imagínate que tuve una reunión con mi nueva directora y tal cual manejé el speech. Si voy bien digo tal cosa, si voy regular digo tal cosa, si voy mal digo tal cosa. <strong style={{ color: '#25d366' }}>Concreto.</strong> Era exactamente lo que ella quería escuchar 🙌
+                      </div>
+                      <div style={{ textAlign: 'right', marginTop: 4, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 4 }}>
+                        <span style={{ fontFamily: SANS, fontSize: 10, color: '#8696a0' }}>10:17</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Estrellas como mensaje */}
+                  <div style={{ display: 'flex', alignItems: 'flex-end', gap: 6, maxWidth: '88%' }}>
+                    <div style={{ width: 24, flexShrink: 0 }} />
+                    <div style={{ background: '#202c33', borderRadius: '8px', padding: '8px 12px 6px' }}>
+                      <div style={{ fontSize: 18, letterSpacing: '0.06em', color: '#f5c400' }}>★★★★★</div>
+                      <div style={{ textAlign: 'right', marginTop: 2, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 4 }}>
+                        <span style={{ fontFamily: SANS, fontSize: 10, color: '#8696a0' }}>10:18</span>
+                        <span style={{ color: '#53bdeb', fontSize: 13 }}>✓✓</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ height: 4 }} />
+                </div>
+
+                {/* Input bar */}
+                <div style={{ background: '#1f2c34', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <div style={{ flex: 1, background: '#2a3942', borderRadius: 20, padding: '10px 16px', fontFamily: SANS, fontSize: 14, color: '#8696a0' }}>Escribe un mensaje</div>
+                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#00a884', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🎤</div>
                 </div>
               </div>
-              <blockquote style={{ fontFamily: SANS, fontSize: 'clamp(14px,2vw,16px)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.8, margin: '0 0 20px', padding: 0, borderLeft: 'none', fontStyle: 'italic' }}>
-                "Está buenísimo, de verdad está genial. El semáforo, el script para reportar al jefe… tal cual.{' '}
-                <strong style={{ fontStyle: 'normal', color: 'white' }}>Eso es sencillo, corto, y es lo que de verdad le importa a los directores a nivel de números.</strong>
-                <br /><br />
-                Imagínate que tuve una reunión con mi nueva directora y tal cual manejé el speech.{' '}
-                <strong style={{ fontStyle: 'normal', color: 'white' }}>Si voy bien digo tal cosa, si voy regular digo tal cosa, si voy mal digo tal cosa. Concreto.</strong> Era exactamente lo que ella quería escuchar."
-              </blockquote>
-              <div style={{ paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.12em' }}>TESTIMONIO DOCUMENTADO · 15 MAY 2026 · BOGOTÁ, COLOMBIA</span>
+
+              {/* Nombre debajo */}
+              <div style={{ textAlign: 'center', marginTop: 16 }}>
+                <span style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(255,255,255,0.40)' }}>
+                  Tatiana Panadero · Ejecutiva Comercial Senior · Bogotá, Colombia
+                </span>
               </div>
             </div>
 
