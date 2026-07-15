@@ -156,22 +156,10 @@ function SubscribeContent() {
           {[0,1,2].map(i => <div key={i} className="announce-dot" style={{ width: 4, height: 4, borderRadius: '50%', background: 'white', animationDelay: `${i*0.3}s` }} />)}
         </div>
 
-        <span style={{ fontFamily: SANS, fontSize: 'clamp(13px,1.8vw,15px)', color: 'rgba(255,255,255,0.95)', letterSpacing: '0.02em', position: 'relative' }}>
-          <strong className="announce-no" style={{ fontFamily: BEBAS, fontSize: 'clamp(18px,2.2vw,22px)', letterSpacing: '0.12em', color: 'white', display: 'inline-block' }}>NO</strong>
+        <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(14px,2vw,17px)', color: 'rgba(255,255,255,0.95)', letterSpacing: '0.01em', position: 'relative', fontStyle: 'italic' }}>
+          <strong className="announce-no" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(17px,2.4vw,21px)', letterSpacing: '0.04em', color: 'white', fontStyle: 'normal', fontWeight: 900 }}>NO</strong>
           {' '}tienes nada que perder{' '}
-          <strong style={{ color: TEAL }}>y mucho que ganar.</strong>
-          <span style={{ margin: '0 14px', opacity: 0.35, fontSize: 18, verticalAlign: 'middle' }}>◆</span>
-          <a href="/register" style={{
-            fontFamily: BEBAS, fontSize: 'clamp(13px,1.8vw,16px)', color: 'white',
-            letterSpacing: '0.12em', textDecoration: 'none',
-            background: 'rgba(255,255,255,0.12)',
-            border: '1px solid rgba(255,255,255,0.25)',
-            borderRadius: 4, padding: '3px 12px',
-            transition: 'background 0.2s',
-          }}
-          onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.22)')}
-          onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.12)')}
-          >PRUEBA 7 DÍAS GRATIS →</a>
+          <strong style={{ color: TEAL, fontStyle: 'normal' }}>y mucho que ganar.</strong>
         </span>
       </div>
 
