@@ -545,37 +545,57 @@ function SubscribeContent() {
         <div style={{ maxWidth: 700, margin: '0 auto' }}>
 
           {/* Título */}
-          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(42px,7vw,72px)', lineHeight: 0.92, margin: '0 0 32px', letterSpacing: '0.02em' }}>
+          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(42px,7vw,72px)', lineHeight: 0.92, margin: '0 0 36px', letterSpacing: '0.02em' }}>
             <span style={{ color: 'white' }}>ZAPATERO A SUS </span>
             <span style={{ color: ROJO }}>ZAPATOS.</span>
           </h2>
 
-          {/* Subtítulo */}
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(17px,2.2vw,20px)', color: 'rgba(255,255,255,0.90)', lineHeight: 1.65, margin: '0 0 40px', fontWeight: 500 }}>
-            Todos sabemos que tu pasión es vender.<br />
+          {/* Subtítulo plano */}
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: '0 0 8px' }}>
+            Todos sabemos que tu pasión es vender.
+          </p>
+
+          {/* Pregunta retórica 1 — escalón intermedio */}
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(20px,3vw,26px)', color: 'rgba(255,255,255,0.95)', lineHeight: 1.4, fontWeight: 600, margin: '32px 0 40px' }}>
             ¿Pero cuántas horas dedicas realmente a vender?
           </p>
 
-          {/* Cuerpo narrativo */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
-            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: 0 }}>
-              ¿Recuerdas el día que firmaste contrato como comercial?
+          {/* Pregunta retórica 2 — pausa antes del relato */}
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(20px,3vw,26px)', color: 'rgba(255,255,255,0.95)', lineHeight: 1.4, fontWeight: 600, margin: '0 0 28px' }}>
+            ¿Recuerdas el día que firmaste contrato como comercial?
+          </p>
+
+          {/* Párrafo de ilusión */}
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: '0 0 36px' }}>
+            ¡Cuánta ilusión por comenzar! Te imaginabas cumpliendo tu meta, cerrando ventas, comisionando.
+          </p>
+
+          {/* Lista acumulativa con opacidad progresiva */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, margin: '0 0 36px' }}>
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.80)', lineHeight: 1.75, margin: 0 }}>
+              Pero con el paso de los días llegó el pipeline.
             </p>
-            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: 0 }}>
-              ¡Cuánta ilusión por comenzar! Te imaginabas cumpliendo tu meta, cerrando ventas, comisionando.
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.84)', lineHeight: 1.75, margin: 0 }}>
+              Llegó el CRM.
             </p>
-            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: 0 }}>
-              Pero con el paso de los días llegó el pipeline. Llegó el CRM. Llegaron los reportes para la reunión con el jefe que muchas veces has tenido que inventar. Llegaron los WhatsApps sin responder, las reuniones para preparar.
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.75, margin: 0 }}>
+              Llegaron los reportes para la reunión con el jefe que muchas veces has tenido que inventar.
             </p>
-            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: 0 }}>
-              Y entre todo ese ruido, ¿te has preguntado cuántas horas de tu semana te dedicas realmente a vender?
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0 }}>
+              Llegaron los WhatsApps sin responder, las reuniones para preparar.
             </p>
           </div>
 
-          {/* Bloque de cierre */}
-          <div style={{ borderLeft: `4px solid ${ROJO}`, paddingLeft: 24, marginTop: 48, background: 'rgba(232,0,29,0.06)', padding: '20px 24px', borderRadius: '0 8px 8px 0' }}>
-            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
-              Porque hay una verdad que ningún jefe te dice: las tareas administrativas no te pagan las cuentas.
+          {/* Pregunta final — pausa antes del golpe */}
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(20px,3vw,26px)', color: 'rgba(255,255,255,0.95)', lineHeight: 1.4, fontWeight: 600, margin: '0 0 52px' }}>
+            Y entre todo ese ruido, ¿te has preguntado cuántas horas de tu semana te dedicas realmente a vender?
+          </p>
+
+          {/* Clímax — frase final en Bebas grande, split de color */}
+          <div style={{ borderLeft: `5px solid ${ROJO}`, paddingLeft: 28, background: 'rgba(232,0,29,0.06)', padding: '28px 28px', borderRadius: '0 10px 10px 0' }}>
+            <p style={{ fontFamily: BEBAS, fontSize: 'clamp(28px,4.5vw,46px)', lineHeight: 1.05, letterSpacing: '0.02em', margin: 0 }}>
+              <span style={{ color: 'rgba(255,255,255,0.90)' }}>PORQUE HAY UNA VERDAD QUE NINGÚN JEFE TE DICE: </span>
+              <span style={{ color: ROJO }}>LAS TAREAS ADMINISTRATIVAS NO TE PAGAN LAS CUENTAS.</span>
             </p>
           </div>
 
