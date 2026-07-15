@@ -1,21 +1,35 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+﻿import { NextRequest, NextResponse } from "next/server"
+import { createClient } from "@supabase/supabase-js"
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
 
 export async function POST(req: NextRequest) {
-  const { nombre, email, empresa, respuesta_1, respuesta_2, respuesta_3 } = await req.json()
+  try {
+    const { nombre, cargo, empresa, ciudad, testimonio } = await req.json()
 
-  if (!respuesta_1) {
-    return NextResponse.json({ error: 'La primera respuesta es requerida' }, { status: 400 })
+    if (!nombre?.trim() || !testimonio?.trim()) {
+      return NextResponse.json({ error: "Nombre y testimonio son requeridos." }, { status: 400 })
+    }
+    if (testimonio.length < 20) {
+      return NextResponse.json({ error: "El testimonio es muy corto." }, { status: 400 })
+    }
+
+    const { error } = await supabase.from("testimonios").insert({
+      nombre: nombre.trim(),
+      cargo: cargo?.trim() || null,
+      empresa: empresa?.trim() || null,
+      ciudad: ciudad?.trim() || null,
+      testimonio: testimonio.trim(),
+      estrellas: 5,
+    })
+
+    if (error) throw error
+    return NextResponse.json({ ok: true })
+  } catch (e) {
+    console.error("Testimonio error:", e)
+    return NextResponse.json({ error: "No se pudo guardar. Intenta de nuevo." }, { status: 500 })
   }
-
-  const { error } = await supabaseAdmin
-    .from('testimonios_landing')
-    .insert({ nombre, email, empresa, respuesta_1, respuesta_2, respuesta_3 })
-
-  if (error) {
-    console.error('[testimonios_landing]', error.message)
-    return NextResponse.json({ error: 'Error guardando testimonio' }, { status: 500 })
-  }
-
-  return NextResponse.json({ ok: true })
 }

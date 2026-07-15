@@ -568,3 +568,22 @@ CREATE INDEX idx_users_telegram             ON users(telegram_chat_id) WHERE tel
 -- RLS policies:        7
 -- Índices creados:     13
 -- ============================================================
+
+-- ============================================================
+-- TABLA: testimonios (agregada julio 2026)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS testimonios (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  nombre      TEXT NOT NULL,
+  cargo       TEXT,
+  empresa     TEXT,
+  ciudad      TEXT,
+  testimonio  TEXT NOT NULL,
+  estrellas   INT DEFAULT 5 CHECK (estrellas BETWEEN 1 AND 5),
+  aprobado    BOOLEAN DEFAULT FALSE,
+  created_at  TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE testimonios ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "insert_publico" ON testimonios FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "select_aprobados" ON testimonios FOR SELECT TO anon USING (aprobado = true);

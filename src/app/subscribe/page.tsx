@@ -1222,6 +1222,41 @@ function SubscribeContent() {
         {/* ── SEPARADOR ─── */}
         <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '0 24px' }} />
 
+        {/* ── TESTIMONIO TATIANA + FORMULARIO ─── */}
+        <div style={{ padding: '80px 24px' }}>
+          <div style={{ maxWidth: 760, margin: '0 auto' }}>
+
+            {/* Testimonio */}
+            <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 16, borderLeft: `4px solid ${AMARILLO}`, padding: '32px 28px', position: 'relative', overflow: 'hidden', marginBottom: 48 }}>
+              <div style={{ position: 'absolute', top: -10, right: 20, fontFamily: BEBAS, fontSize: 96, color: AMARILLO, opacity: 0.06, lineHeight: 1, userSelect: 'none' }}>"</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 24 }}>
+                <img src={TATIANA_PHOTO} alt="Tatiana Panadero" style={{ width: 56, height: 56, borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', flexShrink: 0, border: `2px solid ${AMARILLO}60` }} />
+                <div>
+                  <div style={{ fontFamily: SANS, fontWeight: 700, color: AMARILLO, fontSize: 15 }}>Tatiana Panadero</div>
+                  <div style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(255,255,255,0.50)', marginTop: 2 }}>Ejecutiva Comercial Senior · Bogotá, Colombia</div>
+                  <div style={{ color: AMARILLO, fontSize: 16, letterSpacing: '0.08em', marginTop: 6 }}>★★★★★</div>
+                </div>
+              </div>
+              <blockquote style={{ fontFamily: SANS, fontSize: 'clamp(14px,2vw,16px)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.8, margin: '0 0 20px', padding: 0, borderLeft: 'none', fontStyle: 'italic' }}>
+                "Está buenísimo, de verdad está genial. El semáforo, el script para reportar al jefe… tal cual.{' '}
+                <strong style={{ fontStyle: 'normal', color: 'white' }}>Eso es sencillo, corto, y es lo que de verdad le importa a los directores a nivel de números.</strong>
+                <br /><br />
+                Imagínate que tuve una reunión con mi nueva directora y tal cual manejé el speech.{' '}
+                <strong style={{ fontStyle: 'normal', color: 'white' }}>Si voy bien digo tal cosa, si voy regular digo tal cosa, si voy mal digo tal cosa. Concreto.</strong> Era exactamente lo que ella quería escuchar."
+              </blockquote>
+              <div style={{ paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.12em' }}>TESTIMONIO DOCUMENTADO · 15 MAY 2026 · BOGOTÁ, COLOMBIA</span>
+              </div>
+            </div>
+
+            {/* Invitación + formulario */}
+            <TestimonioForm />
+          </div>
+        </div>
+
+        {/* ── SEPARADOR ─── */}
+        <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '0 24px' }} />
+
         {/* ── 5. VS CRM ─── */}
         <div style={{ padding: '80px 24px' }}>
           <div style={{ maxWidth: 760, margin: '0 auto' }}>
@@ -1528,6 +1563,178 @@ function SubscribeContent() {
       {/* ── Chat Sofía ────────────────────────────────────── */}
       <SofiaLandingChat />
 
+    </div>
+  )
+}
+
+// ── Formulario de testimonio ─────────────────────────────────────────────
+function TestimonioForm() {
+  const SANS_F  = "'General Sans', system-ui, sans-serif"
+  const MONO_F  = "'JetBrains Mono', 'Courier New', monospace"
+  const BEBAS_F = "'Bebas Neue', Impact, sans-serif"
+  const TEAL_F  = '#4ECDC4'
+  const ROJO_F  = '#e8001d'
+  const AMAR_F  = '#F5C400'
+
+  const [form, setForm] = useState({ nombre: '', cargo: '', empresa: '', ciudad: '', testimonio: '' })
+  const [status, setStatus] = useState<'idle'|'sending'|'ok'|'error'>('idle')
+  const [errMsg, setErrMsg] = useState('')
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%', boxSizing: 'border-box',
+    background: 'rgba(255,255,255,0.04)',
+    border: '1px solid rgba(255,255,255,0.10)',
+    borderRadius: 8, padding: '12px 16px',
+    color: 'rgba(255,255,255,0.90)',
+    fontFamily: SANS_F, fontSize: 14,
+    outline: 'none',
+    transition: 'border-color 0.15s',
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('sending')
+    setErrMsg('')
+    try {
+      const res = await fetch('/api/testimonios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      const data = await res.json()
+      if (!res.ok) { setErrMsg(data.error || 'Error desconocido.'); setStatus('error'); return }
+      setStatus('ok')
+    } catch {
+      setErrMsg('No se pudo enviar. Verifica tu conexión.')
+      setStatus('error')
+    }
+  }
+
+  if (status === 'ok') return (
+    <div style={{ textAlign: 'center', padding: '48px 24px', background: 'rgba(78,205,196,0.06)', border: `1px solid rgba(78,205,196,0.20)`, borderRadius: 16 }}>
+      <div style={{ fontSize: 40, marginBottom: 16 }}>🎉</div>
+      <div style={{ fontFamily: BEBAS_F, fontSize: 28, color: TEAL_F, letterSpacing: '0.06em', marginBottom: 8 }}>¡GRACIAS POR TU TESTIMONIO!</div>
+      <p style={{ fontFamily: SANS_F, fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, margin: 0 }}>Lo revisamos y lo publicamos pronto. Tu historia puede ser la que lleve a otro vendedor a cambiar su semana.</p>
+    </div>
+  )
+
+  return (
+    <div>
+      <div style={{ textAlign: 'center', marginBottom: 32 }}>
+        <div style={{ fontFamily: MONO_F, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 12 }}>Tu voz importa</div>
+        <h3 style={{ fontFamily: BEBAS_F, fontSize: 'clamp(26px,4vw,40px)', lineHeight: 1, margin: '0 0 12px', letterSpacing: '0.04em' }}>
+          <span style={{ color: 'white' }}>¿QUIERES SER NUESTRO PRÓXIMO </span>
+          <span style={{ color: AMAR_F }}>CASO DE ÉXITO?</span>
+        </h3>
+        <p style={{ fontFamily: SANS_F, fontSize: 15, color: 'rgba(255,255,255,0.55)', margin: 0 }}>
+          Cuéntanos tu experiencia — tu historia puede mover a otro vendedor →
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        {/* Fila nombre + cargo */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+          <div>
+            <label style={{ fontFamily: MONO_F, fontSize: 10, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Nombre *</label>
+            <input
+              required value={form.nombre}
+              onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))}
+              placeholder="Tu nombre completo"
+              style={inputStyle}
+              onFocus={e => (e.target.style.borderColor = TEAL_F)}
+              onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.10)')}
+            />
+          </div>
+          <div>
+            <label style={{ fontFamily: MONO_F, fontSize: 10, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Cargo</label>
+            <input
+              value={form.cargo}
+              onChange={e => setForm(f => ({ ...f, cargo: e.target.value }))}
+              placeholder="Ej: Ejecutivo Comercial"
+              style={inputStyle}
+              onFocus={e => (e.target.style.borderColor = TEAL_F)}
+              onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.10)')}
+            />
+          </div>
+        </div>
+
+        {/* Fila empresa + ciudad */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+          <div>
+            <label style={{ fontFamily: MONO_F, fontSize: 10, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Empresa</label>
+            <input
+              value={form.empresa}
+              onChange={e => setForm(f => ({ ...f, empresa: e.target.value }))}
+              placeholder="Tu empresa o sector"
+              style={inputStyle}
+              onFocus={e => (e.target.style.borderColor = TEAL_F)}
+              onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.10)')}
+            />
+          </div>
+          <div>
+            <label style={{ fontFamily: MONO_F, fontSize: 10, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Ciudad</label>
+            <input
+              value={form.ciudad}
+              onChange={e => setForm(f => ({ ...f, ciudad: e.target.value }))}
+              placeholder="Ej: Medellín, Colombia"
+              style={inputStyle}
+              onFocus={e => (e.target.style.borderColor = TEAL_F)}
+              onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.10)')}
+            />
+          </div>
+        </div>
+
+        {/* Estrellas */}
+        <div>
+          <label style={{ fontFamily: MONO_F, fontSize: 10, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 8 }}>Calificación</label>
+          <div style={{ color: AMAR_F, fontSize: 24, letterSpacing: '0.10em' }}>★★★★★</div>
+        </div>
+
+        {/* Testimonio */}
+        <div>
+          <label style={{ fontFamily: MONO_F, fontSize: 10, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Tu experiencia con CBC™ *</label>
+          <textarea
+            required value={form.testimonio}
+            onChange={e => setForm(f => ({ ...f, testimonio: e.target.value }))}
+            placeholder="Cuéntanos cómo CBC™ cambió tu día a día como vendedor..."
+            rows={5}
+            style={{ ...inputStyle, resize: 'vertical', lineHeight: 1.7 }}
+            onFocus={e => (e.target.style.borderColor = TEAL_F)}
+            onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.10)')}
+          />
+        </div>
+
+        {errMsg && (
+          <div style={{ fontFamily: SANS_F, fontSize: 13, color: ROJO_F, background: 'rgba(232,0,29,0.08)', border: `1px solid rgba(232,0,29,0.20)`, borderRadius: 8, padding: '10px 14px' }}>
+            {errMsg}
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={status === 'sending'}
+          style={{
+            background: status === 'sending' ? 'rgba(255,255,255,0.08)' : 'linear-gradient(180deg, #c8001a 0%, #9a0014 60%, #7a000f 100%)',
+            color: status === 'sending' ? 'rgba(255,255,255,0.30)' : 'white',
+            fontFamily: BEBAS_F, fontSize: 18, letterSpacing: '0.10em',
+            padding: '16px 32px', borderRadius: 14, border: '3px solid rgba(255,255,255,0.15)',
+            boxShadow: status === 'sending' ? 'none' : '0 8px 0 #4a0008, 0 12px 28px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15)',
+            textShadow: status === 'sending' ? 'none' : '0 1px 3px rgba(0,0,0,0.5)',
+            cursor: status === 'sending' ? 'not-allowed' : 'pointer',
+            transition: 'transform 0.08s ease, box-shadow 0.08s ease',
+            width: '100%',
+          }}
+          onMouseDown={e => { if (status !== 'sending') { e.currentTarget.style.transform = 'translateY(5px)'; e.currentTarget.style.boxShadow = '0 3px 0 #4a0008, 0 5px 12px rgba(0,0,0,0.6)' } }}
+          onMouseUp={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 8px 0 #4a0008, 0 12px 28px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15)' }}
+          onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 8px 0 #4a0008, 0 12px 28px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15)' }}
+        >
+          {status === 'sending' ? 'ENVIANDO...' : 'ENVIAR MI TESTIMONIO →'}
+        </button>
+
+        <p style={{ fontFamily: MONO_F, fontSize: 10, color: 'rgba(255,255,255,0.22)', letterSpacing: '0.12em', textTransform: 'uppercase', textAlign: 'center', margin: 0 }}>
+          Tu testimonio se publica tras revisión · No compartimos tus datos
+        </p>
+      </form>
     </div>
   )
 }
