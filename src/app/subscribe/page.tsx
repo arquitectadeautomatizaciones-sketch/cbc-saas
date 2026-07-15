@@ -120,13 +120,58 @@ function SubscribeContent() {
 
       {/* ── NAV ── */}
       {/* Barra de anuncio */}
-      <div style={{ background: 'linear-gradient(90deg, #6a000d 0%, #9a0014 50%, #6a000d 100%)', padding: '10px 24px', textAlign: 'center' }}>
-        <span style={{ fontFamily: SANS, fontSize: 'clamp(13px,1.8vw,15px)', color: 'rgba(255,255,255,0.95)', letterSpacing: '0.02em' }}>
-          <strong style={{ fontFamily: BEBAS, fontSize: 'clamp(16px,2vw,18px)', letterSpacing: '0.10em', color: 'white' }}>NO</strong>
+      <style>{`
+        @keyframes barShimmer {
+          0%   { transform: translateX(-100%) skewX(-20deg); opacity: 0; }
+          10%  { opacity: 1; }
+          90%  { opacity: 1; }
+          100% { transform: translateX(400%) skewX(-20deg); opacity: 0; }
+        }
+        @keyframes noPulse {
+          0%,100% { text-shadow: 0 0 0px rgba(255,255,255,0); }
+          50%      { text-shadow: 0 0 12px rgba(255,255,255,0.6); }
+        }
+        @keyframes dotBlink { 0%,100%{opacity:0.3} 50%{opacity:1} }
+        .announce-no   { animation: noPulse 2.5s ease-in-out infinite; }
+        .announce-dot  { animation: dotBlink 1.8s ease-in-out infinite; }
+      `}</style>
+      <div style={{
+        position: 'relative', overflow: 'hidden',
+        background: 'linear-gradient(90deg, #4a0008 0%, #8a0012 30%, #b0001a 50%, #8a0012 70%, #4a0008 100%)',
+        padding: '11px 24px', textAlign: 'center',
+        borderBottom: '1px solid rgba(255,255,255,0.08)',
+      }}>
+        {/* Shimmer sweep */}
+        <div style={{
+          position: 'absolute', top: 0, left: 0, bottom: 0, width: '60px',
+          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)',
+          animation: 'barShimmer 3.5s ease-in-out infinite',
+          pointerEvents: 'none',
+        }} />
+        {/* Líneas decorativas laterales */}
+        <div style={{ position: 'absolute', left: 20, top: '50%', transform: 'translateY(-50%)', display: 'flex', gap: 4, opacity: 0.25 }}>
+          {[0,1,2].map(i => <div key={i} className="announce-dot" style={{ width: 4, height: 4, borderRadius: '50%', background: 'white', animationDelay: `${i*0.3}s` }} />)}
+        </div>
+        <div style={{ position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)', display: 'flex', gap: 4, opacity: 0.25 }}>
+          {[0,1,2].map(i => <div key={i} className="announce-dot" style={{ width: 4, height: 4, borderRadius: '50%', background: 'white', animationDelay: `${i*0.3}s` }} />)}
+        </div>
+
+        <span style={{ fontFamily: SANS, fontSize: 'clamp(13px,1.8vw,15px)', color: 'rgba(255,255,255,0.95)', letterSpacing: '0.02em', position: 'relative' }}>
+          <strong className="announce-no" style={{ fontFamily: BEBAS, fontSize: 'clamp(18px,2.2vw,22px)', letterSpacing: '0.12em', color: 'white', display: 'inline-block' }}>NO</strong>
           {' '}tienes nada que perder{' '}
           <strong style={{ color: TEAL }}>y mucho que ganar.</strong>
-          <span style={{ marginLeft: 16, opacity: 0.5 }}>·</span>
-          <a href="/register" style={{ marginLeft: 16, fontFamily: BEBAS, fontSize: 'clamp(13px,1.8vw,15px)', color: 'white', letterSpacing: '0.10em', textDecoration: 'none', borderBottom: '1px solid rgba(255,255,255,0.35)', paddingBottom: 1 }}>PRUEBA 7 DÍAS GRATIS →</a>
+          <span style={{ margin: '0 14px', opacity: 0.35, fontSize: 18, verticalAlign: 'middle' }}>◆</span>
+          <a href="/register" style={{
+            fontFamily: BEBAS, fontSize: 'clamp(13px,1.8vw,16px)', color: 'white',
+            letterSpacing: '0.12em', textDecoration: 'none',
+            background: 'rgba(255,255,255,0.12)',
+            border: '1px solid rgba(255,255,255,0.25)',
+            borderRadius: 4, padding: '3px 12px',
+            transition: 'background 0.2s',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.22)')}
+          onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.12)')}
+          >PRUEBA 7 DÍAS GRATIS →</a>
         </span>
       </div>
 
