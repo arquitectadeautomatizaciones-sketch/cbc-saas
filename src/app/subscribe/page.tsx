@@ -426,6 +426,73 @@ function SubscribeContent() {
       <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
 
       {/* ══════════════════════════════════════════════════════
+          02b — BRECHA DE EJECUCIÓN
+      ══════════════════════════════════════════════════════ */}
+      <section style={{ background: '#111', padding: '80px 24px' }}>
+        <div style={{ maxWidth: 760, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px 56px', alignItems: 'start' }}>
+
+          {/* ── Columna izquierda: texto ── */}
+          <div>
+            <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>
+              BRECHA DE EJECUCIÓN
+            </div>
+
+            <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,5.5vw,60px)', lineHeight: 0.95, margin: '0 0 28px', letterSpacing: '0.02em' }}>
+              <span style={{ color: 'white' }}>TU MENTE YA GANÓ.<br />TU AGENDA, </span><span style={{ color: ROJO }}>TODAVÍA NO.</span>
+            </h2>
+
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(16px,2vw,19px)', color: 'rgba(255,255,255,0.90)', lineHeight: 1.7, margin: '0 0 24px', fontWeight: 500 }}>
+              Porque la realidad no siempre coincide con tu identidad.
+            </p>
+
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,1.8vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.85, margin: '0 0 32px' }}>
+              Notificaciones que no paran. Un CRM que nunca se actualiza solo. Post-its que se acumulan. Y ese reporte del viernes que armas de memoria, con datos de tres sistemas distintos.
+            </p>
+
+            {/* ── Línea de cierre ── */}
+            <div style={{ borderLeft: `4px solid ${ROJO}`, paddingLeft: 20, paddingTop: 4, paddingBottom: 4 }}>
+              <p style={{ fontFamily: SANS, fontSize: 'clamp(16px,2vw,19px)', color: 'rgba(255,255,255,0.92)', lineHeight: 1.6, margin: 0, fontWeight: 600 }}>
+                Esto es lo que la mentalidad no resuelve.
+              </p>
+            </div>
+          </div>
+
+          {/* ── Columna derecha: placeholder imagen ── */}
+          <div style={{
+            aspectRatio: '3/4',
+            background: '#1a1a1a',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: 12,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 12,
+          }}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.20)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
+            <span style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.22)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+              Imagen próximamente
+            </span>
+          </div>
+
+        </div>
+
+        {/* Responsive: columna única en móvil */}
+        <style>{`
+          @media (max-width: 620px) {
+            .brecha-grid { grid-template-columns: 1fr !important; }
+            .brecha-img  { display: none !important; }
+          }
+        `}</style>
+      </section>
+
+      <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
+
+      {/* ══════════════════════════════════════════════════════
           02 — DOLOR
       ══════════════════════════════════════════════════════ */}
       <section style={{ background: NEGRO, padding: '80px 24px' }}>
