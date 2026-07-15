@@ -206,6 +206,118 @@ function SubscribeContent() {
       <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
 
       {/* ══════════════════════════════════════════════════════
+          01b — ÉLITE MENTAL
+      ══════════════════════════════════════════════════════ */}
+      <section style={{ background: '#0d0d0d', padding: '80px 24px' }}>
+        <style>{`
+          .bubble {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-family: 'General Sans', system-ui, sans-serif;
+            font-size: 14px;
+            color: rgba(255,255,255,0.92);
+            line-height: 1.4;
+            position: relative;
+            max-width: 180px;
+          }
+          .bubble::after {
+            content: '';
+            position: absolute;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.10);
+          }
+          .bubble-tl::after { bottom: -14px; right: 20px; box-shadow: 0 10px 0 -2px rgba(255,255,255,0.06); }
+          .bubble-tr::after { bottom: -14px; left: 20px; box-shadow: 0 10px 0 -2px rgba(255,255,255,0.06); }
+          .bubble-bl::after { top: -14px; right: 20px; box-shadow: 0 -10px 0 -2px rgba(255,255,255,0.06); }
+          .bubble-br::after { top: -14px; left: 20px; box-shadow: 0 -10px 0 -2px rgba(255,255,255,0.06); }
+
+          @media (max-width: 640px) {
+            .elite-layout { flex-direction: column !important; gap: 0 !important; }
+            .elite-bubbles-top { display: grid !important; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+            .elite-bubbles-bottom { display: grid !important; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+            .elite-bubbles-left, .elite-bubbles-right { display: none !important; }
+            .bubble { max-width: 100%; }
+            .bubble-tl::after, .bubble-tr::after { bottom: -10px; }
+            .bubble-bl::after, .bubble-br::after { top: -10px; }
+          }
+          @media (min-width: 641px) {
+            .elite-bubbles-top, .elite-bubbles-bottom { display: none !important; }
+          }
+        `}</style>
+
+        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+          <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>MENTALIDAD DE ÉLITE</div>
+
+          {/* ── Burbujas móvil ARRIBA ── */}
+          <div className="elite-bubbles-top" style={{ display: 'none' }}>
+            <div className="bubble bubble-tl">"Hoy soy imparable." 🔥</div>
+            <div className="bubble bubble-tr">"El dinero fluye hacia mí." 💰</div>
+          </div>
+
+          {/* ── Layout imagen + burbujas desktop ── */}
+          <div className="elite-layout" style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 40 }}>
+
+            {/* Burbujas izquierda (desktop) */}
+            <div className="elite-bubbles-left" style={{ display: 'flex', flexDirection: 'column', gap: 16, flex: '0 0 auto', width: 190 }}>
+              <div className="bubble bubble-tl" style={{ alignSelf: 'flex-end' }}>"Hoy soy imparable." 🔥</div>
+              <div className="bubble bubble-bl" style={{ alignSelf: 'flex-end' }}>"Cierro todos mis negocios." 🤝</div>
+            </div>
+
+            {/* Imagen central */}
+            <div style={{ flex: '0 0 auto', position: 'relative' }}>
+              <img
+                src="/elite-meditacion.jpg"
+                alt="Ejecutiva meditando antes de su jornada comercial"
+                style={{ width: '100%', maxWidth: 280, display: 'block', borderRadius: 16, objectFit: 'cover', aspectRatio: '9/16', maxHeight: 420 }}
+              />
+              {/* Overlay sutil en la parte inferior */}
+              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '30%', borderRadius: '0 0 16px 16px', background: 'linear-gradient(to top, rgba(13,13,13,0.7), transparent)', pointerEvents: 'none' }} />
+            </div>
+
+            {/* Burbujas derecha (desktop) */}
+            <div className="elite-bubbles-right" style={{ display: 'flex', flexDirection: 'column', gap: 16, flex: '0 0 auto', width: 190 }}>
+              <div className="bubble bubble-tr">"El dinero fluye hacia mí." 💰</div>
+              <div className="bubble bubble-br">"Nada me detiene hoy." ⚡</div>
+            </div>
+          </div>
+
+          {/* ── Burbujas móvil ABAJO ── */}
+          <div className="elite-bubbles-bottom" style={{ display: 'none' }}>
+            <div className="bubble bubble-bl">"Cierro todos mis negocios." 🤝</div>
+            <div className="bubble bubble-br">"Nada me detiene hoy." ⚡</div>
+          </div>
+
+          {/* ── Título ── */}
+          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(36px,5.5vw,58px)', lineHeight: 0.95, margin: '0 0 24px', letterSpacing: '0.02em' }}>
+            <span style={{ color: 'white' }}>SER VENDEDOR ES LA MEJOR PROFESIÓN DEL MUNDO.<br />Y TÚ PERTENECES A SU </span><span style={{ color: ROJO }}>ÉLITE.</span>
+          </h2>
+
+          {/* ── Cuerpo ── */}
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: '0 0 28px', maxWidth: 620 }}>
+            Los comerciales de alto nivel no solo se preparan como profesionales. También se preparan mentalmente — porque saben que el entorno pone a prueba algo más que su técnica: pone a prueba su temple.
+          </p>
+
+          {/* ── Giro ── */}
+          <div style={{ background: '#0d0000', borderLeft: `4px solid ${ROJO}`, borderRadius: '0 10px 10px 0', padding: '20px 24px', maxWidth: 620 }}>
+            <div style={{ fontFamily: MONO, fontSize: 9, color: `${ROJO}cc`, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 14 }}>
+              LA VERDAD DETRÁS DE LA MENTALIDAD
+            </div>
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.90)', lineHeight: 1.8, margin: '0 0 14px' }}>
+              Esa disciplina mental te distingue del 99% que solo improvisa.
+            </p>
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: 0 }}>
+              Pero incluso la élite necesita algo más que mentalidad — necesita que ningún prospecto se enfríe mientras tú te preparas para ganar.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
+
+      {/* ══════════════════════════════════════════════════════
           02 — DOLOR
       ══════════════════════════════════════════════════════ */}
       <section style={{ background: NEGRO, padding: '80px 24px' }}>
