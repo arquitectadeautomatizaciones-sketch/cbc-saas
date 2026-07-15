@@ -811,7 +811,10 @@ export default function DiagnosticoPage() {
     })
     setGuardando(false)
     setFase('redirigiendo')
-    setTimeout(() => router.push('/subscribe'), 1500)
+    const params = new URLSearchParams()
+    if (nombreTrimmed) params.set('nombre', nombreTrimmed)
+    if (sel.sueno) params.set('sueno', sel.sueno)
+    setTimeout(() => router.push(`/subscribe?${params.toString()}`), 1500)
   }
 
   function lanzarResultado() {

@@ -19,6 +19,16 @@ const MONO  = "'JetBrains Mono', 'Courier New', monospace"
 // ── Assets ─────────────────────────────────────────────────────────────
 const TATIANA_PHOTO = 'https://assets.cdn.filesafe.space/MgsViYLMmCdJksx9p3va/media/6a13da46fe2210f89e7033ce.jpeg'
 
+// ── Textos de sueño ajustados gramaticalmente para el hero ────────────
+const SUENO_HERO: Record<string, string> = {
+  casa:     'tu casa',
+  viaje:    'esas vacaciones postergadas',
+  estudios: 'esos estudios que llevas tiempo esperando',
+  deuda:    'salir de esa deuda que no te deja dormir',
+  carro:    'cambiar ese carro que prometiste',
+  libertad: 'esa libertad sin culpa ni estrés',
+}
+
 // ── Colores por herramienta (sospechosos Cluedo) ─────────────────────
 const TOOL_COLORS = [
   '#4ECDC4', // 1 IA en Acción™ — teal
@@ -71,6 +81,10 @@ function SubscribeContent() {
   const [error, setError] = useState<string | null>(null)
   const params = useSearchParams()
   const cancelled = params.get('cancelled')
+  const nombreParam = params.get('nombre') ?? ''
+  const suenoParam  = params.get('sueno')  ?? ''
+  const primerNombre = nombreParam.split(' ')[0] || ''
+  const suenoHero = suenoParam ? (SUENO_HERO[suenoParam] ?? 'ese sueño que llevas tiempo postergando') : 'ese sueño que llevas tiempo postergando'
 
   async function handleCheckout() {
     setLoading(true)
@@ -141,19 +155,39 @@ function SubscribeContent() {
             CASO RESUELTO · SIGUIENTE PASO
           </div>
 
-          <h1 className="fu" style={{ fontFamily: BEBAS, fontSize: 'clamp(52px,10vw,96px)', lineHeight: 0.92, margin: '0 0 4px', letterSpacing: '0.02em' }}>
-            <span style={{ color: 'white' }}>EL SISTEMA QUE </span><span style={{ color: ROJO }}>CIERRA</span>
-          </h1>
-          <h1 className="fu" style={{ fontFamily: BEBAS, fontSize: 'clamp(52px,10vw,96px)', lineHeight: 0.92, margin: '0 0 28px', letterSpacing: '0.02em', color: 'white' }}>
-            LO QUE TÚ ENCUENTRAS.
+          {/* Título personalizado */}
+          <h1 className="fu" style={{ fontFamily: BEBAS, fontSize: 'clamp(48px,9vw,88px)', lineHeight: 0.92, margin: '0 0 24px', letterSpacing: '0.02em' }}>
+            {primerNombre ? (
+              <>
+                <span style={{ color: 'white' }}>FELICIDADES, </span>
+                <span style={{ color: ROJO }}>{primerNombre.toUpperCase()},</span>
+                <br />
+                <span style={{ color: 'white' }}>POR TU VALENTÍA.</span>
+              </>
+            ) : (
+              <>
+                <span style={{ color: 'white' }}>FELICIDADES</span>
+                <br />
+                <span style={{ color: 'white' }}>POR TU </span><span style={{ color: ROJO }}>VALENTÍA.</span>
+              </>
+            )}
           </h1>
 
-          <p className="fu2" style={{ fontFamily: SANS, fontSize: 'clamp(16px,2.5vw,19px)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.7, margin: '0 0 36px', maxWidth: 520 }}>
-            Ya sabes dónde está la fuga. Sofía se encarga de taparla — y de que no vuelva a abrirse.
-          </p>
+          {/* Copy del hero */}
+          <div className="fu2" style={{ maxWidth: 560, marginBottom: 36 }}>
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(16px,2.2vw,19px)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, margin: '0 0 18px' }}>
+              El 99% de los vendedores ni siquiera se toman el tiempo de pensar dónde se quedan las comisiones que nunca llegan a su cuenta.
+            </p>
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(16px,2.2vw,19px)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, margin: '0 0 18px' }}>
+              Pero conocer la verdad no sirve de nada si no cambias la realidad.
+            </p>
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(16px,2.2vw,19px)', color: 'rgba(255,255,255,0.62)', lineHeight: 1.75, margin: 0, borderLeft: `3px solid ${ROJO}`, paddingLeft: 18 }}>
+              En 3 meses, si nada cambia, <span style={{ color: 'rgba(255,255,255,0.90)', fontWeight: 600 }}>{suenoHero}</span> va a seguir siendo solo eso — una ilusión difícil de alcanzar.
+            </p>
+          </div>
 
           <div className="fu3" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 12, marginBottom: 40 }}>
-            <CluedoBtn label="PROBAR CBC™ GRATIS — 7 DÍAS →" onClick={handleCheckout} disabled={loading} full={false} />
+            <CluedoBtn label="YO SOY DE LOS QUE TOMAN ACCIÓN →" onClick={handleCheckout} disabled={loading} full={false} fontSize={18} />
             {cancelled && <p style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(255,255,255,0.50)', margin: 0 }}>Cancelaste el proceso. Puedes iniciarlo cuando quieras.</p>}
             {error && <p style={{ fontFamily: SANS, fontSize: 13, color: ROJO, margin: 0 }}>{error}</p>}
             <p style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.35)', margin: 0, letterSpacing: '0.1em' }}>
