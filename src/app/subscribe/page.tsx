@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { CluedoBtn } from '@/components/CluedoBtn'
 
@@ -958,6 +958,66 @@ function SubscribeContent() {
         </p>
       </footer>
 
+      {/* ── Barra de notificación flotante ─────────────────── */}
+      <SocialProofToast />
+
+    </div>
+  )
+}
+
+const TOASTS = [
+  '🟢 3 personas viendo esta página ahora',
+  '🟢 Alguien empezó su prueba gratis hace unos minutos',
+  '🟢 2 comerciales se registraron en la última hora',
+]
+
+function SocialProofToast() {
+  const [visible, setVisible] = useState(false)
+  const [idx, setIdx] = useState(0)
+
+  useEffect(() => {
+    let showTimer: ReturnType<typeof setTimeout>
+    let hideTimer: ReturnType<typeof setTimeout>
+
+    const cycle = (i: number) => {
+      const delay = 20000 + Math.random() * 10000
+      showTimer = setTimeout(() => {
+        setIdx(i % TOASTS.length)
+        setVisible(true)
+        hideTimer = setTimeout(() => {
+          setVisible(false)
+          cycle(i + 1)
+        }, 4500)
+      }, delay)
+    }
+
+    cycle(0)
+    return () => { clearTimeout(showTimer); clearTimeout(hideTimer) }
+  }, [])
+
+  return (
+    <div style={{
+      position: 'fixed',
+      bottom: 28,
+      left: 20,
+      zIndex: 9999,
+      maxWidth: 300,
+      background: 'rgba(10,10,10,0.95)',
+      border: '1px solid rgba(78,205,196,0.35)',
+      borderLeft: '3px solid #4ECDC4',
+      borderRadius: 10,
+      padding: '12px 16px',
+      fontFamily: "'General Sans', system-ui, sans-serif",
+      fontSize: 13,
+      color: 'rgba(255,255,255,0.90)',
+      boxShadow: '0 4px 24px rgba(0,0,0,0.5)',
+      backdropFilter: 'blur(8px)',
+      transition: 'opacity 0.45s ease, transform 0.45s ease',
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0)' : 'translateY(10px)',
+      pointerEvents: 'none',
+    }}>
+      {TOASTS[idx]}
     </div>
   )
 }
