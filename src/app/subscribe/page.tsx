@@ -236,84 +236,104 @@ function SubscribeContent() {
             border: 1px solid rgba(255,255,255,0.13);
             flex-shrink: 0;
           }
-          .bwrap-tl { position: absolute; top: 10%;    left:  -8px; }
-          .bwrap-tr { position: absolute; top: 18%;    right: -8px; }
-          .bwrap-bl { position: absolute; bottom: 24%; left:  -8px; }
-          .bwrap-br { position: absolute; bottom: 17%; right: -8px; }
-          @media (max-width: 500px) {
-            .bwrap-tl { left:  8px; }
-            .bwrap-tr { right: 8px; }
-            .bwrap-bl { left:  8px; }
-            .bwrap-br { right: 8px; }
-            .tbubble  { max-width: 120px; font-size: 12px; }
+          @media (max-width: 580px) {
+            .elite-desk { display: none !important; }
+            .elite-mob  { display: block !important; }
+            .tbubble    { font-size: 12px; }
+          }
+          @media (min-width: 581px) {
+            .elite-mob  { display: none !important; }
           }
         `}</style>
 
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
           <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>MENTALIDAD DE ÉLITE</div>
 
-          {/* ── Imagen + burbujas superpuestas ── */}
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
-            <div style={{ position: 'relative', width: '100%', maxWidth: 300, overflow: 'visible' }}>
+          {/* ── Desktop: columnas laterales | imagen | columnas ── */}
+          <div className="elite-desk" style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 40, justifyContent: 'center' }}>
 
-              <img
-                src="/elite-meditacion.jpg"
-                alt="Ejecutiva meditando antes de su jornada comercial"
-                style={{ width: '100%', display: 'block', borderRadius: 16, objectFit: 'cover', aspectRatio: '9/16', maxHeight: 450 }}
-              />
-
-              {/* ── TL — "Hoy soy imparable." ── */}
-              <div className="bwrap-tl">
+            {/* Columna izquierda */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: 164, alignItems: 'flex-end' }}>
+              {/* TL — cola apunta → derecha (hacia imagen) */}
+              <div>
                 <div className="tbubble" style={{ borderRadius: '22px 18px 20px 6px', transform: 'rotate(-2deg)', animationDelay: '0.10s' }}>
                   "Hoy soy imparable." 🔥
                 </div>
-                {/* Cola → centro (abajo-derecha) */}
-                <div style={{ display: 'flex', gap: 3, justifyContent: 'flex-end', paddingRight: 10, marginTop: 4 }}>
+                <div style={{ display: 'flex', gap: 3, justifyContent: 'flex-end', paddingRight: 8, marginTop: 5 }}>
                   <div className="tdot" style={{ width: 7, height: 7 }} />
-                  <div className="tdot" style={{ width: 5, height: 5, marginTop: 2 }} />
-                  <div className="tdot" style={{ width: 3, height: 3, marginTop: 4 }} />
+                  <div className="tdot" style={{ width: 5, height: 5, marginTop: 1 }} />
+                  <div className="tdot" style={{ width: 3, height: 3, marginTop: 3 }} />
                 </div>
               </div>
-
-              {/* ── TR — "El dinero fluye hacia mí." ── */}
-              <div className="bwrap-tr">
-                <div className="tbubble" style={{ borderRadius: '18px 22px 6px 20px', transform: 'rotate(1.5deg)', animationDelay: '0.25s' }}>
-                  "El dinero fluye hacia mí." 💰
-                </div>
-                {/* Cola → centro (abajo-izquierda) */}
-                <div style={{ display: 'flex', gap: 3, justifyContent: 'flex-start', paddingLeft: 10, marginTop: 4 }}>
-                  <div className="tdot" style={{ width: 3, height: 3, marginTop: 4 }} />
-                  <div className="tdot" style={{ width: 5, height: 5, marginTop: 2 }} />
-                  <div className="tdot" style={{ width: 7, height: 7 }} />
-                </div>
-              </div>
-
-              {/* ── BL — "Cierro todos mis negocios." ── */}
-              <div className="bwrap-bl">
-                {/* Cola → centro (arriba-derecha) */}
-                <div style={{ display: 'flex', gap: 3, justifyContent: 'flex-end', paddingRight: 10, marginBottom: 4 }}>
-                  <div className="tdot" style={{ width: 3, height: 3 }} />
-                  <div className="tdot" style={{ width: 5, height: 5 }} />
-                  <div className="tdot" style={{ width: 7, height: 7 }} />
-                </div>
+              {/* BL — cola apunta → derecha */}
+              <div>
                 <div className="tbubble" style={{ borderRadius: '20px 6px 22px 18px', transform: 'rotate(2.5deg)', animationDelay: '0.40s' }}>
                   "Cierro todos mis negocios." 🤝
                 </div>
-              </div>
-
-              {/* ── BR — "Nada me detiene hoy." ── */}
-              <div className="bwrap-br">
-                {/* Cola → centro (arriba-izquierda) */}
-                <div style={{ display: 'flex', gap: 3, justifyContent: 'flex-start', paddingLeft: 10, marginBottom: 4 }}>
+                <div style={{ display: 'flex', gap: 3, justifyContent: 'flex-end', paddingRight: 8, marginTop: 5 }}>
                   <div className="tdot" style={{ width: 7, height: 7 }} />
-                  <div className="tdot" style={{ width: 5, height: 5 }} />
-                  <div className="tdot" style={{ width: 3, height: 3 }} />
+                  <div className="tdot" style={{ width: 5, height: 5, marginTop: 1 }} />
+                  <div className="tdot" style={{ width: 3, height: 3, marginTop: 3 }} />
+                </div>
+              </div>
+            </div>
+
+            {/* Imagen — sin ninguna burbuja encima */}
+            <img
+              src="/elite-meditacion.jpg"
+              alt="Ejecutiva meditando antes de su jornada comercial"
+              style={{ width: 220, flexShrink: 0, display: 'block', borderRadius: 16, objectFit: 'cover', aspectRatio: '9/16', maxHeight: 420 }}
+            />
+
+            {/* Columna derecha */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: 164, alignItems: 'flex-start' }}>
+              {/* TR — cola apunta → izquierda (hacia imagen) */}
+              <div>
+                <div style={{ display: 'flex', gap: 3, justifyContent: 'flex-start', paddingLeft: 8, marginBottom: 5 }}>
+                  <div className="tdot" style={{ width: 3, height: 3, marginTop: 3 }} />
+                  <div className="tdot" style={{ width: 5, height: 5, marginTop: 1 }} />
+                  <div className="tdot" style={{ width: 7, height: 7 }} />
+                </div>
+                <div className="tbubble" style={{ borderRadius: '18px 22px 6px 20px', transform: 'rotate(1.5deg)', animationDelay: '0.25s' }}>
+                  "El dinero fluye hacia mí." 💰
+                </div>
+              </div>
+              {/* BR — cola apunta → izquierda */}
+              <div>
+                <div style={{ display: 'flex', gap: 3, justifyContent: 'flex-start', paddingLeft: 8, marginBottom: 5 }}>
+                  <div className="tdot" style={{ width: 3, height: 3, marginTop: 3 }} />
+                  <div className="tdot" style={{ width: 5, height: 5, marginTop: 1 }} />
+                  <div className="tdot" style={{ width: 7, height: 7 }} />
                 </div>
                 <div className="tbubble" style={{ borderRadius: '6px 20px 18px 22px', transform: 'rotate(-1deg)', animationDelay: '0.55s' }}>
                   "Nada me detiene hoy." ⚡
                 </div>
               </div>
+            </div>
+          </div>
 
+          {/* ── Móvil: 2 burbujas arriba | imagen | 2 burbujas abajo ── */}
+          <div className="elite-mob" style={{ display: 'none', marginBottom: 40 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
+              <div className="tbubble" style={{ borderRadius: '22px 18px 20px 6px', transform: 'rotate(-2deg)', animationDelay: '0.10s', maxWidth: '100%' }}>
+                "Hoy soy imparable." 🔥
+              </div>
+              <div className="tbubble" style={{ borderRadius: '18px 22px 6px 20px', transform: 'rotate(1.5deg)', animationDelay: '0.25s', maxWidth: '100%' }}>
+                "El dinero fluye hacia mí." 💰
+              </div>
+            </div>
+            <img
+              src="/elite-meditacion.jpg"
+              alt="Ejecutiva meditando antes de su jornada comercial"
+              style={{ width: '100%', maxWidth: 260, display: 'block', margin: '0 auto', borderRadius: 14, objectFit: 'cover', aspectRatio: '9/16', maxHeight: 380 }}
+            />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 14 }}>
+              <div className="tbubble" style={{ borderRadius: '20px 6px 22px 18px', transform: 'rotate(2.5deg)', animationDelay: '0.40s', maxWidth: '100%' }}>
+                "Cierro todos mis negocios." 🤝
+              </div>
+              <div className="tbubble" style={{ borderRadius: '6px 20px 18px 22px', transform: 'rotate(-1deg)', animationDelay: '0.55s', maxWidth: '100%' }}>
+                "Nada me detiene hoy." ⚡
+              </div>
             </div>
           </div>
 
