@@ -1064,32 +1064,90 @@ function SubscribeContent() {
         {/* ── SEPARADOR ─── */}
         <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '0 24px' }} />
 
-        {/* ── 4. EL ARSENAL — 10 HERRAMIENTAS ─── */}
+        {/* ── 4. EL ARSENAL — BENTO GRID ─── */}
         <div style={{ padding: '80px 24px' }}>
-          <div style={{ maxWidth: 760, margin: '0 auto' }}>
+          <style>{`
+            .bento-card {
+              position: relative; overflow: hidden; border-radius: 16px;
+              padding: 32px 28px 28px;
+              background: rgba(255,255,255,0.03);
+              border: 1px solid rgba(255,255,255,0.07);
+              transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+              cursor: default;
+            }
+            .bento-card:hover { transform: translateY(-4px); }
+            .bento-num {
+              position: absolute; top: -10px; right: 12px;
+              font-family: 'Bebas Neue', Impact, sans-serif;
+              font-size: 96px; line-height: 1;
+              opacity: 0.06; pointer-events: none; user-select: none;
+              letter-spacing: -0.02em;
+            }
+            .bento-icon { margin-bottom: 20px; }
+            .bento-name {
+              font-family: 'General Sans', system-ui, sans-serif;
+              font-size: 15px; font-weight: 700;
+              letter-spacing: 0.01em; margin-bottom: 10px;
+            }
+            .bento-desc {
+              font-family: 'General Sans', system-ui, sans-serif;
+              font-size: 13px; line-height: 1.65;
+              color: rgba(255,255,255,0.55);
+            }
+            @media (max-width: 640px) {
+              .bento-grid { grid-template-columns: 1fr !important; }
+            }
+          `}</style>
+          <div style={{ maxWidth: 900, margin: '0 auto' }}>
             <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 16 }}>El arsenal</div>
             <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(34px,5.5vw,56px)', lineHeight: 0.95, margin: '0 0 6px', letterSpacing: '0.02em', color: 'white' }}>10 ARMAS.</h2>
-            <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(34px,5.5vw,56px)', lineHeight: 0.95, margin: '0 0 48px', letterSpacing: '0.02em' }}>
+            <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(34px,5.5vw,56px)', lineHeight: 0.95, margin: '0 0 56px', letterSpacing: '0.02em' }}>
               <span style={{ color: TEAL }}>UNA SOLA</span><span style={{ color: 'white' }}> APP.</span>
             </h2>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 6 }}>
+            <div className="bento-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
               {herramientas.map((h, i) => {
                 const c = TOOL_COLORS[i]
+                // Tarjetas anchas: posiciones 0 y 6 (IA en Acción y QR Captura)
+                const wide = i === 0 || i === 6
                 return (
-                  <div key={i} className="arsenal-card" style={{
-                    display: 'flex', gap: 16, alignItems: 'flex-start',
-                    padding: '20px 18px',
-                    background: 'rgba(255,255,255,0.02)',
-                    border: '1px solid rgba(255,255,255,0.06)',
-                    borderLeft: `3px solid ${c}`,
-                    borderRadius: 10,
-                  }}>
-                    <div style={{ color: c, flexShrink: 0, marginTop: 2 }}>{TOOL_ICONS[i]}</div>
-                    <div>
-                      <div style={{ fontFamily: MONO, fontSize: 11, fontWeight: 700, color: c, marginBottom: 5, letterSpacing: '0.06em' }}>{h.nombre}</div>
-                      <div style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(255,255,255,0.60)', lineHeight: 1.6 }}>{h.desc}</div>
+                  <div
+                    key={i}
+                    className="bento-card"
+                    style={{
+                      gridColumn: wide ? 'span 2' : 'span 1',
+                      borderColor: `color-mix(in srgb, ${c} 18%, transparent)`,
+                      boxShadow: `inset 0 0 60px color-mix(in srgb, ${c} 5%, transparent)`,
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.borderColor = `color-mix(in srgb, ${c} 40%, transparent)`
+                      e.currentTarget.style.boxShadow = `inset 0 0 80px color-mix(in srgb, ${c} 10%, transparent), 0 8px 32px color-mix(in srgb, ${c} 15%, transparent)`
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.borderColor = `color-mix(in srgb, ${c} 18%, transparent)`
+                      e.currentTarget.style.boxShadow = `inset 0 0 60px color-mix(in srgb, ${c} 5%, transparent)`
+                    }}
+                  >
+                    {/* Número de fondo */}
+                    <div className="bento-num" style={{ color: c }}>
+                      {String(i + 1).padStart(2, '0')}
                     </div>
+
+                    {/* Ícono con círculo de color */}
+                    <div className="bento-icon">
+                      <div style={{
+                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                        width: 48, height: 48, borderRadius: 12,
+                        background: `color-mix(in srgb, ${c} 12%, transparent)`,
+                        border: `1px solid color-mix(in srgb, ${c} 25%, transparent)`,
+                        color: c,
+                      }}>
+                        {TOOL_ICONS[i]}
+                      </div>
+                    </div>
+
+                    <div className="bento-name" style={{ color: c }}>{h.nombre}</div>
+                    <div className="bento-desc">{h.desc}</div>
                   </div>
                 )
               })}
