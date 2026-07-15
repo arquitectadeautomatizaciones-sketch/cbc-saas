@@ -236,6 +236,44 @@ function SubscribeContent() {
             border: 1px solid rgba(255,255,255,0.13);
             flex-shrink: 0;
           }
+          /* ── Reloj ── */
+          .scene-clock {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 14px;
+            opacity: 0;
+            animation: bubbleIn 0.4s ease 0.65s both;
+          }
+          .scene-clock-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.75);
+            letter-spacing: 0.06em;
+          }
+          /* ── Taza de café ── */
+          .scene-coffee {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 14px;
+            opacity: 0;
+            animation: bubbleIn 0.4s ease 0.80s both;
+          }
+          @keyframes steamRise {
+            0%   { transform: translateY(0) scaleX(1);   opacity: 0.5; }
+            50%  { transform: translateY(-6px) scaleX(1.18); opacity: 0.7; }
+            100% { transform: translateY(-12px) scaleX(0.85); opacity: 0; }
+          }
+          .steam-line {
+            stroke: rgba(255,255,255,0.45);
+            stroke-linecap: round;
+            animation: steamRise 1.8s ease-in-out infinite;
+          }
+          .steam-line:nth-child(2) { animation-delay: 0.4s; }
+          .steam-line:nth-child(3) { animation-delay: 0.8s; }
           /* Grid responsive */
           .elite-grid {
             display: grid;
@@ -324,6 +362,21 @@ function SubscribeContent() {
 
             {/* TR ─ cola apunta → hacia la imagen (izquierda) */}
             <div className="eg-tr">
+              {/* Taza de café humeante — esquina superior-derecha */}
+              <div className="scene-coffee">
+                <svg width="44" height="28" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ overflow: 'visible' }}>
+                  {/* Vapor */}
+                  <line className="steam-line" x1="14" y1="-2" x2="12" y2="-10" strokeWidth="1.4" />
+                  <line className="steam-line" x1="22" y1="-2" x2="24" y2="-10" strokeWidth="1.4" />
+                  <line className="steam-line" x1="30" y1="-2" x2="28" y2="-10" strokeWidth="1.4" />
+                  {/* Taza */}
+                  <path d="M8 4 H36 L33 24 H11 Z" stroke="rgba(255,255,255,0.6)" strokeWidth="1.4" fill="none" strokeLinejoin="round" />
+                  {/* Platillo */}
+                  <path d="M4 26 Q22 28 40 26" stroke="rgba(255,255,255,0.4)" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+                  {/* Asa */}
+                  <path d="M36 8 Q46 8 46 16 Q46 24 36 22" stroke="rgba(255,255,255,0.5)" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+                </svg>
+              </div>
               <div style={{ display: 'flex', gap: 3, justifyContent: 'flex-start', paddingLeft: 8, marginBottom: 5 }}>
                 <div className="tdot" style={{ width: 3, height: 3, marginTop: 3 }} />
                 <div className="tdot" style={{ width: 5, height: 5, marginTop: 1 }} />
@@ -343,6 +396,14 @@ function SubscribeContent() {
                 <div className="tdot" style={{ width: 7, height: 7 }} />
                 <div className="tdot" style={{ width: 5, height: 5, marginTop: 1 }} />
                 <div className="tdot" style={{ width: 3, height: 3, marginTop: 3 }} />
+              </div>
+              {/* Reloj 6:05 AM — esquina inferior-izquierda */}
+              <div className="scene-clock" style={{ justifyContent: 'flex-end' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 15.5 14" />
+                </svg>
+                <span className="scene-clock-time">6:05 AM</span>
               </div>
             </div>
 
