@@ -565,28 +565,28 @@ function SubscribeContent() {
             <span style={{ color: ROJO }}>ZAPATOS.</span>
           </h2>
 
-          {/* Subtítulo — estilo label rojo */}
-          <div style={{ fontFamily: MONO, fontSize: 9, color: `${ROJO}cc`, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
+          {/* Label rojo */}
+          <div style={{ fontFamily: MONO, fontSize: 9, color: `${ROJO}cc`, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 32 }}>
             Todos sabemos que tu pasión es vender.
           </div>
 
-          {/* Pregunta retórica 1 — escalón intermedio */}
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(20px,3vw,26px)', color: 'rgba(255,255,255,0.95)', lineHeight: 1.4, fontWeight: 600, margin: '32px 0 40px' }}>
+          {/* Pregunta retórica 1 */}
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.95)', lineHeight: 1.8, fontWeight: 700, margin: '0 0 32px' }}>
             ¿Pero cuántas horas dedicas realmente a vender?
           </p>
 
-          {/* Pregunta retórica 2 — pausa antes del relato */}
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(20px,3vw,26px)', color: 'rgba(255,255,255,0.95)', lineHeight: 1.4, fontWeight: 600, margin: '0 0 28px' }}>
+          {/* Pregunta retórica 2 */}
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.95)', lineHeight: 1.8, fontWeight: 700, margin: '0 0 20px' }}>
             ¿Recuerdas el día que firmaste contrato como comercial?
           </p>
 
           {/* Párrafo de ilusión */}
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: '0 0 36px' }}>
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: '0 0 32px' }}>
             ¡Cuánta ilusión por comenzar! Te imaginabas cumpliendo tu meta, cerrando ventas, comisionando.
           </p>
 
           {/* Lista acumulativa con opacidad progresiva */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, margin: '0 0 36px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, margin: '0 0 32px' }}>
             <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.80)', lineHeight: 1.75, margin: 0 }}>
               Pero con el paso de los días llegó el pipeline.
             </p>
@@ -601,9 +601,9 @@ function SubscribeContent() {
             </p>
           </div>
 
-          {/* Pregunta final — pausa antes del golpe */}
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(20px,3vw,26px)', lineHeight: 1.4, fontWeight: 600, margin: '0 0 52px' }}>
-            <span style={{ color: 'rgba(255,255,255,0.95)' }}>Y entre todo ese ruido,{' '}</span>
+          {/* Pregunta final en teal */}
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', lineHeight: 1.8, fontWeight: 700, margin: '0 0 52px' }}>
+            <span style={{ color: 'rgba(255,255,255,0.95)' }}>Y entre todo ese ruido, </span>
             <span style={{ color: 'rgba(78,205,196,0.85)' }}>
               ¿te has preguntado cuántas horas de tu semana te dedicas realmente a vender?
             </span>
