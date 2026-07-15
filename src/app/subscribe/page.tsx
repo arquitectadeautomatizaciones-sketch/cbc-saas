@@ -214,6 +214,7 @@ function SubscribeContent() {
             from { opacity: 0; transform: scale(0.82) translateY(6px); }
             to   { opacity: 1; transform: scale(1)    translateY(0);   }
           }
+          @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
           .tbubble {
             background: rgba(255,255,255,0.08);
             backdrop-filter: blur(8px);
@@ -423,7 +424,21 @@ function SubscribeContent() {
         </div>
       </section>
 
-      <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
+      {/* ── Ticker entre Élite y Brecha ─────────────────────── */}
+      <div style={{ overflow: 'hidden', background: '#0a0a0a', borderTop: '1px solid rgba(78,205,196,0.18)', borderBottom: '1px solid rgba(78,205,196,0.18)', height: 44, display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', animation: 'ticker 20s linear infinite', whiteSpace: 'nowrap', willChange: 'transform' }}>
+          {[...Array(2)].map((_, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
+              {['TU MENTE YA ESTÁ LISTA', 'PERO TU AGENDA NO LO SABE', 'SIGUE BAJANDO', 'AQUÍ EMPIEZA LA VERDAD'].map((item, j) => (
+                <span key={j} style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '0 36px', fontFamily: BEBAS, fontSize: 16, letterSpacing: '0.14em', color: j % 2 === 0 ? 'rgba(255,255,255,0.90)' : TEAL }}>
+                  <span>⚡</span>
+                  {item}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* ══════════════════════════════════════════════════════
           02b — BRECHA DE EJECUCIÓN
