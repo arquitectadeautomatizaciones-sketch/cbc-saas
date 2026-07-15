@@ -1474,55 +1474,6 @@ function SubscribeContent() {
       <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
 
       {/* ══════════════════════════════════════════════════════
-          07 — TESTIMONIO TATIANA (fondo oscuro #1a1a1a)
-      ══════════════════════════════════════════════════════ */}
-      <section style={{ background: '#1a1a1a', padding: '80px 24px' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>CASO DOCUMENTADO · MAYO 2026</div>
-
-          <div style={{ background: '#111', borderRadius: 12, borderLeft: `4px solid ${AMARILLO}`, padding: '32px 28px', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', top: -12, right: 20, fontFamily: BEBAS, fontSize: 96, color: AMARILLO, opacity: 0.06, lineHeight: 1, userSelect: 'none' }}>"</div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 24, position: 'relative' }}>
-              <img src={TATIANA_PHOTO} alt="Tatiana Panadero" style={{ width: 52, height: 52, borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', flexShrink: 0, border: `2px solid ${AMARILLO}40` }} />
-              <div>
-                <div style={{ fontFamily: SANS, fontWeight: 700, color: AMARILLO, fontSize: 15 }}>Tatiana Panadero</div>
-                <div style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(255,255,255,0.50)', marginTop: 2 }}>Ejecutiva Comercial Senior · Bogotá, Colombia</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
-                  <span style={{ color: AMARILLO, fontSize: 14, letterSpacing: '0.05em' }}>★★★★★</span>
-                  <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.28)', letterSpacing: '0.1em' }}>CASO DOCUMENTADO · 15 MAY 2026</span>
-                </div>
-              </div>
-            </div>
-            <blockquote style={{ fontFamily: SANS, fontSize: 'clamp(14px,2vw,16px)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.8, margin: '0 0 20px', padding: 0, borderLeft: 'none', fontStyle: 'italic', position: 'relative' }}>
-              "Está buenísimo, de verdad está genial. El semáforo, el script para reportar al jefe… tal cual.{' '}
-              <strong style={{ fontStyle: 'normal', color: 'white' }}>Eso es sencillo, corto, y es lo que de verdad le importa a los directores a nivel de números.</strong>
-              <br /><br />
-              Imagínate que tuve una reunión con mi nueva directora y tal cual manejé el speech. Donde son interesantes los números, usé la plantilla… eso me sirvió mucho, me fue súper bien en la reunión.
-              <br /><br />
-              <strong style={{ fontStyle: 'normal', color: 'white' }}>Si voy bien digo tal cosa, si voy regular digo tal cosa, si voy mal digo tal cosa. Concreto.</strong>{' '}Era exactamente lo que ella quería escuchar."
-            </blockquote>
-            <div style={{ paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-              <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.12em' }}>TESTIMONIO DOCUMENTADO · 15 MAY 2026 · BOGOTÁ, COLOMBIA</span>
-            </div>
-          </div>
-
-          {/* CTA "Dejar testimonio" */}
-          <div style={{ marginTop: 20, textAlign: 'center' }}>
-            <a
-              href="mailto:hola@arquitectadeautomatizaciones.com?subject=Mi testimonio de CBC™"
-              style={{ fontFamily: SANS, fontSize: 14, color: 'rgba(255,255,255,0.42)', textDecoration: 'none', borderBottom: '1px solid rgba(255,255,255,0.15)', paddingBottom: 2, transition: 'color 0.15s' }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.42)')}
-            >
-              ¿Quieres ser el próximo caso documentado? Cuéntanos tu experiencia →
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
-
-      {/* ══════════════════════════════════════════════════════
           08 — PRECIO (fondo #222)
       ══════════════════════════════════════════════════════ */}
       <section style={{ background: '#222', padding: '80px 24px' }}>
