@@ -1583,17 +1583,16 @@ function SubscribeContent() {
               </p>
             </div>
 
-            {/* Sello de garantía */}
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 18, padding: '16px 22px', border: `2px dashed ${VERDE_S}44`, borderRadius: 12, background: `${VERDE_S}06`, position: 'relative' }}>
-              <div style={{ width: 58, height: 58, borderRadius: '50%', border: `2px solid ${VERDE_S}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: `${VERDE_S}0d` }}>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontFamily: BEBAS, fontSize: 11, color: VERDE_S, lineHeight: 1.1, letterSpacing: '0.04em' }}>7</div>
-                  <div style={{ fontFamily: MONO, fontSize: 6, color: VERDE_S, lineHeight: 1.1, letterSpacing: '0.06em' }}>DÍAS</div>
-                </div>
-              </div>
+            {/* Medalla de garantía */}
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 24 }}>
+              <img
+                src="/medalla-garantia.png"
+                alt="Garantía 7 días sin riesgo"
+                style={{ width: 120, height: 120, objectFit: 'contain', filter: 'drop-shadow(0 6px 20px rgba(245,196,0,0.35))' }}
+              />
               <div>
-                <div style={{ fontFamily: BEBAS, fontSize: 18, color: VERDE_S, letterSpacing: '0.06em', lineHeight: 1.1 }}>GARANTÍA SIN RIESGO</div>
-                <div style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.5, marginTop: 3 }}>7 días gratis · Sin tarjeta · Sin preguntas si cancelas</div>
+                <div style={{ fontFamily: BEBAS, fontSize: 22, color: AMARILLO, letterSpacing: '0.06em', lineHeight: 1.1 }}>GARANTÍA SIN RIESGO</div>
+                <div style={{ fontFamily: SANS, fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, marginTop: 6 }}>7 días gratis · Sin tarjeta · Sin preguntas si cancelas</div>
               </div>
             </div>
           </div>
