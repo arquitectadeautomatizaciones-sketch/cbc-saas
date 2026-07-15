@@ -565,10 +565,10 @@ function SubscribeContent() {
             <span style={{ color: ROJO }}>ZAPATOS.</span>
           </h2>
 
-          {/* Subtítulo plano */}
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: '0 0 8px' }}>
+          {/* Subtítulo — estilo label rojo */}
+          <div style={{ fontFamily: MONO, fontSize: 9, color: `${ROJO}cc`, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
             Todos sabemos que tu pasión es vender.
-          </p>
+          </div>
 
           {/* Pregunta retórica 1 — escalón intermedio */}
           <p style={{ fontFamily: SANS, fontSize: 'clamp(20px,3vw,26px)', color: 'rgba(255,255,255,0.95)', lineHeight: 1.4, fontWeight: 600, margin: '32px 0 40px' }}>
