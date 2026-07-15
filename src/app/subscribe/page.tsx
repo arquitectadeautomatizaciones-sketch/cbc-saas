@@ -1368,8 +1368,13 @@ function SubscribeContent() {
         <div style={{ padding: '80px 24px' }}>
           <div style={{ maxWidth: 760, margin: '0 auto' }}>
             <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>CBC™ VS. TU CRM ACTUAL</div>
-            <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(32px,5vw,54px)', lineHeight: 1, margin: '0 0 4px', letterSpacing: '0.02em', color: 'white' }}>"YA TENGO CRM."</h2>
-            <h3 style={{ fontFamily: BEBAS, fontSize: 'clamp(22px,3.5vw,36px)', color: 'rgba(255,255,255,0.35)', lineHeight: 1, margin: '0 0 40px', letterSpacing: '0.02em', fontWeight: 400 }}>BIEN. PERO TU CRM NO HACE ESTO.</h3>
+            <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(34px,5.5vw,56px)', lineHeight: 0.95, margin: '0 0 4px', letterSpacing: '0.02em' }}>
+              <span style={{ color: ROJO }}>"YA TENGO CRM."</span>
+            </h2>
+            <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(34px,5.5vw,56px)', lineHeight: 0.95, margin: '0 0 40px', letterSpacing: '0.02em' }}>
+              <span style={{ color: 'white' }}>BIEN. PERO TU CRM </span>
+              <span style={{ color: ROJO }}>NO HACE ESTO.</span>
+            </h2>
 
             <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden', marginBottom: 40 }}>
               <table className="crm-table2">
