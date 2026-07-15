@@ -273,6 +273,29 @@ function SubscribeContent() {
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
           <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>MENTALIDAD DE ÉLITE</div>
 
+          {/* ── Título ── */}
+          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(36px,5.5vw,58px)', lineHeight: 0.95, margin: '0 0 24px', letterSpacing: '0.02em' }}>
+            <span style={{ color: 'white' }}>SER VENDEDOR ES LA MEJOR PROFESIÓN DEL MUNDO.<br />Y TÚ PERTENECES A SU </span><span style={{ color: ROJO }}>ÉLITE.</span>
+          </h2>
+
+          {/* ── Cuerpo ── */}
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: '0 0 28px', maxWidth: 620 }}>
+            Los comerciales de alto nivel no solo se preparan como profesionales. También se preparan mentalmente — porque saben que el entorno pone a prueba algo más que su técnica: pone a prueba su temple.
+          </p>
+
+          {/* ── Giro ── */}
+          <div style={{ background: '#0d0000', borderLeft: `4px solid ${ROJO}`, borderRadius: '0 10px 10px 0', padding: '20px 24px', maxWidth: 620, marginBottom: 40 }}>
+            <div style={{ fontFamily: MONO, fontSize: 9, color: `${ROJO}cc`, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 14 }}>
+              LA VERDAD DETRÁS DE LA MENTALIDAD
+            </div>
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.90)', lineHeight: 1.8, margin: '0 0 14px' }}>
+              Esa disciplina mental te distingue del 99% que solo improvisa.
+            </p>
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: 0 }}>
+              Pero incluso la élite necesita algo más que mentalidad — necesita que ningún prospecto se enfríe mientras tú te preparas para ganar.
+            </p>
+          </div>
+
           {/* ══ CSS GRID — burbujas en celdas separadas de la imagen ══
                Desktop: [TL] [IMG] [TR]  /  [BL] [IMG] [BR]
                Móvil:   [TL] [TR]  /  [IMG IMG]  /  [BL] [BR]
@@ -335,29 +358,6 @@ function SubscribeContent() {
               </div>
             </div>
 
-          </div>
-
-          {/* ── Título ── */}
-          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(36px,5.5vw,58px)', lineHeight: 0.95, margin: '0 0 24px', letterSpacing: '0.02em' }}>
-            <span style={{ color: 'white' }}>SER VENDEDOR ES LA MEJOR PROFESIÓN DEL MUNDO.<br />Y TÚ PERTENECES A SU </span><span style={{ color: ROJO }}>ÉLITE.</span>
-          </h2>
-
-          {/* ── Cuerpo ── */}
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: '0 0 28px', maxWidth: 620 }}>
-            Los comerciales de alto nivel no solo se preparan como profesionales. También se preparan mentalmente — porque saben que el entorno pone a prueba algo más que su técnica: pone a prueba su temple.
-          </p>
-
-          {/* ── Giro ── */}
-          <div style={{ background: '#0d0000', borderLeft: `4px solid ${ROJO}`, borderRadius: '0 10px 10px 0', padding: '20px 24px', maxWidth: 620 }}>
-            <div style={{ fontFamily: MONO, fontSize: 9, color: `${ROJO}cc`, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 14 }}>
-              LA VERDAD DETRÁS DE LA MENTALIDAD
-            </div>
-            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.90)', lineHeight: 1.8, margin: '0 0 14px' }}>
-              Esa disciplina mental te distingue del 99% que solo improvisa.
-            </p>
-            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.8, margin: 0 }}>
-              Pero incluso la élite necesita algo más que mentalidad — necesita que ningún prospecto se enfríe mientras tú te preparas para ganar.
-            </p>
           </div>
         </div>
       </section>
