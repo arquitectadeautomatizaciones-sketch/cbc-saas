@@ -753,18 +753,18 @@ function SubscribeContent() {
           .newspaper-wrap {
             max-width: 780px;
             margin: 0 auto;
-            background: rgba(245,240,225,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: #ffffff;
             border-radius: 4px;
             padding: 48px 52px 40px;
+            box-shadow: 0 8px 48px rgba(0,0,0,0.6);
           }
           .newspaper-masthead {
             font-family: 'Playfair Display', Georgia, serif;
             font-weight: 900;
-            font-size: clamp(28px, 5vw, 48px);
-            letter-spacing: 0.08em;
+            font-size: clamp(28px, 5vw, 52px);
+            letter-spacing: 0.06em;
             text-transform: uppercase;
-            color: #080808;
+            color: #111;
             text-align: center;
             line-height: 1;
             margin: 0 0 12px;
@@ -774,18 +774,18 @@ function SubscribeContent() {
             font-size: 11px;
             letter-spacing: 0.20em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.40);
+            color: rgba(0,0,0,0.45);
             text-align: center;
             margin: 0 0 20px;
           }
-          .newspaper-rule { border: none; border-top: 3px double rgba(255,255,255,0.18); margin: 0 0 8px; }
-          .newspaper-rule-thin { border: none; border-top: 1px solid rgba(255,255,255,0.10); margin: 0 0 24px; }
+          .newspaper-rule { border: none; border-top: 3px double rgba(0,0,0,0.30); margin: 0 0 8px; }
+          .newspaper-rule-thin { border: none; border-top: 1px solid rgba(0,0,0,0.15); margin: 0 0 24px; }
           .newspaper-headline {
             font-family: 'Playfair Display', Georgia, serif;
             font-weight: 900;
             font-size: clamp(24px, 4.5vw, 44px);
             line-height: 1.1;
-            color: rgba(255,255,255,0.95);
+            color: #111;
             text-align: center;
             margin: 0 0 24px;
             letter-spacing: 0.01em;
@@ -795,10 +795,10 @@ function SubscribeContent() {
             font-family: 'Playfair Display', Georgia, serif;
             font-size: clamp(14px, 1.8vw, 16px);
             line-height: 1.85;
-            color: rgba(255,255,255,0.88);
+            color: rgba(0,0,0,0.82);
             column-count: 2;
             column-gap: 36px;
-            column-rule: 1px solid rgba(255,255,255,0.10);
+            column-rule: 1px solid rgba(0,0,0,0.15);
             margin: 0 0 28px;
             text-align: justify;
           }
@@ -806,7 +806,7 @@ function SubscribeContent() {
             font-family: 'Playfair Display', Georgia, serif;
             font-size: 12px;
             font-style: italic;
-            color: rgba(255,255,255,0.45);
+            color: rgba(0,0,0,0.50);
             text-align: center;
             letter-spacing: 0.04em;
           }
