@@ -751,19 +751,27 @@ function SubscribeContent() {
       <section style={{ background: '#0d0d0d', padding: '80px 24px' }}>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
           <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>QUÉ ES CBC™</div>
-          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 4px', letterSpacing: '0.02em' }}>
-            <span style={{ color: 'white' }}>NO ES MAGIA.</span>
-          </h2>
-          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 32px', letterSpacing: '0.02em' }}>
+
+          {/* Título split */}
+          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 4px', letterSpacing: '0.02em', color: 'white' }}>NO ES MAGIA.</h2>
+          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 40px', letterSpacing: '0.02em' }}>
             <span style={{ color: ROJO }}>NO CIERRA</span><span style={{ color: 'white' }}> POR TI.</span>
           </h2>
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.8, margin: '0 0 18px', maxWidth: 580 }}>
+
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.8, margin: '0 0 48px', maxWidth: 580 }}>
             CBC™ no reemplaza tu talento ni tu conversación.
           </p>
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.8, margin: '0 0 18px', maxWidth: 580 }}>
-            Es una app con IA — Sofía — que hace las tareas repetitivas que hoy te roban 2 horas al día, para que toda tu energía vaya donde realmente se generan las comisiones: en el cierre.
-          </p>
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, margin: 0, maxWidth: 580 }}>
+
+          {/* Cifra destacada: 2 horas al día */}
+          <div style={{ margin: '0 0 20px' }}>
+            <div style={{ fontFamily: MONO, fontSize: 9, color: `${ROJO}cc`, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>TE ROBAN CADA DÍA</div>
+            <div style={{ fontFamily: BEBAS, fontSize: 'clamp(64px,10vw,96px)', lineHeight: 0.9, color: TEAL, letterSpacing: '0.02em' }}>2 HORAS</div>
+            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '16px 0 0', maxWidth: 520 }}>
+              Las tareas administrativas que hoy consumen tu mejor energía. Sofía las hace por ti, para que toda tu atención vaya donde realmente se generan las comisiones: en el cierre.
+            </p>
+          </div>
+
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(14px,1.8vw,15px)', color: 'rgba(255,255,255,0.45)', lineHeight: 1.8, margin: '32px 0 0' }}>
             Se instala en tu celular como una app real. Solo necesitas internet.
           </p>
         </div>
@@ -775,29 +783,60 @@ function SubscribeContent() {
           04 — VS CRM
       ══════════════════════════════════════════════════════ */}
       <section style={{ background: NEGRO, padding: '80px 24px' }}>
+        <style>{`
+          .crm-table { width: 100%; border-collapse: collapse; }
+          .crm-table th { fontFamily: ${JSON.stringify(MONO)}; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; padding: 14px 20px; text-align: left; }
+          .crm-table td { padding: 14px 20px; font-size: 15px; line-height: 1.5; vertical-align: middle; border-top: 1px solid rgba(255,255,255,0.06); }
+          .crm-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+          @media (max-width: 580px) { .crm-table td, .crm-table th { padding: 12px 12px; font-size: 13px; } }
+        `}</style>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
           <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>CBC™ VS. TU CRM ACTUAL</div>
           <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(32px,5vw,54px)', lineHeight: 1, margin: '0 0 4px', letterSpacing: '0.02em', color: 'white' }}>"YA TENGO CRM."</h2>
-          <h3 style={{ fontFamily: BEBAS, fontSize: 'clamp(22px,3.5vw,38px)', color: 'rgba(255,255,255,0.38)', lineHeight: 1, margin: '0 0 36px', letterSpacing: '0.02em', fontWeight: 400 }}>BIEN. PERO TU CRM NO HACE ESTO:</h3>
+          <h3 style={{ fontFamily: BEBAS, fontSize: 'clamp(22px,3.5vw,36px)', color: 'rgba(255,255,255,0.38)', lineHeight: 1, margin: '0 0 40px', letterSpacing: '0.02em', fontWeight: 400 }}>BIEN. PERO TU CRM NO HACE ESTO.</h3>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 32 }}>
-            {[
-              'No te dice a quién llamar hoy',
-              'No prepara tu llamada',
-              'No te avisa que ese prospecto lleva 7 días sin respuesta',
-              'No redacta tu propuesta',
-              'No calcula cuánto te cuesta cada día sin actuar',
-            ].map((txt, i) => (
-              <div key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', padding: '14px 18px', background: 'rgba(232,0,29,0.04)', border: '1px solid rgba(232,0,29,0.10)', borderRadius: 8 }}>
-                <span style={{ fontFamily: MONO, fontSize: 13, color: 'rgba(232,0,29,0.55)', fontWeight: 700, flexShrink: 0, marginTop: 1 }}>✗</span>
-                <span style={{ fontFamily: SANS, fontSize: 'clamp(14px,1.8vw,16px)', color: 'rgba(255,255,255,0.72)', lineHeight: 1.5 }}>{txt}</span>
-              </div>
-            ))}
+          {/* Tabla comparativa */}
+          <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden', marginBottom: 40 }}>
+            <table className="crm-table">
+              <thead>
+                <tr style={{ background: 'rgba(255,255,255,0.04)' }}>
+                  <th style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '14px 20px', textAlign: 'left', color: 'rgba(232,0,29,0.75)', width: '50%' }}>TU CRM</th>
+                  <th style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '14px 20px', textAlign: 'left', color: TEAL, width: '50%' }}>CBC™</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['No te dice a quién llamar hoy', 'Te dice exactamente a quién llamar primero'],
+                  ['No prepara tu llamada', 'Prepara tu argumentario antes de marcar'],
+                  ['No avisa cuando un prospecto se enfría', 'Te alerta si llevas 7 días sin contactar'],
+                  ['No redacta tu propuesta', 'Redacta la propuesta en segundos'],
+                  ['No calcula el costo de no actuar', 'Calcula cuánto pierdes cada día sin cerrar'],
+                ].map(([crm, cbc], i) => (
+                  <tr key={i}>
+                    <td style={{ fontFamily: SANS, color: 'rgba(255,255,255,0.55)', borderTop: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.06)' }}>
+                      <span style={{ color: ROJO, fontWeight: 700, marginRight: 10, fontSize: 14 }}>✗</span>{crm}
+                    </td>
+                    <td style={{ fontFamily: SANS, color: 'rgba(255,255,255,0.88)', borderTop: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.06)' }}>
+                      <span style={{ color: TEAL, fontWeight: 700, marginRight: 10, fontSize: 14 }}>✓</span>{cbc}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
-          <div style={{ padding: '22px 26px', background: 'rgba(78,205,196,0.05)', border: '1px solid rgba(78,205,196,0.18)', borderRadius: 10 }}>
-            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.72)', lineHeight: 1.7, margin: '0 0 6px' }}>Tu CRM sabe todo. Y no cierra nada.</p>
-            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: TEAL, lineHeight: 1.7, margin: 0, fontWeight: 600 }}>CBC™ decide, prepara y avisa. Tú solo cierras.</p>
+          {/* Bloques de cierre */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div style={{ borderLeft: `4px solid ${ROJO}`, paddingLeft: 20, background: 'rgba(232,0,29,0.05)', padding: '18px 20px', borderRadius: '0 8px 8px 0' }}>
+              <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.70)', lineHeight: 1.7, margin: 0, fontStyle: 'italic' }}>
+                Tu CRM sabe todo. Y no cierra nada.
+              </p>
+            </div>
+            <div style={{ borderLeft: `4px solid ${TEAL}`, paddingLeft: 20, background: 'rgba(78,205,196,0.05)', padding: '18px 20px', borderRadius: '0 8px 8px 0' }}>
+              <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.92)', lineHeight: 1.7, margin: 0, fontWeight: 600 }}>
+                CBC™ decide, prepara y avisa. Tú solo cierras.
+              </p>
+            </div>
           </div>
         </div>
       </section>
