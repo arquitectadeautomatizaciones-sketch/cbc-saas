@@ -1474,6 +1474,57 @@ function SubscribeContent() {
       <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
 
       {/* ══════════════════════════════════════════════════════
+          GARANTÍA SIN RIESGO
+      ══════════════════════════════════════════════════════ */}
+      <section style={{ background: '#0a0a0a', padding: '80px 24px' }}>
+        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+          <div style={{
+            display: 'flex', gap: 48, alignItems: 'center',
+            background: 'linear-gradient(135deg, rgba(245,196,0,0.06) 0%, rgba(232,0,29,0.04) 100%)',
+            border: '1px solid rgba(245,196,0,0.18)',
+            borderRadius: 20, padding: '48px 40px',
+          }}>
+
+            {/* Medalla */}
+            <div style={{ flexShrink: 0, textAlign: 'center' }}>
+              <img
+                src="/medalla-garantia.png"
+                alt="Garantía 7 días sin riesgo"
+                style={{ width: 160, height: 160, objectFit: 'contain', filter: 'drop-shadow(0 8px 24px rgba(245,196,0,0.30))' }}
+              />
+            </div>
+
+            {/* Texto */}
+            <div style={{ flex: 1 }}>
+              <div style={{ fontFamily: MONO, fontSize: 10, color: `${AMARILLO}99`, letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 14 }}>
+                Sin letra pequeña
+              </div>
+              <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(28px,4.5vw,46px)', lineHeight: 0.95, margin: '0 0 20px', letterSpacing: '0.02em' }}>
+                <span style={{ color: 'white' }}>7 DÍAS PARA PROBARLO </span>
+                <span style={{ color: AMARILLO }}>DE VERDAD.</span>
+              </h2>
+              <p style={{ fontFamily: SANS, fontSize: 'clamp(14px,1.8vw,16px)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.8, margin: '0 0 10px' }}>
+                Carga tus prospectos. Deja que Sofía te diga a quién llamar. Prepara una llamada real con <strong style={{ color: 'white' }}>Mi Llamada Perfecta™.</strong>
+              </p>
+              <p style={{ fontFamily: SANS, fontSize: 'clamp(14px,1.8vw,16px)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.8, margin: '0 0 24px' }}>
+                Si no sientes más claridad y más control — <strong style={{ color: ROJO }}>cancelas, sin costo, sin preguntas.</strong>
+              </p>
+              <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+                {['7 días gratis', 'Sin tarjeta', 'Sin preguntas si cancelas'].map((t, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: AMARILLO, fontSize: 14 }}>✓</span>
+                    <span style={{ fontFamily: MONO, fontSize: 11, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.10em', textTransform: 'uppercase' }}>{t}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
+
+      {/* ══════════════════════════════════════════════════════
           08 — PRECIO (fondo #222)
       ══════════════════════════════════════════════════════ */}
       <section style={{ background: '#222', padding: '80px 24px' }}>
