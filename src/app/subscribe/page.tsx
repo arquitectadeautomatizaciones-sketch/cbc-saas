@@ -429,7 +429,64 @@ function SubscribeContent() {
           02b — BRECHA DE EJECUCIÓN
       ══════════════════════════════════════════════════════ */}
       <section style={{ background: '#111', padding: '80px 24px' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px 56px', alignItems: 'start' }}>
+        <style>{`
+          .brecha-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 48px 52px; align-items: center; max-width: 880px; margin: 0 auto; }
+          .brecha-img-wrap { position: relative; border-radius: 12px; overflow: hidden; line-height: 0; }
+          .brecha-img-wrap img { width: 100%; display: block; border-radius: 12px; }
+
+          /* ── Post-its ── */
+          .caos-postit {
+            position: absolute;
+            padding: 8px 10px;
+            font-family: 'General Sans', system-ui, sans-serif;
+            font-size: clamp(8px, 1.4vw, 11px);
+            font-weight: 600;
+            color: rgba(0,0,0,0.88);
+            line-height: 1.35;
+            max-width: 28%;
+            box-shadow: 2px 3px 8px rgba(0,0,0,0.35);
+          }
+          /* ── Pipeline panel ── */
+          .caos-pipeline {
+            position: absolute;
+            top: 6%;
+            left: 28%;
+            width: 44%;
+            background: rgba(8,8,8,0.82);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 6px;
+            padding: 7px 9px;
+            font-family: 'JetBrains Mono', monospace;
+          }
+          .cp-title {
+            font-size: clamp(7px, 1.1vw, 9px);
+            font-weight: 700;
+            color: rgba(255,255,255,0.50);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            padding-bottom: 4px;
+          }
+          .cp-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 2px 0;
+            font-size: clamp(7px, 1.1vw, 9px);
+            color: rgba(255,255,255,0.90);
+          }
+          .cp-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+          @media (max-width: 640px) {
+            .brecha-grid { grid-template-columns: 1fr !important; }
+            .brecha-img-wrap { display: none; }
+          }
+        `}</style>
+
+        <div className="brecha-grid">
 
           {/* ── Columna izquierda: texto ── */}
           <div>
@@ -449,7 +506,6 @@ function SubscribeContent() {
               Notificaciones que no paran. Un CRM que nunca se actualiza solo. Post-its que se acumulan. Y ese reporte del viernes que armas de memoria, con datos de tres sistemas distintos.
             </p>
 
-            {/* ── Línea de cierre ── */}
             <div style={{ borderLeft: `4px solid ${ROJO}`, paddingLeft: 20, paddingTop: 4, paddingBottom: 4 }}>
               <p style={{ fontFamily: SANS, fontSize: 'clamp(16px,2vw,19px)', color: 'rgba(255,255,255,0.92)', lineHeight: 1.6, margin: 0, fontWeight: 600 }}>
                 Esto es lo que la mentalidad no resuelve.
@@ -457,37 +513,54 @@ function SubscribeContent() {
             </div>
           </div>
 
-          {/* ── Columna derecha: placeholder imagen ── */}
-          <div style={{
-            aspectRatio: '3/4',
-            background: '#1a1a1a',
-            border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: 12,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 12,
-          }}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.20)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <polyline points="21 15 16 10 5 21" />
-            </svg>
-            <span style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.22)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-              Imagen próximamente
-            </span>
+          {/* ── Columna derecha: imagen + overlays ── */}
+          <div className="brecha-img-wrap">
+            <img src="/caos-desk.jpg" alt="Escritorio caótico de un vendedor: notificaciones, post-its y pipeline sin actualizar" />
+
+            {/* ── Pipeline sobre la pantalla de la laptop ── */}
+            <div className="caos-pipeline">
+              <div className="cp-title">PIPELINE</div>
+              <div className="cp-row"><div className="cp-dot" style={{ background: '#e8001d' }} />Cliente Mora</div>
+              <div className="cp-row"><div className="cp-dot" style={{ background: '#e8001d' }} />Cliente Vásquez</div>
+              <div className="cp-row"><div className="cp-dot" style={{ background: '#e8001d' }} />Cliente Reyes</div>
+              <div className="cp-row"><div className="cp-dot" style={{ background: '#F5C400' }} />Cliente Ávila</div>
+              <div className="cp-row"><div className="cp-dot" style={{ background: '#F5C400' }} />Cliente Torres</div>
+            </div>
+
+            {/* ── Post-it amarillo (izquierda superior) ── */}
+            <div className="caos-postit" style={{
+              top: '37%', left: '10%',
+              background: 'rgba(252, 228, 60, 0.93)',
+              transform: 'rotate(-3deg)',
+              borderRadius: '2px 2px 2px 8px',
+            }}>
+              Ojo: mañana<br />evento de<br />networking
+            </div>
+
+            {/* ── Post-it rosado (centro, sobre el trackpad) ── */}
+            <div className="caos-postit" style={{
+              top: '57%', left: '31%',
+              background: 'rgba(255, 90, 130, 0.92)',
+              color: 'rgba(255,255,255,0.92)',
+              transform: 'rotate(1.5deg)',
+              borderRadius: '2px 8px 2px 2px',
+            }}>
+              No olvides el<br />informe para<br />el jefe
+            </div>
+
+            {/* ── Post-it naranja (inferior izquierda) ── */}
+            <div className="caos-postit" style={{
+              top: '70%', left: '19%',
+              background: 'rgba(255, 142, 40, 0.93)',
+              transform: 'rotate(-1.5deg)',
+              borderRadius: '8px 2px 2px 2px',
+            }}>
+              Ruiz — 8 días<br />sin respuesta ⚠️
+            </div>
+
           </div>
 
         </div>
-
-        {/* Responsive: columna única en móvil */}
-        <style>{`
-          @media (max-width: 620px) {
-            .brecha-grid { grid-template-columns: 1fr !important; }
-            .brecha-img  { display: none !important; }
-          }
-        `}</style>
       </section>
 
       <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
