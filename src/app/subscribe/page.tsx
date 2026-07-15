@@ -119,6 +119,17 @@ function SubscribeContent() {
       `}</style>
 
       {/* ── NAV ── */}
+      {/* Barra de anuncio */}
+      <div style={{ background: 'linear-gradient(90deg, #6a000d 0%, #9a0014 50%, #6a000d 100%)', padding: '10px 24px', textAlign: 'center' }}>
+        <span style={{ fontFamily: SANS, fontSize: 'clamp(13px,1.8vw,15px)', color: 'rgba(255,255,255,0.95)', letterSpacing: '0.02em' }}>
+          <strong style={{ fontFamily: BEBAS, fontSize: 'clamp(16px,2vw,18px)', letterSpacing: '0.10em', color: 'white' }}>NO</strong>
+          {' '}tienes nada que perder{' '}
+          <strong style={{ color: TEAL }}>y mucho que ganar.</strong>
+          <span style={{ marginLeft: 16, opacity: 0.5 }}>·</span>
+          <a href="/register" style={{ marginLeft: 16, fontFamily: BEBAS, fontSize: 'clamp(13px,1.8vw,15px)', color: 'white', letterSpacing: '0.10em', textDecoration: 'none', borderBottom: '1px solid rgba(255,255,255,0.35)', paddingBottom: 1 }}>PRUEBA 7 DÍAS GRATIS →</a>
+        </span>
+      </div>
+
       <nav style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '16px 24px', position: 'sticky', top: 0, zIndex: 50, background: 'rgba(8,8,8,0.92)', backdropFilter: 'blur(12px)' }}>
         <div style={{ maxWidth: 760, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span style={{ fontFamily: BEBAS, fontSize: 20, color: 'white', letterSpacing: '0.08em' }}>CBC™</span>
