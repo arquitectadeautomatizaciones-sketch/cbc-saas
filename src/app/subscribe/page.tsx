@@ -623,31 +623,107 @@ function SubscribeContent() {
       <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
 
       {/* ══════════════════════════════════════════════════════
-          02 — DOLOR
+          02 — DOLOR (línea de tiempo)
       ══════════════════════════════════════════════════════ */}
       <section style={{ background: NEGRO, padding: '80px 24px' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+        <style>{`
+          .timeline-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+            position: relative;
+            margin-bottom: 48px;
+          }
+          .timeline-line {
+            position: absolute;
+            top: 52px;
+            left: calc(16.66% + 12px);
+            right: calc(16.66% + 12px);
+            height: 1px;
+            background: rgba(245,196,0,0.25);
+            z-index: 0;
+          }
+          .timeline-card {
+            position: relative;
+            background: #161616;
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 10px;
+            padding: 28px 22px 24px;
+            z-index: 1;
+          }
+          .timeline-node {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #F5C400;
+            box-shadow: 0 0 10px rgba(245,196,0,0.5);
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 2;
+          }
+          @media (max-width: 640px) {
+            .timeline-grid { grid-template-columns: 1fr; }
+            .timeline-line {
+              top: calc(16.66% + 10px);
+              bottom: calc(16.66% + 10px);
+              left: 20px;
+              right: auto;
+              width: 1px;
+              height: auto;
+            }
+            .timeline-node { margin: 0 0 16px 0; }
+          }
+        `}</style>
+        <div style={{ maxWidth: 860, margin: '0 auto' }}>
           <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>EL PROBLEMA</div>
           <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 8px', letterSpacing: '0.02em' }}>
             <span style={{ color: 'white' }}>EL DÍA QUE NUNCA</span>
           </h2>
-          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 44px', letterSpacing: '0.02em' }}>
+          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 52px', letterSpacing: '0.02em' }}>
             <span style={{ color: ROJO }}>TERMINA</span><span style={{ color: 'white' }}> COMO DEBERÍA.</span>
           </h2>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-            {[
-              'Miras la lista 30 minutos. Empiezas por quien recordabas — no por quien más cerca estaba de comprar.',
-              'Tu jefe pide el reporte del viernes. Buscas datos en tres sistemas distintos. Armas algo que suena bien. Pero tú sabes que es a medias.',
-              'Enviaste la propuesta el martes. Ya es jueves. No sabes si llamar, escribir o esperar. El silencio te paraliza.',
-            ].map((txt, i) => (
-              <div key={i} style={{ display: 'flex', gap: 20, padding: '28px 0', borderBottom: '1px solid rgba(255,255,255,0.06)', alignItems: 'flex-start' }}>
-                <span style={{ fontFamily: MONO, fontSize: 10, color: ROJO, fontWeight: 700, flexShrink: 0, marginTop: 4, letterSpacing: '0.1em' }}>0{i + 1}</span>
-                <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, margin: 0 }}>{txt}</p>
-              </div>
-            ))}
+          <div className="timeline-grid">
+            <div className="timeline-line" />
+
+            {/* Tarjeta 1 — 9:00 AM */}
+            <div className="timeline-card" style={{ transform: 'rotate(-1.5deg)' }}>
+              <div className="timeline-node" />
+              <div style={{ fontFamily: MONO, fontSize: 22, fontWeight: 700, color: AMARILLO, letterSpacing: '0.04em', marginBottom: 16 }}>9:00 AM</div>
+              <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 12 }}>
+                <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>
+              </svg>
+              <p style={{ fontFamily: SANS, fontSize: 'clamp(13px,1.6vw,15px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.7, margin: 0 }}>
+                Miras la lista. No sabes por dónde empezar.
+              </p>
+            </div>
+
+            {/* Tarjeta 2 — 2:00 PM */}
+            <div className="timeline-card" style={{ transform: 'rotate(1deg)' }}>
+              <div className="timeline-node" />
+              <div style={{ fontFamily: MONO, fontSize: 22, fontWeight: 700, color: AMARILLO, letterSpacing: '0.04em', marginBottom: 16 }}>2:00 PM</div>
+              <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 12 }}>
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/>
+              </svg>
+              <p style={{ fontFamily: SANS, fontSize: 'clamp(13px,1.6vw,15px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.7, margin: 0 }}>
+                Tu jefe pide el reporte. Buscas en 3 sistemas distintos.
+              </p>
+            </div>
+
+            {/* Tarjeta 3 — 6:00 PM */}
+            <div className="timeline-card" style={{ transform: 'rotate(-0.8deg)' }}>
+              <div className="timeline-node" />
+              <div style={{ fontFamily: MONO, fontSize: 22, fontWeight: 700, color: AMARILLO, letterSpacing: '0.04em', marginBottom: 16 }}>6:00 PM</div>
+              <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 12 }}>
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="10" x2="15" y2="10"/>
+              </svg>
+              <p style={{ fontFamily: SANS, fontSize: 'clamp(13px,1.6vw,15px)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.7, margin: 0 }}>
+                El prospecto del martes sigue sin respuesta. El silencio te paraliza.
+              </p>
+            </div>
           </div>
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, margin: '32px 0 0' }}>
+
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.50)', lineHeight: 1.75, margin: 0, fontStyle: 'italic' }}>
             Y mientras tanto — ese prospecto se está enfriando. Sin que nadie te avise.
           </p>
         </div>
