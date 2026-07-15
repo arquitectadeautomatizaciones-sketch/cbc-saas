@@ -1444,9 +1444,7 @@ function SubscribeContent() {
           {/* Presentación en primera persona */}
           <div style={{ background: 'rgba(8,8,8,0.65)', backdropFilter: 'blur(12px)', border: `1px solid ${TEAL}22`, borderRadius: 14, padding: '28px 28px 24px', marginBottom: 28, maxWidth: 540 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
-              <div style={{ width: 42, height: 42, borderRadius: '50%', background: `linear-gradient(135deg, ${TEAL}30, ${TEAL}08)`, border: `1.5px solid ${TEAL}50`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <span style={{ fontSize: 18 }}>🤝</span>
-              </div>
+              <img src="https://assets.cdn.filesafe.space/MgsViYLMmCdJksx9p3va/media/69e8ba57a1636a6c65273241.png" alt="Sofía" style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: `1.5px solid ${TEAL}50` }} />
               <div>
                 <div style={{ fontFamily: BEBAS, fontSize: 18, color: TEAL, letterSpacing: '0.08em' }}>SOFÍA™</div>
                 <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.38)', letterSpacing: '0.14em' }}>PARTE DEL EQUIPO CBC™</div>
