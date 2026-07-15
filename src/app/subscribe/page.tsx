@@ -159,7 +159,7 @@ function SubscribeContent() {
         <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(14px,2vw,17px)', color: 'rgba(255,255,255,0.95)', letterSpacing: '0.01em', position: 'relative', fontStyle: 'italic' }}>
           <strong className="announce-no" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(17px,2.4vw,21px)', letterSpacing: '0.04em', color: 'white', fontStyle: 'normal', fontWeight: 900 }}>NO</strong>
           {' '}tienes nada que perder{' '}
-          <strong style={{ color: TEAL, fontStyle: 'normal' }}>y mucho que ganar.</strong>
+          <strong style={{ color: TEAL, fontStyle: 'normal' }}>y mucho que GANAR.</strong>
         </span>
       </div>
 
