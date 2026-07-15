@@ -430,127 +430,58 @@ function SubscribeContent() {
       ══════════════════════════════════════════════════════ */}
       <section style={{ background: '#111', padding: '80px 24px' }}>
         <style>{`
-          .brecha-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 48px 52px; align-items: center; max-width: 880px; margin: 0 auto; }
-          .brecha-img-wrap { position: relative; border-radius: 12px; overflow: hidden; line-height: 0; }
+          @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap');
+
+          .brecha-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 48px 52px;
+            align-items: start;
+            max-width: 900px;
+            margin: 0 auto;
+          }
+          /* ── columna de imágenes: pizarra arriba, laptop abajo ── */
+          .brecha-imgs {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+          }
+          .brecha-img-wrap {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            line-height: 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+          }
           .brecha-img-wrap img { width: 100%; display: block; border-radius: 12px; }
 
-          /* ══ EXCEL OVERLAY ══ */
-          .xls-panel {
+          /* ── Fix META: overlay cubre MÉTA y el cero extra ── */
+          .fix-meta {
             position: absolute;
-            top: 5%; left: 27%; width: 46%; height: 40%;
-            background: #ffffff;
-            border: 1px solid #c8c8c8;
-            border-radius: 3px;
-            overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.45);
-            display: flex;
-            flex-direction: column;
-          }
-          /* Title bar (ribbon strip) */
-          .xls-titlebar {
-            background: #1e7145;
-            padding: 2px 6px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(5px, 0.9vw, 8px);
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 0.12em;
-            flex-shrink: 0;
-          }
-          /* Column headers */
-          .xls-colheader {
-            display: grid;
-            grid-template-columns: 28% 34% 20% 18%;
-            background: #e8e8e8;
-            border-bottom: 1px solid #b0b0b0;
-            flex-shrink: 0;
-          }
-          .xls-ch {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(4px, 0.75vw, 7px);
-            font-weight: 700;
-            color: #333;
-            padding: 2px 4px;
-            border-right: 1px solid #c0c0c0;
-            white-space: nowrap;
-            overflow: hidden;
-          }
-          /* Data rows */
-          .xls-body { flex: 1; overflow: hidden; }
-          .xls-row {
-            display: grid;
-            grid-template-columns: 28% 34% 20% 18%;
-            border-bottom: 1px solid #e0e0e0;
-          }
-          .xls-row:nth-child(even) { background: #f5f5f5; }
-          .xls-cell {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(4px, 0.72vw, 6.5px);
-            color: rgba(0,0,0,0.88);
-            padding: 2px 4px;
-            border-right: 1px solid #e0e0e0;
-            white-space: nowrap;
-            overflow: hidden;
-          }
-          .xls-status {
+            top: 3.5%; left: 5%;
+            width: 31%; height: 14%;
+            background: white;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: clamp(4px, 0.72vw, 6.5px);
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            border-radius: 2px;
-            margin: 2px 3px;
-            padding: 1px 3px;
+            padding-left: 3%;
           }
-          .xls-red    { background: #ffd5d5; color: #b00000; }
-          .xls-yellow { background: #fff3cd; color: #856404; }
-          .xls-green  { background: #d4edda; color: #155724; }
-
-          /* ══ TABLERO DE VENTAS ══ */
-          .caos-board {
-            position: absolute;
-            top: 42%; right: 1%; width: 37%; height: 53%;
-            background: #f4f0e8;
-            border-top: 4px solid #e8001d;
-            border-radius: 4px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.50), inset 0 0 0 1px rgba(0,0,0,0.08);
-            padding: 6px 5px 5px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-          }
-          .cb-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(4.5px, 0.8vw, 7.5px);
-            font-weight: 700;
-            color: rgba(0,0,0,0.75);
-            letter-spacing: 0.04em;
-            text-align: center;
-            border-bottom: 1px solid rgba(0,0,0,0.12);
-            padding-bottom: 4px;
-            line-height: 1.3;
-          }
-          .cb-objetivo {
-            font-size: clamp(5px, 0.9vw, 8px);
-            color: #e8001d;
-            font-weight: 700;
-          }
-          /* Post-its dentro del tablero */
-          .board-postit {
-            font-family: 'General Sans', system-ui, sans-serif;
-            font-size: clamp(5.5px, 0.95vw, 8.5px);
+          .fix-meta span {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(14px, 3.2vw, 34px);
             font-weight: 600;
-            color: rgba(0,0,0,0.90);
-            line-height: 1.35;
-            padding: 5px 7px;
-            box-shadow: 1px 2px 5px rgba(0,0,0,0.25);
-            flex-shrink: 0;
+            color: #1b55b8;
+            line-height: 1;
+          }
+          .fix-zero {
+            position: absolute;
+            top: 21%; right: 2%;
+            width: 9%; height: 15%;
+            background: white;
           }
 
           @media (max-width: 640px) {
-            .brecha-grid { grid-template-columns: 1fr !important; }
-            .brecha-img-wrap { display: none; }
+            .brecha-grid  { grid-template-columns: 1fr !important; }
+            .brecha-imgs  { display: none; }
           }
         `}</style>
 
@@ -581,101 +512,29 @@ function SubscribeContent() {
             </div>
           </div>
 
-          {/* ── Columna derecha: imagen + overlays ── */}
-          <div className="brecha-img-wrap">
-            <img src="/caos-desk.jpg" alt="Escritorio caótico de un vendedor: notificaciones, post-its y pipeline sin actualizar" />
+          {/* ── Columna derecha: PIZARRA (arriba) + LAPTOP (abajo) ── */}
+          <div className="brecha-imgs">
 
-            {/* ══ ELEMENTO 1 — Excel con pipeline (arriba-centro, sobre pantalla laptop) ══ */}
-            <div className="xls-panel">
-              {/* Barra de título estilo Excel/Google Sheets */}
-              <div className="xls-titlebar">▦ PIPELINE.xlsx</div>
-
-              {/* Encabezados de columna */}
-              <div className="xls-colheader">
-                <div className="xls-ch">CLIENTE</div>
-                <div className="xls-ch">ETAPA</div>
-                <div className="xls-ch">VALOR</div>
-                <div className="xls-ch">ESTADO</div>
+            {/* ══ IMAGEN 1 — Pizarra real con post-its ══ */}
+            <div className="brecha-img-wrap">
+              <img
+                src="/pizarra-ventas.jpg"
+                alt="Pizarra de ventas con meta $500.000.000 y post-its escritos a mano"
+              />
+              {/* Fix MÉTA → META: cubre la É con parche blanco + texto Caveat */}
+              <div className="fix-meta">
+                <span>META</span>
               </div>
-
-              {/* Filas de datos — mayoría ROJO */}
-              <div className="xls-body">
-                <div className="xls-row">
-                  <div className="xls-cell">Mora & Asoc.</div>
-                  <div className="xls-cell">Propuesta</div>
-                  <div className="xls-cell">$18M</div>
-                  <div className="xls-cell"><span className="xls-status xls-red">FRÍA</span></div>
-                </div>
-                <div className="xls-row">
-                  <div className="xls-cell">Vásquez S.A.</div>
-                  <div className="xls-cell">Seguimiento</div>
-                  <div className="xls-cell">$32M</div>
-                  <div className="xls-cell"><span className="xls-status xls-red">FRÍA</span></div>
-                </div>
-                <div className="xls-row">
-                  <div className="xls-cell">Reyes Corp.</div>
-                  <div className="xls-cell">1er contacto</div>
-                  <div className="xls-cell">$9M</div>
-                  <div className="xls-cell"><span className="xls-status xls-red">FRÍA</span></div>
-                </div>
-                <div className="xls-row">
-                  <div className="xls-cell">Cía. Ávila</div>
-                  <div className="xls-cell">Negociación</div>
-                  <div className="xls-cell">$24M</div>
-                  <div className="xls-cell"><span className="xls-status xls-red">FRÍA</span></div>
-                </div>
-                <div className="xls-row">
-                  <div className="xls-cell">Torres Hnos.</div>
-                  <div className="xls-cell">Demo hecha</div>
-                  <div className="xls-cell">$15M</div>
-                  <div className="xls-cell"><span className="xls-status xls-yellow">TIBIA</span></div>
-                </div>
-                <div className="xls-row">
-                  <div className="xls-cell">Grupo Nieto</div>
-                  <div className="xls-cell">Cierre</div>
-                  <div className="xls-cell">$41M</div>
-                  <div className="xls-cell"><span className="xls-status xls-green">CALIENTE</span></div>
-                </div>
-              </div>
+              {/* Fix cero extra al final de $500.000.0000 → $500.000.000 */}
+              <div className="fix-zero" />
             </div>
 
-            {/* ══ ELEMENTO 2 — Tablero de ventas con post-its (abajo-derecha) ══ */}
-            <div className="caos-board">
-              {/* Título del tablero */}
-              <div className="cb-title">
-                OBJETIVO DE VENTAS ESTE MES:<br />
-                <span className="cb-objetivo">$500.000.000</span>
-              </div>
-
-              {/* Post-it 1 — amarillo */}
-              <div className="board-postit" style={{
-                background: 'rgba(252, 228, 60, 0.96)',
-                transform: 'rotate(-1.5deg)',
-                alignSelf: 'flex-start',
-                marginLeft: '4%',
-              }}>
-                ⚠️ Ojo: mañana<br />evento de networking
-              </div>
-
-              {/* Post-it 2 — rosado */}
-              <div className="board-postit" style={{
-                background: 'rgba(255, 105, 145, 0.95)',
-                color: 'rgba(255,255,255,0.92)',
-                transform: 'rotate(1deg)',
-                alignSelf: 'flex-end',
-                marginRight: '4%',
-              }}>
-                No olvides el informe<br />para el jefe en la reunión
-              </div>
-
-              {/* Post-it 3 — naranja */}
-              <div className="board-postit" style={{
-                background: 'rgba(255, 142, 40, 0.96)',
-                transform: 'rotate(-0.8deg)',
-                alignSelf: 'center',
-              }}>
-                🔴 Ruiz — 8 días<br />sin respuesta
-              </div>
+            {/* ══ IMAGEN 2 — Laptop con Excel pipeline ══ */}
+            <div className="brecha-img-wrap">
+              <img
+                src="/laptop-excel.jpg"
+                alt="Laptop con Excel pipeline de ventas — celdas de semáforo, mayoría en rojo"
+              />
             </div>
 
           </div>
