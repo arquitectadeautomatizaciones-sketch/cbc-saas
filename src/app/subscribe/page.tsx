@@ -942,10 +942,38 @@ function SubscribeContent() {
             color: 'rgba(255,255,255,0.72)',
             lineHeight: 1.7,
             maxWidth: 560,
-            margin: '0 auto 60px',
+            margin: '0 auto 48px',
           }}>
             La app que devuelve <strong style={{ color: 'white' }}>2 horas al día</strong> al vendedor que cierra — para que toda tu energía vaya donde realmente se generan las comisiones.
           </p>
+
+          {/* Definición Sofía */}
+          <div className="cbc-reveal cbc-reveal-4" style={{
+            maxWidth: 580,
+            margin: '0 auto 60px',
+            borderLeft: `3px solid ${TEAL}`,
+            paddingLeft: 24,
+            textAlign: 'left',
+          }}>
+            <p style={{
+              fontFamily: SANS,
+              fontSize: 'clamp(15px, 2vw, 17px)',
+              color: 'rgba(255,255,255,0.80)',
+              lineHeight: 1.8,
+              margin: '0 0 16px',
+            }}>
+              CBC™ es una app con IA que te quita de encima todas esas tareas administrativas que te roban tiempo — reportes, propuestas, análisis de clientes, preparación de llamadas — para que tú solo hagas lo que genera plata: <strong style={{ color: 'white' }}>vender y cerrar.</strong>
+            </p>
+            <p style={{
+              fontFamily: SANS,
+              fontSize: 'clamp(15px, 2vw, 17px)',
+              color: 'rgba(255,255,255,0.60)',
+              lineHeight: 1.8,
+              margin: 0,
+            }}>
+              Básicamente, tienes una IA personal que organiza tu día, te dice a quién llamar primero, redacta propuestas en minutos, y hasta te acompaña en vivo durante las reuniones.
+            </p>
+          </div>
         </div>
 
         {/* ── 3. STATS ─── */}
