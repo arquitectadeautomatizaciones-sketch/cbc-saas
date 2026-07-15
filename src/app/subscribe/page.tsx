@@ -1228,7 +1228,12 @@ function SubscribeContent() {
 
             {/* Testimonio estilo WhatsApp */}
             <div style={{ marginBottom: 48 }}>
-              <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20, textAlign: 'center' }}>Lo que dicen nuestros usuarios</div>
+              <div style={{ textAlign: 'center', marginBottom: 36 }}>
+                <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(34px,5.5vw,56px)', lineHeight: 0.95, margin: 0, letterSpacing: '0.02em' }}>
+                  <span style={{ color: 'white' }}>LO QUE DICEN </span>
+                  <span style={{ color: ROJO }}>NUESTROS USUARIOS.</span>
+                </h2>
+              </div>
 
               {/* Pantalla de WhatsApp */}
               <div style={{ maxWidth: 420, margin: '0 auto', borderRadius: 16, overflow: 'hidden', boxShadow: '0 24px 60px rgba(0,0,0,0.7)', border: '1px solid rgba(255,255,255,0.08)' }}>
