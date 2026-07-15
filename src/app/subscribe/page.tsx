@@ -862,139 +862,213 @@ function SubscribeContent() {
         </div>
       </section>
 
-      <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
-
       {/* ══════════════════════════════════════════════════════
-          03 — QUÉ ES
+          03 — CBC™ REVEAL + ARSENAL
       ══════════════════════════════════════════════════════ */}
-      <section style={{ background: '#0d0d0d', padding: '80px 24px' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>QUÉ ES CBC™</div>
-
-          {/* Título split */}
-          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 4px', letterSpacing: '0.02em', color: 'white' }}>NO ES MAGIA.</h2>
-          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 40px', letterSpacing: '0.02em' }}>
-            <span style={{ color: ROJO }}>NO CIERRA</span><span style={{ color: 'white' }}> POR TI.</span>
-          </h2>
-
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.8, margin: '0 0 48px', maxWidth: 580 }}>
-            CBC™ no reemplaza tu talento ni tu conversación.
-          </p>
-
-          {/* Cifra destacada: 2 horas al día */}
-          <div style={{ margin: '0 0 20px' }}>
-            <div style={{ fontFamily: MONO, fontSize: 9, color: `${ROJO}cc`, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>TE ROBAN CADA DÍA</div>
-            <div style={{ fontFamily: BEBAS, fontSize: 'clamp(64px,10vw,96px)', lineHeight: 0.9, color: TEAL, letterSpacing: '0.02em' }}>2 HORAS</div>
-            <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '16px 0 0', maxWidth: 520 }}>
-              Las tareas administrativas que hoy consumen tu mejor energía. Sofía las hace por ti, para que toda tu atención vaya donde realmente se generan las comisiones: en el cierre.
-            </p>
-          </div>
-
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(14px,1.8vw,15px)', color: 'rgba(255,255,255,0.45)', lineHeight: 1.8, margin: '32px 0 0' }}>
-            Se instala en tu celular como una app real. Solo necesitas internet.
-          </p>
-        </div>
-      </section>
-
-      <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
-
-      {/* ══════════════════════════════════════════════════════
-          04 — VS CRM
-      ══════════════════════════════════════════════════════ */}
-      <section style={{ background: NEGRO, padding: '80px 24px' }}>
+      <section style={{ background: '#000', padding: 0, position: 'relative', overflow: 'hidden' }}>
         <style>{`
-          .crm-table { width: 100%; border-collapse: collapse; }
-          .crm-table th { fontFamily: ${JSON.stringify(MONO)}; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; padding: 14px 20px; text-align: left; }
-          .crm-table td { padding: 14px 20px; font-size: 15px; line-height: 1.5; vertical-align: middle; border-top: 1px solid rgba(255,255,255,0.06); }
-          .crm-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
-          @media (max-width: 580px) { .crm-table td, .crm-table th { padding: 12px 12px; font-size: 13px; } }
+          @keyframes cbcGlow {
+            0%,100% { text-shadow: 0 0 40px rgba(78,205,196,0.25), 0 0 80px rgba(78,205,196,0.10); }
+            50%      { text-shadow: 0 0 60px rgba(78,205,196,0.45), 0 0 120px rgba(78,205,196,0.20); }
+          }
+          @keyframes cbcFadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+          @keyframes pulseRing {
+            0%   { transform:scale(1);   opacity:0.6; }
+            100% { transform:scale(2.2); opacity:0; }
+          }
+          .cbc-name   { animation: cbcGlow 3s ease-in-out infinite; }
+          .cbc-reveal { animation: cbcFadeIn 0.8s ease both; }
+          .cbc-reveal-1 { animation-delay: 0.1s; }
+          .cbc-reveal-2 { animation-delay: 0.3s; }
+          .cbc-reveal-3 { animation-delay: 0.5s; }
+          .cbc-reveal-4 { animation-delay: 0.7s; }
+          .cbc-reveal-5 { animation-delay: 0.9s; }
+          .cbc-stat-card { transition: transform 0.25s, border-color 0.25s; }
+          .cbc-stat-card:hover { transform: translateY(-4px); border-color: rgba(78,205,196,0.40) !important; }
+          .arsenal-card { transition: transform 0.2s, background 0.2s; }
+          .arsenal-card:hover { transform: translateY(-2px); background: rgba(255,255,255,0.05) !important; }
+          .crm-table2 { width: 100%; border-collapse: collapse; }
+          .crm-table2 td { padding: 14px 20px; font-size: 15px; line-height: 1.5; vertical-align: middle; border-top: 1px solid rgba(255,255,255,0.06); }
+          @media (max-width: 580px) {
+            .crm-table2 td { padding: 12px 12px; font-size: 13px; }
+            .cbc-stats-row { flex-direction: column !important; }
+          }
         `}</style>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>CBC™ VS. TU CRM ACTUAL</div>
-          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(32px,5vw,54px)', lineHeight: 1, margin: '0 0 4px', letterSpacing: '0.02em', color: 'white' }}>"YA TENGO CRM."</h2>
-          <h3 style={{ fontFamily: BEBAS, fontSize: 'clamp(22px,3.5vw,36px)', color: 'rgba(255,255,255,0.38)', lineHeight: 1, margin: '0 0 40px', letterSpacing: '0.02em', fontWeight: 400 }}>BIEN. PERO TU CRM NO HACE ESTO.</h3>
 
-          {/* Tabla comparativa */}
-          <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden', marginBottom: 40 }}>
-            <table className="crm-table">
-              <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.04)' }}>
-                  <th style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '14px 20px', textAlign: 'left', color: 'rgba(232,0,29,0.75)', width: '50%' }}>TU CRM</th>
-                  <th style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '14px 20px', textAlign: 'left', color: TEAL, width: '50%' }}>CBC™</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ['No te dice a quién llamar hoy', 'Te dice exactamente a quién llamar primero'],
-                  ['No prepara tu llamada', 'Prepara tu argumentario antes de marcar'],
-                  ['No avisa cuando un prospecto se enfría', 'Te alerta si llevas 7 días sin contactar'],
-                  ['No redacta tu propuesta', 'Redacta la propuesta en segundos'],
-                  ['No calcula el costo de no actuar', 'Calcula cuánto pierdes cada día sin cerrar'],
-                ].map(([crm, cbc], i) => (
-                  <tr key={i}>
-                    <td style={{ fontFamily: SANS, color: 'rgba(255,255,255,0.55)', borderTop: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.06)' }}>
-                      <span style={{ color: ROJO, fontWeight: 700, marginRight: 10, fontSize: 14 }}>✗</span>{crm}
-                    </td>
-                    <td style={{ fontFamily: SANS, color: 'rgba(255,255,255,0.88)', borderTop: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.06)' }}>
-                      <span style={{ color: TEAL, fontWeight: 700, marginRight: 10, fontSize: 14 }}>✓</span>{cbc}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Bloques de cierre */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <div style={{ borderLeft: `4px solid ${ROJO}`, paddingLeft: 20, background: 'rgba(232,0,29,0.05)', padding: '18px 20px', borderRadius: '0 8px 8px 0' }}>
-              <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.70)', lineHeight: 1.7, margin: 0, fontStyle: 'italic' }}>
-                Tu CRM sabe todo. Y no cierra nada.
-              </p>
-            </div>
-            <div style={{ borderLeft: `4px solid ${TEAL}`, paddingLeft: 20, background: 'rgba(78,205,196,0.05)', padding: '18px 20px', borderRadius: '0 8px 8px 0' }}>
-              <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.92)', lineHeight: 1.7, margin: 0, fontWeight: 600 }}>
-                CBC™ decide, prepara y avisa. Tú solo cierras.
-              </p>
-            </div>
+        {/* ── 1. LLAMADO AL PERIÓDICO ─── */}
+        <div style={{ textAlign: 'center', padding: '80px 24px 0' }}>
+          <div className="cbc-reveal cbc-reveal-1" style={{ fontFamily: MONO, fontSize: 10, color: `${TEAL}99`, letterSpacing: '0.30em', textTransform: 'uppercase', marginBottom: 28 }}>
+            El sistema detrás de la captura
           </div>
         </div>
-      </section>
 
-      <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
-
-      {/* ══════════════════════════════════════════════════════
-          05 — 10 HERRAMIENTAS
-      ══════════════════════════════════════════════════════ */}
-      <section style={{ background: '#0d0d0d', padding: '80px 24px' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>10 HERRAMIENTAS</div>
-          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 4px', letterSpacing: '0.02em', color: 'white' }}>TODO LO QUE</h2>
-          <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(38px,6vw,62px)', lineHeight: 0.95, margin: '0 0 44px', letterSpacing: '0.02em' }}>
-            <span style={{ color: TEAL }}>SOFÍA</span><span style={{ color: 'white' }}> HACE POR TI:</span>
+        {/* ── 2. REVEAL CBC™ ─── */}
+        <div style={{ textAlign: 'center', padding: '0 24px', position: 'relative' }}>
+          {/* Anillo de luz detrás */}
+          <div style={{
+            position: 'absolute', top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 300, height: 300, borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(78,205,196,0.12) 0%, transparent 70%)',
+            pointerEvents: 'none',
+          }} />
+          <h2
+            className="cbc-name cbc-reveal cbc-reveal-2"
+            style={{
+              fontFamily: BEBAS,
+              fontSize: 'clamp(100px, 22vw, 200px)',
+              lineHeight: 0.88,
+              letterSpacing: '0.04em',
+              color: 'white',
+              margin: 0,
+              position: 'relative',
+            }}
+          >
+            CBC™
           </h2>
+          <div className="cbc-reveal cbc-reveal-3" style={{
+            fontFamily: BEBAS,
+            fontSize: 'clamp(18px, 3.5vw, 28px)',
+            letterSpacing: '0.20em',
+            color: TEAL,
+            marginTop: 8,
+            marginBottom: 20,
+          }}>
+            CIERRE BAJO CONTROL
+          </div>
+          <p className="cbc-reveal cbc-reveal-4" style={{
+            fontFamily: SANS,
+            fontSize: 'clamp(16px, 2.2vw, 20px)',
+            color: 'rgba(255,255,255,0.72)',
+            lineHeight: 1.7,
+            maxWidth: 560,
+            margin: '0 auto 60px',
+          }}>
+            La app que devuelve <strong style={{ color: 'white' }}>2 horas al día</strong> al vendedor que cierra — para que toda tu energía vaya donde realmente se generan las comisiones.
+          </p>
+        </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 6 }}>
-            {herramientas.map((h, i) => {
-              const c = TOOL_COLORS[i]
-              return (
-                <div key={i} style={{
-                  display: 'flex', gap: 16, alignItems: 'flex-start',
-                  padding: '20px 18px',
-                  background: `rgba(8,8,8,0.6)`,
-                  border: '1px solid rgba(255,255,255,0.06)',
-                  borderLeft: `3px solid ${c}`,
-                  borderRadius: 10,
-                }}>
-                  <div style={{ color: c, flexShrink: 0, marginTop: 2 }}>{TOOL_ICONS[i]}</div>
-                  <div>
-                    <div style={{ fontFamily: MONO, fontSize: 11, fontWeight: 700, color: c, marginBottom: 5, letterSpacing: '0.06em' }}>{h.nombre}</div>
-                    <div style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(255,255,255,0.62)', lineHeight: 1.6 }}>{h.desc}</div>
-                  </div>
-                </div>
-              )
-            })}
+        {/* ── 3. STATS ─── */}
+        <div className="cbc-reveal cbc-reveal-5" style={{ padding: '0 24px 80px' }}>
+          <div
+            className="cbc-stats-row"
+            style={{ maxWidth: 760, margin: '0 auto', display: 'flex', gap: 12 }}
+          >
+            {[
+              { num: '2H', label: 'devueltas al vendedor', sub: 'cada día', color: TEAL },
+              { num: '10', label: 'herramientas de IA', sub: 'listas para usar', color: AMARILLO },
+              { num: '7D', label: 'de prueba gratis', sub: 'sin tarjeta de crédito', color: VERDE_S },
+            ].map((s, i) => (
+              <div
+                key={i}
+                className="cbc-stat-card"
+                style={{
+                  flex: 1,
+                  textAlign: 'center',
+                  padding: '28px 16px',
+                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: 14,
+                }}
+              >
+                <div style={{ fontFamily: BEBAS, fontSize: 'clamp(48px,7vw,72px)', lineHeight: 0.9, color: s.color, letterSpacing: '0.02em' }}>{s.num}</div>
+                <div style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(255,255,255,0.85)', fontWeight: 600, marginTop: 10, lineHeight: 1.4 }}>{s.label}</div>
+                <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>{s.sub}</div>
+              </div>
+            ))}
           </div>
         </div>
+
+        {/* ── SEPARADOR ─── */}
+        <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '0 24px' }} />
+
+        {/* ── 4. EL ARSENAL — 10 HERRAMIENTAS ─── */}
+        <div style={{ padding: '80px 24px' }}>
+          <div style={{ maxWidth: 760, margin: '0 auto' }}>
+            <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 16 }}>El arsenal</div>
+            <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(34px,5.5vw,56px)', lineHeight: 0.95, margin: '0 0 6px', letterSpacing: '0.02em', color: 'white' }}>10 ARMAS.</h2>
+            <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(34px,5.5vw,56px)', lineHeight: 0.95, margin: '0 0 48px', letterSpacing: '0.02em' }}>
+              <span style={{ color: TEAL }}>UNA SOLA</span><span style={{ color: 'white' }}> APP.</span>
+            </h2>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 6 }}>
+              {herramientas.map((h, i) => {
+                const c = TOOL_COLORS[i]
+                return (
+                  <div key={i} className="arsenal-card" style={{
+                    display: 'flex', gap: 16, alignItems: 'flex-start',
+                    padding: '20px 18px',
+                    background: 'rgba(255,255,255,0.02)',
+                    border: '1px solid rgba(255,255,255,0.06)',
+                    borderLeft: `3px solid ${c}`,
+                    borderRadius: 10,
+                  }}>
+                    <div style={{ color: c, flexShrink: 0, marginTop: 2 }}>{TOOL_ICONS[i]}</div>
+                    <div>
+                      <div style={{ fontFamily: MONO, fontSize: 11, fontWeight: 700, color: c, marginBottom: 5, letterSpacing: '0.06em' }}>{h.nombre}</div>
+                      <div style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(255,255,255,0.60)', lineHeight: 1.6 }}>{h.desc}</div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* ── SEPARADOR ─── */}
+        <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '0 24px' }} />
+
+        {/* ── 5. VS CRM ─── */}
+        <div style={{ padding: '80px 24px' }}>
+          <div style={{ maxWidth: 760, margin: '0 auto' }}>
+            <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 20 }}>CBC™ VS. TU CRM ACTUAL</div>
+            <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(32px,5vw,54px)', lineHeight: 1, margin: '0 0 4px', letterSpacing: '0.02em', color: 'white' }}>"YA TENGO CRM."</h2>
+            <h3 style={{ fontFamily: BEBAS, fontSize: 'clamp(22px,3.5vw,36px)', color: 'rgba(255,255,255,0.35)', lineHeight: 1, margin: '0 0 40px', letterSpacing: '0.02em', fontWeight: 400 }}>BIEN. PERO TU CRM NO HACE ESTO.</h3>
+
+            <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden', marginBottom: 40 }}>
+              <table className="crm-table2">
+                <thead>
+                  <tr style={{ background: 'rgba(255,255,255,0.04)' }}>
+                    <th style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '14px 20px', textAlign: 'left', color: 'rgba(232,0,29,0.75)', width: '50%' }}>TU CRM</th>
+                    <th style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '14px 20px', textAlign: 'left', color: TEAL, width: '50%' }}>CBC™</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ['No te dice a quién llamar hoy', 'Te dice exactamente a quién llamar primero'],
+                    ['No prepara tu llamada', 'Prepara tu argumentario antes de marcar'],
+                    ['No avisa cuando un prospecto se enfría', 'Te alerta si llevas 7 días sin contactar'],
+                    ['No redacta tu propuesta', 'Redacta la propuesta en segundos'],
+                    ['No calcula el costo de no actuar', 'Calcula cuánto pierdes cada día sin cerrar'],
+                  ].map(([crm, cbc], i) => (
+                    <tr key={i}>
+                      <td style={{ fontFamily: SANS, color: 'rgba(255,255,255,0.50)' }}>
+                        <span style={{ color: ROJO, fontWeight: 700, marginRight: 10, fontSize: 14 }}>✗</span>{crm}
+                      </td>
+                      <td style={{ fontFamily: SANS, color: 'rgba(255,255,255,0.88)' }}>
+                        <span style={{ color: TEAL, fontWeight: 700, marginRight: 10, fontSize: 14 }}>✓</span>{cbc}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div style={{ borderLeft: `4px solid ${ROJO}`, background: 'rgba(232,0,29,0.05)', padding: '18px 20px', borderRadius: '0 8px 8px 0' }}>
+                <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, margin: 0, fontStyle: 'italic' }}>
+                  Tu CRM sabe todo. Y no cierra nada.
+                </p>
+              </div>
+              <div style={{ borderLeft: `4px solid ${TEAL}`, background: 'rgba(78,205,196,0.05)', padding: '18px 20px', borderRadius: '0 8px 8px 0' }}>
+                <p style={{ fontFamily: SANS, fontSize: 'clamp(15px,2vw,17px)', color: 'rgba(255,255,255,0.92)', lineHeight: 1.7, margin: 0, fontWeight: 600 }}>
+                  CBC™ decide, prepara y avisa. Tú solo cierras.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </section>
 
       <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
