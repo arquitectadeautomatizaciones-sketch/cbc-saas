@@ -751,67 +751,79 @@ function SubscribeContent() {
       <section style={{ background: NEGRO, padding: '72px 24px' }}>
         <style>{`
           .newspaper-wrap {
-            max-width: 780px;
+            max-width: 820px;
             margin: 0 auto;
-            background: #ffffff;
-            border-radius: 4px;
-            padding: 48px 52px 40px;
-            box-shadow: 0 8px 48px rgba(0,0,0,0.6);
+            background: #f0ebe0;
+            border-radius: 2px;
+            padding: 40px 48px 36px;
+            box-shadow: 0 12px 60px rgba(0,0,0,0.7);
           }
           .newspaper-masthead {
             font-family: 'Playfair Display', Georgia, serif;
             font-weight: 900;
-            font-size: clamp(28px, 5vw, 52px);
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
+            font-size: clamp(32px, 6vw, 58px);
+            letter-spacing: 0.04em;
             color: #111;
             text-align: center;
             line-height: 1;
-            margin: 0 0 12px;
+            margin: 0 0 10px;
+            font-style: italic;
           }
           .newspaper-meta {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 11px;
-            letter-spacing: 0.20em;
+            font-family: Georgia, serif;
+            font-size: 10px;
+            letter-spacing: 0.16em;
             text-transform: uppercase;
-            color: rgba(0,0,0,0.45);
+            color: rgba(0,0,0,0.50);
             text-align: center;
-            margin: 0 0 20px;
+            margin: 0 0 14px;
           }
-          .newspaper-rule { border: none; border-top: 3px double rgba(0,0,0,0.30); margin: 0 0 8px; }
-          .newspaper-rule-thin { border: none; border-top: 1px solid rgba(0,0,0,0.15); margin: 0 0 24px; }
+          .newspaper-rule { border: none; border-top: 3px double rgba(0,0,0,0.35); margin: 0 0 6px; }
+          .newspaper-rule-thin { border: none; border-top: 1px solid rgba(0,0,0,0.18); margin: 0 0 18px; }
           .newspaper-headline {
             font-family: 'Playfair Display', Georgia, serif;
             font-weight: 900;
-            font-size: clamp(24px, 4.5vw, 44px);
-            line-height: 1.1;
+            font-size: clamp(22px, 4vw, 40px);
+            line-height: 1.08;
             color: #111;
             text-align: center;
-            margin: 0 0 24px;
+            margin: 0 0 16px;
             letter-spacing: 0.01em;
           }
           .newspaper-headline span { color: #e8001d; }
+          .newspaper-photo { width: 100%; display: block; margin: 0 0 6px; filter: grayscale(100%) contrast(1.08); }
+          .newspaper-caption {
+            font-family: Georgia, serif;
+            font-size: 11px;
+            font-style: italic;
+            color: rgba(0,0,0,0.55);
+            text-align: center;
+            margin: 0 0 18px;
+            letter-spacing: 0.02em;
+          }
           .newspaper-body {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(14px, 1.8vw, 16px);
-            line-height: 1.85;
-            color: rgba(0,0,0,0.82);
+            font-family: Georgia, serif;
+            font-size: clamp(13px, 1.6vw, 15px);
+            line-height: 1.80;
+            color: rgba(0,0,0,0.85);
             column-count: 2;
-            column-gap: 36px;
-            column-rule: 1px solid rgba(0,0,0,0.15);
-            margin: 0 0 28px;
+            column-gap: 32px;
+            column-rule: 1px solid rgba(0,0,0,0.18);
+            margin: 0 0 20px;
             text-align: justify;
           }
           .newspaper-footer {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 12px;
+            font-family: Georgia, serif;
+            font-size: 11px;
             font-style: italic;
-            color: rgba(0,0,0,0.50);
+            color: rgba(0,0,0,0.55);
             text-align: center;
             letter-spacing: 0.04em;
+            border-top: 1px solid rgba(0,0,0,0.15);
+            padding-top: 14px;
           }
           @media (max-width: 640px) {
-            .newspaper-wrap { padding: 32px 20px 28px; }
+            .newspaper-wrap { padding: 28px 18px 24px; }
             .newspaper-body { column-count: 1; text-align: left; }
           }
         `}</style>
@@ -831,6 +843,10 @@ function SubscribeContent() {
           </h2>
           <hr className="newspaper-rule-thin" />
 
+          {/* Foto principal */}
+          <img src="/ladron-newspaper.jpg" alt="El sospechoso siendo detenido por las autoridades" className="newspaper-photo" />
+          <p className="newspaper-caption">El sospechoso fue capturado la noche del martes en las inmediaciones del distrito comercial. Las autoridades no revelan su identidad.</p>
+
           {/* Cuerpo en columnas */}
           <div className="newspaper-body">
             Conocido bajo múltiples alias — "Esque", "Mañana lo Cierro", "El Mercado Está Difícil" — el sospechoso usaba una excusa distinta para cada víctima. Investigadores confirman que operaba con cómplices que actuaban sigilosamente para no ser detectados: un CRM que nunca avisa, un seguimiento que siempre llega tarde, un reporte armado a último momento con datos de tres sistemas distintos.
@@ -838,7 +854,6 @@ function SubscribeContent() {
           </div>
 
           {/* Pie de nota */}
-          <hr className="newspaper-rule-thin" />
           <p className="newspaper-footer">
             Sigue leyendo para conocer al sistema detrás de la captura →
           </p>
