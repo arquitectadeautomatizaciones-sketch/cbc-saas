@@ -1327,6 +1327,30 @@ function SubscribeContent() {
               </div>
             </div>
 
+            {/* Cinta de resultados */}
+            <div style={{ margin: '0 -24px 48px', overflow: 'hidden', borderTop: `1px solid ${AMARILLO}40`, borderBottom: `1px solid ${AMARILLO}40`, padding: '14px 0', background: 'rgba(245,196,0,0.04)' }}>
+              <div style={{ display: 'flex', animation: 'ticker 28s linear infinite', width: 'max-content', gap: 0 }}>
+                {[...Array(2)].map((_, r) => (
+                  <div key={r} style={{ display: 'flex', alignItems: 'center', gap: 0, whiteSpace: 'nowrap' }}>
+                    {[
+                      '+2 HORAS LIBRES AL DÍA',
+                      'PRIMER REPORTE EN 47 SEGUNDOS',
+                      'PROPUESTA LISTA ANTES DE COLGAR',
+                      'NUNCA MÁS "LO PIENSO" SIN RESPUESTA',
+                      'PIPELINE ORGANIZADO EN 5 MINUTOS',
+                      'LLEGUÉ A LA REUNIÓN PREPARADO',
+                      'CERRÉ EL QUE LLEVABA 3 SEMANAS FRÍO',
+                    ].map((t, i) => (
+                      <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 20 }}>
+                        <span style={{ fontFamily: BEBAS, fontSize: 15, letterSpacing: '0.18em', color: AMARILLO, paddingLeft: 20 }}>{t}</span>
+                        <span style={{ color: `${AMARILLO}60`, fontSize: 14 }}>⚡</span>
+                      </span>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* Invitación + formulario */}
             <TestimonioForm />
           </div>
