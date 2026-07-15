@@ -22,10 +22,10 @@ const TATIANA_PHOTO = 'https://assets.cdn.filesafe.space/MgsViYLMmCdJksx9p3va/me
 // ── Textos de sueño ajustados gramaticalmente para el hero ────────────
 const SUENO_HERO: Record<string, string> = {
   casa:     'tu casa',
-  viaje:    'esas vacaciones postergadas',
-  estudios: 'esos estudios que llevas tiempo esperando',
-  deuda:    'salir de esa deuda que no te deja dormir',
-  carro:    'cambiar ese carro que prometiste',
+  viaje:    'ese viaje que llevas postergando',
+  estudios: 'ese sueño de estudiar que llevas esperando',
+  deuda:    'esa deuda que no te deja dormir',
+  carro:    'ese carro que prometiste cambiar',
   libertad: 'esa libertad sin culpa ni estrés',
 }
 
