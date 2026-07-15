@@ -602,9 +602,9 @@ function SubscribeContent() {
           </div>
 
           {/* Pregunta final — pausa antes del golpe */}
-          <p style={{ fontFamily: SANS, fontSize: 'clamp(20px,3vw,26px)', color: 'rgba(255,255,255,0.95)', lineHeight: 1.4, fontWeight: 600, margin: '0 0 52px' }}>
-            Y entre todo ese ruido,{' '}
-            <span style={{ borderBottom: `2px solid ${TEAL}`, paddingBottom: 2 }}>
+          <p style={{ fontFamily: SANS, fontSize: 'clamp(20px,3vw,26px)', lineHeight: 1.4, fontWeight: 600, margin: '0 0 52px' }}>
+            <span style={{ color: 'rgba(255,255,255,0.95)' }}>Y entre todo ese ruido,{' '}</span>
+            <span style={{ color: 'rgba(78,205,196,0.85)' }}>
               ¿te has preguntado cuántas horas de tu semana te dedicas realmente a vender?
             </span>
           </p>
