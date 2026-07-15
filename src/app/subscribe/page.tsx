@@ -1634,9 +1634,11 @@ function SubscribeContent() {
         <div style={{ maxWidth: 640, margin: '0 auto', position: 'relative' }}>
           <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.28)', letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 24 }}>DECIDE AHORA</div>
           <h2 style={{ fontFamily: BEBAS, fontSize: 'clamp(42px,7vw,74px)', lineHeight: 0.95, margin: '0 0 8px', letterSpacing: '0.02em', color: 'white' }}>TIENES DOS OPCIONES.</h2>
-          <h3 style={{ fontFamily: BEBAS, fontSize: 'clamp(20px,3.5vw,34px)', color: 'rgba(255,255,255,0.32)', lineHeight: 1.1, margin: '0 0 40px', letterSpacing: '0.02em', fontWeight: 400 }}>
-            SIGUES IMPROVISANDO — O DEJAS QUE{' '}
-            <span style={{ color: TEAL }}>SOFÍA</span>{' '}TRABAJE POR TI.
+          <h3 style={{ fontFamily: BEBAS, fontSize: 'clamp(20px,3.5vw,34px)', lineHeight: 1.1, margin: '0 0 40px', letterSpacing: '0.02em', fontWeight: 400 }}>
+            <span style={{ color: ROJO }}>SIGUES IMPROVISANDO</span>
+            <span style={{ color: 'rgba(255,255,255,0.45)' }}> — O DEJAS QUE </span>
+            <span style={{ color: TEAL }}>SOFÍA</span>
+            <span style={{ color: 'white' }}> TRABAJE POR TI.</span>
           </h3>
           <CluedoBtn label="PROBAR CBC™ GRATIS — 7 DÍAS →" onClick={handleCheckout} disabled={loading} full={false} />
           <p style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.25)', margin: '18px 0 0', letterSpacing: '0.1em' }}>
