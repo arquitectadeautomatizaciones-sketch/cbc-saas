@@ -521,12 +521,6 @@ function SubscribeContent() {
                 src="/pizarra-ventas.jpg"
                 alt="Pizarra de ventas con meta $500.000.000 y post-its escritos a mano"
               />
-              {/* Fix MÉTA → META: cubre la É con parche blanco + texto Caveat */}
-              <div className="fix-meta">
-                <span>META</span>
-              </div>
-              {/* Fix cero extra al final de $500.000.0000 → $500.000.000 */}
-              <div className="fix-zero" />
             </div>
 
             {/* ══ IMAGEN 2 — Laptop con Excel pipeline ══ */}
