@@ -18,6 +18,21 @@ const CANAL_OPTIONS: CanalContacto[] = [
   'whatsapp', 'email', 'llamada', 'linkedin', 'reunion', 'otro',
 ]
 
+const PASOS_GUIA_IMPORT = [
+  {
+    titulo: 'Exporta desde tu CRM',
+    texto: 'Descarga tu lista de contactos en formato CSV desde tu CRM actual (HubSpot, Salesforce, Excel, Google Sheets — cualquiera funciona).',
+  },
+  {
+    titulo: 'Sube el archivo',
+    texto: 'Arrastra o selecciona tu archivo CSV. CBC lee automáticamente las columnas y te ayuda a conectarlas con los campos correctos.',
+  },
+  {
+    titulo: 'Confirma el mapeo',
+    texto: 'Revisa que cada columna de tu archivo esté conectada al campo correcto. Solo el Nombre es obligatorio — el resto es opcional.',
+  },
+]
+
 const ESTADO_LABELS: Record<EstadoProspecto, string> = {
   prospecto: 'Prospecto',
   contactado: 'Contactado',
@@ -805,10 +820,27 @@ export default function ProspectosPage() {
               {/* Paso 1: elegir archivo */}
               {pasoImport === 'archivo' && (
                 <>
-                  <p className="text-sm text-gray-500">
-                    Sube el CSV exportado de tu CRM — cualquier formato, CBC te va a preguntar qué es cada columna.
-                    O descarga nuestra plantilla si prefieres empezar de cero. Máximo 500 prospectos por carga.
-                  </p>
+                  <div className="rounded-2xl p-4 space-y-3" style={{ background: '#FAF6ED' }}>
+                    <p className="text-sm font-bold" style={{ color: VERDE }}>¿Cómo importar tus contactos?</p>
+                    <div className="space-y-2.5">
+                      {PASOS_GUIA_IMPORT.map((paso, i) => (
+                        <div key={i} className="flex items-start gap-2.5">
+                          <div
+                            className="w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold text-white shrink-0 mt-0.5"
+                            style={{ backgroundColor: TEAL }}
+                          >
+                            {i + 1}
+                          </div>
+                          <div>
+                            <p className="text-xs font-semibold text-gray-700">{paso.titulo}</p>
+                            <p className="text-xs text-gray-500 leading-relaxed">{paso.texto}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-gray-400 text-center">Máximo 500 prospectos por carga.</p>
 
                   <button
                     onClick={descargarPlantilla}
