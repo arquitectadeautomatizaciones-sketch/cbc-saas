@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import ProspectoCard from '@/components/ProspectoCard'
 import type { Prospecto, EstadoProspecto, CanalContacto } from '@/lib/types'
+import { parseCSV, CAMPOS_CBC, detectarMapeoAutomatico } from '@/lib/csv'
 import { Plus, X, Search, Download, Upload, Copy, Check, Loader2, RefreshCw, MessageSquare, Send, AlertCircle } from 'lucide-react'
 
 const VERDE = '#1A4A44'
@@ -73,7 +74,12 @@ export default function ProspectosPage() {
 
   // Importar CSV
   const [showImportModal, setShowImportModal] = useState(false)
+  const [pasoImport, setPasoImport] = useState<'archivo' | 'mapeo' | 'resultado'>('archivo')
   const [archivoImport, setArchivoImport] = useState<File | null>(null)
+  const [encabezadosCSV, setEncabezadosCSV] = useState<string[]>([])
+  const [previewFilasCSV, setPreviewFilasCSV] = useState<string[][]>([])
+  const [totalFilasCSV, setTotalFilasCSV] = useState(0)
+  const [mapeoColumnas, setMapeoColumnas] = useState<Record<string, number | null>>({})
   const [importando, setImportando] = useState(false)
   const [resultadoImport, setResultadoImport] = useState<ResultadoImportacion | null>(null)
   const [errorImport, setErrorImport] = useState<string | null>(null)
@@ -297,8 +303,13 @@ export default function ProspectosPage() {
 
   function abrirImportar() {
     setArchivoImport(null)
+    setEncabezadosCSV([])
+    setPreviewFilasCSV([])
+    setTotalFilasCSV(0)
+    setMapeoColumnas({})
     setResultadoImport(null)
     setErrorImport(null)
+    setPasoImport('archivo')
     setShowImportModal(true)
   }
 
@@ -307,14 +318,49 @@ export default function ProspectosPage() {
     if (resultadoImport && resultadoImport.importados > 0) cargar()
   }
 
+  async function manejarArchivoSeleccionado(file: File) {
+    setArchivoImport(file)
+    setErrorImport(null)
+
+    let texto: string
+    try {
+      texto = await file.text()
+    } catch {
+      setErrorImport('No se pudo leer el archivo. ¿Es un CSV válido?')
+      return
+    }
+
+    const filas = parseCSV(texto).filter((f) => !(f.length === 1 && f[0].trim() === ''))
+    if (filas.length === 0) {
+      setErrorImport('El archivo está vacío.')
+      return
+    }
+
+    const encabezados = filas[0]
+    const datos = filas.slice(1).filter((f) => f.some((c) => c.trim() !== ''))
+
+    const mapeoAuto = detectarMapeoAutomatico(encabezados)
+    const mapeoInicial: Record<string, number | null> = {}
+    CAMPOS_CBC.forEach((c) => { mapeoInicial[c.key] = mapeoAuto[c.key] ?? null })
+
+    setEncabezadosCSV(encabezados)
+    setPreviewFilasCSV(datos.slice(0, 3))
+    setTotalFilasCSV(datos.length)
+    setMapeoColumnas(mapeoInicial)
+    setPasoImport('mapeo')
+  }
+
   async function importarCSV() {
-    if (!archivoImport) return
+    if (!archivoImport || mapeoColumnas.nombre == null) return
     setImportando(true)
     setErrorImport(null)
-    setResultadoImport(null)
     try {
       const formData = new FormData()
       formData.append('archivo', archivoImport)
+      const mapeoLimpio: Record<string, number> = {}
+      Object.entries(mapeoColumnas).forEach(([k, v]) => { if (v !== null) mapeoLimpio[k] = v })
+      formData.append('mapeo', JSON.stringify(mapeoLimpio))
+
       const res = await fetch('/api/prospectos/importar', { method: 'POST', body: formData })
       const data = await res.json()
       if (!res.ok) {
@@ -322,6 +368,7 @@ export default function ProspectosPage() {
         return
       }
       setResultadoImport(data)
+      setPasoImport('resultado')
       if (data.importados > 0) await cargar()
     } catch {
       setErrorImport('Sin conexión. Intenta de nuevo.')
@@ -746,7 +793,7 @@ export default function ProspectosPage() {
       {/* Modal Importar CSV */}
       {showImportModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+          <div className={`bg-white rounded-2xl shadow-xl w-full ${pasoImport === 'mapeo' ? 'max-w-2xl' : 'max-w-lg'} max-h-[90vh] overflow-y-auto`}>
             <div className="flex items-center justify-between p-6 border-b border-gray-100">
               <h2 className="font-bold text-lg" style={{ color: '#1A4A44' }}>Importar prospectos desde CSV</h2>
               <button onClick={cerrarImportar} className="text-gray-400 hover:text-gray-600">
@@ -755,11 +802,12 @@ export default function ProspectosPage() {
             </div>
 
             <div className="p-6 space-y-4">
-              {!resultadoImport && (
+              {/* Paso 1: elegir archivo */}
+              {pasoImport === 'archivo' && (
                 <>
                   <p className="text-sm text-gray-500">
-                    Descarga la plantilla, complétala con tus prospectos (máximo 500 por carga) y súbela aquí.
-                    El nombre es el único dato obligatorio.
+                    Sube el CSV exportado de tu CRM — cualquier formato, CBC te va a preguntar qué es cada columna.
+                    O descarga nuestra plantilla si prefieres empezar de cero. Máximo 500 prospectos por carga.
                   </p>
 
                   <button
@@ -780,7 +828,10 @@ export default function ProspectosPage() {
                       type="file"
                       accept=".csv,text/csv"
                       className="hidden"
-                      onChange={(e) => setArchivoImport(e.target.files?.[0] ?? null)}
+                      onChange={(e) => {
+                        const f = e.target.files?.[0]
+                        if (f) manejarArchivoSeleccionado(f)
+                      }}
                     />
                     <Upload size={20} className="mx-auto mb-2 text-gray-400" />
                     <p className="text-sm text-gray-600">
@@ -795,27 +846,116 @@ export default function ProspectosPage() {
                     </div>
                   )}
 
-                  <div className="flex gap-3 pt-2">
-                    <button
-                      type="button"
-                      onClick={cerrarImportar}
-                      className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50"
-                    >
-                      Cancelar
-                    </button>
-                    <button
-                      onClick={importarCSV}
-                      disabled={!archivoImport || importando}
-                      className="flex-1 py-2.5 rounded-xl text-white text-sm font-semibold disabled:opacity-60"
-                      style={{ backgroundColor: VERDE }}
-                    >
-                      {importando ? 'Importando...' : 'Importar'}
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={cerrarImportar}
+                    className="w-full py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50"
+                  >
+                    Cancelar
+                  </button>
                 </>
               )}
 
-              {resultadoImport && (
+              {/* Paso 2: mapear columnas */}
+              {pasoImport === 'mapeo' && (
+                <div className="space-y-5">
+                  <p className="text-sm text-gray-500">
+                    Dile a CBC qué columna de tu archivo corresponde a cada campo. Ya adivinamos algunas — revísalas y corrige lo que haga falta.
+                  </p>
+
+                  <div className="space-y-2">
+                    {CAMPOS_CBC.map((campo) => (
+                      <div key={campo.key} className="flex items-center gap-3">
+                        <label className="w-36 shrink-0 text-sm font-medium text-gray-700">
+                          {campo.label}{campo.obligatorio && <span className="text-red-500"> *</span>}
+                        </label>
+                        <select
+                          value={mapeoColumnas[campo.key] ?? ''}
+                          onChange={(e) => setMapeoColumnas({
+                            ...mapeoColumnas,
+                            [campo.key]: e.target.value === '' ? null : Number(e.target.value),
+                          })}
+                          className="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none bg-white"
+                        >
+                          <option value="">— No importar —</option>
+                          {encabezadosCSV.map((h, i) => (
+                            <option key={i} value={i}>
+                              {(h.trim() || `Columna ${i + 1}`)} (col. {i + 1})
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ))}
+                  </div>
+
+                  {mapeoColumnas.nombre == null && (
+                    <div className="flex items-start gap-2 text-sm text-amber-700 bg-amber-50 rounded-xl p-3">
+                      <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                      <span>Selecciona qué columna corresponde al Nombre para poder importar.</span>
+                    </div>
+                  )}
+
+                  {previewFilasCSV.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-xs font-bold text-gray-500 uppercase tracking-wide">
+                        Vista previa ({previewFilasCSV.length} de {totalFilasCSV} fila{totalFilasCSV === 1 ? '' : 's'})
+                      </p>
+                      <div className="overflow-x-auto rounded-xl border border-gray-100">
+                        <table className="w-full text-xs">
+                          <thead>
+                            <tr className="bg-gray-50">
+                              {CAMPOS_CBC.filter((c) => mapeoColumnas[c.key] != null).map((c) => (
+                                <th key={c.key} className="px-3 py-2 text-left font-semibold text-gray-600 whitespace-nowrap">
+                                  {c.label}
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {previewFilasCSV.map((fila, i) => (
+                              <tr key={i} className="border-t border-gray-100">
+                                {CAMPOS_CBC.filter((c) => mapeoColumnas[c.key] != null).map((c) => (
+                                  <td key={c.key} className="px-3 py-2 text-gray-600 truncate max-w-[160px]">
+                                    {fila[mapeoColumnas[c.key] as number] ?? ''}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+
+                  {errorImport && (
+                    <div className="flex items-start gap-2 text-sm text-red-600 bg-red-50 rounded-xl p-3">
+                      <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                      <span>{errorImport}</span>
+                    </div>
+                  )}
+
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setPasoImport('archivo')}
+                      className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50"
+                    >
+                      Atrás
+                    </button>
+                    <button
+                      onClick={importarCSV}
+                      disabled={mapeoColumnas.nombre == null || importando}
+                      className="flex-1 py-2.5 rounded-xl text-white text-sm font-semibold disabled:opacity-60"
+                      style={{ backgroundColor: VERDE }}
+                    >
+                      {importando ? 'Importando...' : `Importar ${totalFilasCSV} prospecto${totalFilasCSV === 1 ? '' : 's'}`}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Paso 3: resultado */}
+              {pasoImport === 'resultado' && resultadoImport && (
                 <div className="space-y-4">
                   <div
                     className="rounded-xl p-4 text-sm font-semibold text-center"

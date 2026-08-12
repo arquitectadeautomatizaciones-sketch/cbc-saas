@@ -1,22 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { parseCSV, normalizarEncabezado } from '@/lib/csv'
+import { parseCSV } from '@/lib/csv'
 
 const LIMITE_FILAS = 500
-
-// Encabezados esperados en la plantilla → clave interna del prospecto.
-// Se aceptan variantes sin acentos/mayúsculas gracias a normalizarEncabezado.
-const MAPA_COLUMNAS: Record<string, string> = {
-  nombre: 'nombre',
-  empresa: 'empresa',
-  cargo: 'cargo',
-  email: 'email',
-  telefono: 'telefono',
-  whatsapp: 'whatsapp',
-  'valor estimado': 'valor_estimado',
-  'dolor principal': 'dolor_principal',
-  notas: 'notas',
-}
 
 interface ErrorFila {
   fila: number
@@ -92,26 +78,30 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Falta el archivo CSV' }, { status: 400 })
   }
 
+  // Mapeo de columnas: { claveCampoCBC: indiceColumnaEnElCSV }, definido por el usuario
+  // en la pantalla de mapeo (con sugerencia automática por sinónimos hecha en el cliente).
+  const mapeoRaw = formData.get('mapeo')
+  let mapeo: Record<string, number> = {}
+  if (typeof mapeoRaw === 'string') {
+    try {
+      mapeo = JSON.parse(mapeoRaw)
+    } catch {
+      return NextResponse.json({ error: 'El mapeo de columnas no es válido' }, { status: 400 })
+    }
+  }
+
+  if (typeof mapeo.nombre !== 'number' || mapeo.nombre < 0) {
+    return NextResponse.json(
+      { error: 'Debes indicar qué columna de tu archivo corresponde al Nombre' },
+      { status: 400 }
+    )
+  }
+
   const texto = await archivo.text()
   const filas = parseCSV(texto).filter((f) => !(f.length === 1 && f[0].trim() === ''))
 
   if (filas.length === 0) {
     return NextResponse.json({ error: 'El archivo está vacío' }, { status: 400 })
-  }
-
-  // --- Mapear encabezados a columnas conocidas ---
-  const encabezados = filas[0].map(normalizarEncabezado)
-  const indice: Record<string, number> = {}
-  encabezados.forEach((h, i) => {
-    const clave = MAPA_COLUMNAS[h]
-    if (clave) indice[clave] = i
-  })
-
-  if (indice.nombre === undefined) {
-    return NextResponse.json(
-      { error: 'El archivo debe tener una columna "Nombre". Descarga la plantilla para ver el formato correcto.' },
-      { status: 400 }
-    )
   }
 
   const filasDatos = filas.slice(1).filter((f) => !filaVacia(f))
@@ -136,7 +126,11 @@ export async function POST(req: NextRequest) {
     (existentes ?? []).map((p) => `${p.nombre.trim().toLowerCase()}|${(p.empresa ?? '').trim().toLowerCase()}`)
   )
 
-  const get = (fila: string[], clave: string) => (indice[clave] !== undefined ? (fila[indice[clave]] ?? '').trim() : '')
+  const get = (fila: string[], clave: string): string => {
+    const idx = mapeo[clave]
+    if (typeof idx !== 'number' || idx < 0) return ''
+    return (fila[idx] ?? '').trim()
+  }
 
   const errores: ErrorFila[] = []
   const paraInsertar: Record<string, unknown>[] = []
