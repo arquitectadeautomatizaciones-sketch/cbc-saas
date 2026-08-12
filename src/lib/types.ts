@@ -74,6 +74,7 @@ export interface Prospecto {
   sector: string | null
   email: string | null
   telefono: string | null
+  whatsapp: string | null
   linkedin_url: string | null
   valor_estimado: number | null
   estado: EstadoProspecto

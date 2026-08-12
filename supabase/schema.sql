@@ -146,6 +146,7 @@ CREATE TABLE prospectos (
   sector                TEXT,
   email                 TEXT,
   telefono              TEXT,
+  whatsapp              TEXT,                    -- distinto de telefono; usado por el Asistente de Momento Exacto
   linkedin_url          TEXT,
 
   -- Pipeline

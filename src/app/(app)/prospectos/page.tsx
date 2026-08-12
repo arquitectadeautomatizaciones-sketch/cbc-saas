@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ProspectoCard from '@/components/ProspectoCard'
 import type { Prospecto, EstadoProspecto, CanalContacto } from '@/lib/types'
-import { Plus, X, Search, Download, Copy, Check, Loader2, RefreshCw, MessageSquare, Send } from 'lucide-react'
+import { Plus, X, Search, Download, Upload, Copy, Check, Loader2, RefreshCw, MessageSquare, Send, AlertCircle } from 'lucide-react'
 
 const VERDE = '#1A4A44'
 const TEAL = '#4ECDC4'
@@ -33,6 +33,7 @@ interface FormState {
   cargo: string
   email: string
   telefono: string
+  whatsapp: string
   valor_estimado: string
   estado: EstadoProspecto
   canal_origen: CanalContacto | ''
@@ -42,9 +43,22 @@ interface FormState {
 }
 
 const EMPTY_FORM: FormState = {
-  nombre: '', empresa: '', cargo: '', email: '', telefono: '',
+  nombre: '', empresa: '', cargo: '', email: '', telefono: '', whatsapp: '',
   valor_estimado: '', estado: 'prospecto', canal_origen: '',
   proximo_paso: '', dolor_principal: '', notas: '',
+}
+
+interface ErrorImportacion {
+  fila: number
+  nombre: string
+  motivo: string
+}
+
+interface ResultadoImportacion {
+  importados: number
+  con_errores: number
+  total_filas: number
+  errores: ErrorImportacion[]
 }
 
 export default function ProspectosPage() {
@@ -56,6 +70,14 @@ export default function ProspectosPage() {
   const [form, setForm] = useState<FormState>(EMPTY_FORM)
   const [guardando, setGuardando] = useState(false)
   const [filtroEstado, setFiltroEstado] = useState<EstadoProspecto | 'todos'>('todos')
+
+  // Importar CSV
+  const [showImportModal, setShowImportModal] = useState(false)
+  const [archivoImport, setArchivoImport] = useState<File | null>(null)
+  const [importando, setImportando] = useState(false)
+  const [resultadoImport, setResultadoImport] = useState<ResultadoImportacion | null>(null)
+  const [errorImport, setErrorImport] = useState<string | null>(null)
+  const inputArchivoRef = useRef<HTMLInputElement>(null)
 
   // Mensaje del Momento
   const [mensajeGenerando, setMensajeGenerando] = useState(false)
@@ -170,6 +192,7 @@ export default function ProspectosPage() {
       cargo: p.cargo ?? '',
       email: p.email ?? '',
       telefono: p.telefono ?? '',
+      whatsapp: p.whatsapp ?? '',
       valor_estimado: p.valor_estimado?.toString() ?? '',
       estado: p.estado,
       canal_origen: p.canal_origen ?? '',
@@ -251,6 +274,62 @@ export default function ProspectosPage() {
     URL.revokeObjectURL(url)
   }
 
+  function descargarPlantilla() {
+    const headers = [
+      'Nombre', 'Empresa', 'Cargo', 'Email', 'Telefono', 'WhatsApp',
+      'Valor estimado', 'Dolor principal', 'Notas',
+    ]
+    const ejemplo = [
+      'Ana Torres', 'Torres Consultoría', 'Directora Comercial', 'ana@torresconsultoria.com',
+      '+52 55 1234 5678', '+52 55 1234 5678', '5000', 'No sabe si le conviene el precio', 'Contactada en LinkedIn',
+    ]
+    const escapar = (v: string) => (v.includes(',') || v.includes('"') ? '"' + v.replace(/"/g, '""') + '"' : v)
+    const csv = [headers.join(','), ejemplo.map(escapar).join(',')].join('\n')
+    const bom = '﻿'
+    const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'plantilla-prospectos-CBC.csv'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  function abrirImportar() {
+    setArchivoImport(null)
+    setResultadoImport(null)
+    setErrorImport(null)
+    setShowImportModal(true)
+  }
+
+  function cerrarImportar() {
+    setShowImportModal(false)
+    if (resultadoImport && resultadoImport.importados > 0) cargar()
+  }
+
+  async function importarCSV() {
+    if (!archivoImport) return
+    setImportando(true)
+    setErrorImport(null)
+    setResultadoImport(null)
+    try {
+      const formData = new FormData()
+      formData.append('archivo', archivoImport)
+      const res = await fetch('/api/prospectos/importar', { method: 'POST', body: formData })
+      const data = await res.json()
+      if (!res.ok) {
+        setErrorImport(data.error ?? 'No se pudo importar el archivo.')
+        return
+      }
+      setResultadoImport(data)
+      if (data.importados > 0) await cargar()
+    } catch {
+      setErrorImport('Sin conexión. Intenta de nuevo.')
+    } finally {
+      setImportando(false)
+    }
+  }
+
   async function eliminar(id: string) {
     if (!confirm('¿Eliminar este prospecto y su historial?')) return
     await fetch(`/api/prospectos/${id}`, { method: 'DELETE' })
@@ -282,6 +361,13 @@ export default function ProspectosPage() {
               <span className="hidden sm:inline">Exportar CSV</span>
             </button>
           )}
+          <button
+            onClick={abrirImportar}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors"
+          >
+            <Upload size={16} />
+            <span className="hidden sm:inline">Importar CSV</span>
+          </button>
           <button
             onClick={abrirNuevo}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-semibold transition-opacity hover:opacity-90"
@@ -404,6 +490,15 @@ export default function ProspectosPage() {
                   <input
                     value={form.telefono}
                     onChange={(e) => setForm({ ...form, telefono: e.target.value })}
+                    className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none"
+                    placeholder="+52 55 1234 5678"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp</label>
+                  <input
+                    value={form.whatsapp}
+                    onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
                     className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none"
                     placeholder="+52 55 1234 5678"
                   />
@@ -644,6 +739,125 @@ export default function ProspectosPage() {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Modal Importar CSV */}
+      {showImportModal && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b border-gray-100">
+              <h2 className="font-bold text-lg" style={{ color: '#1A4A44' }}>Importar prospectos desde CSV</h2>
+              <button onClick={cerrarImportar} className="text-gray-400 hover:text-gray-600">
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              {!resultadoImport && (
+                <>
+                  <p className="text-sm text-gray-500">
+                    Descarga la plantilla, complétala con tus prospectos (máximo 500 por carga) y súbela aquí.
+                    El nombre es el único dato obligatorio.
+                  </p>
+
+                  <button
+                    onClick={descargarPlantilla}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors"
+                  >
+                    <Download size={15} />
+                    Descargar plantilla CSV
+                  </button>
+
+                  <div
+                    onClick={() => inputArchivoRef.current?.click()}
+                    className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-colors hover:bg-gray-50"
+                    style={{ borderColor: archivoImport ? TEAL : '#e5e7eb' }}
+                  >
+                    <input
+                      ref={inputArchivoRef}
+                      type="file"
+                      accept=".csv,text/csv"
+                      className="hidden"
+                      onChange={(e) => setArchivoImport(e.target.files?.[0] ?? null)}
+                    />
+                    <Upload size={20} className="mx-auto mb-2 text-gray-400" />
+                    <p className="text-sm text-gray-600">
+                      {archivoImport ? archivoImport.name : 'Toca para elegir tu archivo CSV'}
+                    </p>
+                  </div>
+
+                  {errorImport && (
+                    <div className="flex items-start gap-2 text-sm text-red-600 bg-red-50 rounded-xl p-3">
+                      <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                      <span>{errorImport}</span>
+                    </div>
+                  )}
+
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={cerrarImportar}
+                      className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      onClick={importarCSV}
+                      disabled={!archivoImport || importando}
+                      className="flex-1 py-2.5 rounded-xl text-white text-sm font-semibold disabled:opacity-60"
+                      style={{ backgroundColor: VERDE }}
+                    >
+                      {importando ? 'Importando...' : 'Importar'}
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {resultadoImport && (
+                <div className="space-y-4">
+                  <div
+                    className="rounded-xl p-4 text-sm font-semibold text-center"
+                    style={{ background: '#F0F7F6', color: VERDE }}
+                  >
+                    {resultadoImport.importados} prospecto{resultadoImport.importados === 1 ? '' : 's'} importado{resultadoImport.importados === 1 ? '' : 's'}
+                    {' · '}
+                    {resultadoImport.con_errores} con error{resultadoImport.con_errores === 1 ? '' : 'es'}
+                  </div>
+
+                  {resultadoImport.errores.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-xs font-bold text-gray-500 uppercase tracking-wide">Filas con error</p>
+                      <div className="max-h-64 overflow-y-auto space-y-1.5">
+                        {resultadoImport.errores.map((e, i) => (
+                          <div key={i} className="flex items-start gap-2 text-sm bg-red-50 rounded-lg px-3 py-2">
+                            <span className="font-semibold text-red-600 shrink-0">Fila {e.fila}</span>
+                            <span className="text-gray-600 truncate">— {e.nombre}: {e.motivo}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      onClick={abrirImportar}
+                      className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50"
+                    >
+                      Importar otro archivo
+                    </button>
+                    <button
+                      onClick={cerrarImportar}
+                      className="flex-1 py-2.5 rounded-xl text-white text-sm font-semibold"
+                      style={{ backgroundColor: VERDE }}
+                    >
+                      Listo
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
